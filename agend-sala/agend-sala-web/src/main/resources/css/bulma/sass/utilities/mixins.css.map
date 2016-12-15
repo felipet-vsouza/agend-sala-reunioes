@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;IA2HI,SAAS,EAAE,YAAY;;;IAEvB,SAAS,EAAE,cAAc",
+"sources": ["../../../../scss/bulma/sass/utilities/mixins.sass"],
+"names": [],
+"file": "mixins.css"
+}
