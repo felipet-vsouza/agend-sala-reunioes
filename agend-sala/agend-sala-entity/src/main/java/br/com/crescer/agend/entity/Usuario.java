@@ -31,6 +31,43 @@ public class Usuario implements Serializable {
     @Column(name = "SENHA_USUARIO")
     private String senha;
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 79 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash = 79 * hash + (this.senha != null ? this.senha.hashCode() : 0);
+        hash = 79 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
+            return false;
+        }
+        if ((this.senha == null) ? (other.senha != null) : !this.senha.equals(other.senha)) {
+            return false;
+        }
+        if ((this.nome == null) ? (other.nome != null) : !this.nome.equals(other.nome)) {
+            return false;
+        }
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
     @Basic(optional = false)
     @Column(name = "NOME_USUARIO")
     private String nome;
