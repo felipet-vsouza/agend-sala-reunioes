@@ -1,3 +1,11 @@
+img.centered {
+  margin: 0 auto;
+}
+
+img.is-main-logo {
+  height: 15%;
+}
+
 /*! bulma.io v0.2.3 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
