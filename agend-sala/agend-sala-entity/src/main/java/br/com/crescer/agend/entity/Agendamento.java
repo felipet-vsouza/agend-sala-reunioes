@@ -29,7 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author henrique.ostermann
  */
 @Entity
-@Table(name = "RESERVA")
+@Table(name = "AGENDAMENTO")
 public class Agendamento implements Serializable {
 
     @Id
@@ -54,8 +54,6 @@ public class Agendamento implements Serializable {
     @ManyToMany(targetEntity = Participante.class, cascade = CascadeType.PERSIST)
     private List<Participante> caomigos;
 
-    @Enumerated(EnumType.STRING)
-    private EStatus status;
 
     public Long getId() {
         return id;
@@ -88,13 +86,4 @@ public class Agendamento implements Serializable {
     public void setCaomigos(List<Participante> caomigos) {
         this.caomigos = caomigos;
     }
-
-    public EStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EStatus status) {
-        this.status = status;
-    }
-
 }
