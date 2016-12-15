@@ -6,7 +6,9 @@
 package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Participante;
+import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ParticipanteServico {
+
     @Autowired
     ParticipanteRepositorio participanteRepositorio;
 
@@ -23,7 +26,6 @@ public class ParticipanteServico {
 //        Equipamento equipamento = new Equipamento();
 //        return Stream.of(equipamento).collect(Collectors.toList());
 //    }
-    
     public Iterable<Participante> findAll() {
         return participanteRepositorio.findAll();
     }
@@ -38,5 +40,9 @@ public class ParticipanteServico {
 
     public Participante findOne(Long id) {
         return participanteRepositorio.findOne(id);
-    }  
+    }
+
+    public List<Participante> findByUsuario(Usuario usuario) {
+        return participanteRepositorio.findByUsuario(usuario);
+    }
 }

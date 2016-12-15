@@ -12,12 +12,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -51,9 +50,8 @@ public class Agendamento implements Serializable {
     @Column(name = "DT_FINAL_AGENDAMENTO")
     private Date dataFinal;
 
-    @ManyToMany(targetEntity = Participante.class, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "agendamento")
     private List<Participante> participantes;
-
 
     public Long getId() {
         return id;
