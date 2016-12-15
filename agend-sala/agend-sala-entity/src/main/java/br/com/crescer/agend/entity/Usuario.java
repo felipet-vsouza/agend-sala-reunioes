@@ -1,5 +1,8 @@
+package br.com.crescer.agend.entity;
+
 
 import java.io.Serializable;
+import javax.persistence.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

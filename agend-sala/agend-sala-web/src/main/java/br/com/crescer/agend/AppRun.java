@@ -1,4 +1,4 @@
-package br.com.crescer.agenda;
+package br.com.crescer.agend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
