@@ -34,9 +34,6 @@ public class Equipamento implements Serializable {
     @Column(name = "NOME_EQUIPAMENTO")
     private String nome;
 
-    @Basic(optional = false)
-    @Column(name = "QUANTIDADE_EQUIPAMENTO")
-    private Integer quantidade;
 
     public Long getId() {
         return id;
@@ -52,14 +49,6 @@ public class Equipamento implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
     }
 
 }

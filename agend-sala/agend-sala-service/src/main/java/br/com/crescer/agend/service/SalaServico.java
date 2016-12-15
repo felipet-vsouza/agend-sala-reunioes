@@ -7,12 +7,12 @@ package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.repository.SalaRepositorio;
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**

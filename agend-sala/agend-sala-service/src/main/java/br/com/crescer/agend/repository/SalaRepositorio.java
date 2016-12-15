@@ -6,8 +6,8 @@
 package br.com.crescer.agend.repository;
 
 import br.com.crescer.agend.entity.Sala;
-import java.awt.print.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -17,6 +17,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface SalaRepositorio extends CrudRepository<Sala, Long> {
 
     public Page<Sala> findAll(Pageable pgbl);
+
     
 }
 

@@ -8,7 +8,6 @@ package br.com.crescer.service;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.repository.SalaRepositorio;
 import br.com.crescer.agend.service.SalaServico;
-import java.awt.print.Pageable;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
@@ -19,6 +18,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 /**
  *
  * @author henrique.ostermann
