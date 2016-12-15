@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:fragment="head(title)">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css" />
+        <!--<link rel="stylesheet" th:href="@{/css/bulma.min.css}" />-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <!--<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />-->
+        <title th:text="${title}"></title>
+    </head>
+
+    <body>
+        <section th:fragment="header-login">
+            <div class="hero-body is-info">
+                <div class="container">
+                    <h1 class="title">
+                        <i class="fa fa-globe"></i> CS:GO Lobby
+                    </h1>
+                    <h2 class="subtitle" th:text="#{general.slogan}">
+                    </h2>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

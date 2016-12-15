@@ -9,7 +9,8 @@ import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.service.UsuarioServico;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,28 +27,22 @@ public class AcessController {
     UsuarioServico userService;
 
     @RequestMapping("/login")
-    public String login(Model m) {
-        m.addAttribute("user", new Usuario());
+    String login(Model model, @AuthenticationPrincipal User user) {
+        
+        if (user != null) {
+            return "redirect:home";
+        }
+        
+        Usuario usuario = new Usuario();
+        model.addAttribute("usuario", usuario);
+        
+        model.addAttribute("user", new Usuario());
         return "login";
-    }
-
-    @RequestMapping("/")
-    String index(Model m) {
-        User user = obterUsuarioSessao();
-
-        Usuario usuario = userService.findByEmail(user.getName());
-        m.addAttribute("user", usuario);
-
-        return "main";
     }
 
     @RequestMapping("/logout")
     String logout(HttpSession httpSession) {
         httpSession.invalidate();
         return "redirect:login";
-    }
-    
-    private User obterUsuarioSessao() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
