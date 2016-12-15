@@ -1,13 +1,240 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head th:include="fragments :: head('Home')"></head>
-
     <body>
-         Logado como - <strong th:text="${sessao.nome}" />
+        <header class="hero is-primary">
+            <nav class="nav">
+                <div class="nav-left">
+                    <a class="nav-item" href="http://cwi.com.br/">
+                        <span class="icon">
+                            <i class="fa fa-newspaper-o"></i>
+                        </span>
+                    </a>
+                    <a class="nav-item" href="https://github.com/CWISoftware">
+                        <span class="icon">
+                            <i class="fa fa-github"></i>
+                        </span>
+                    </a>
+                    <a class="nav-item" href="https://www.facebook.com/CWIsoftwareLtda">
+                        <span class="icon">
+                            <i class="fa fa-facebook"></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="nav-center">
+                    <a class="nav-item is-brand" th:href="@{/home}">
+                        <img th:src="@{/css/logo-preto.png}" />
+                    </a>
+                </div>
+                <span class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+                <div class="nav-right nav-menu">
+                    <span class="nav-item">
+                        <a class="button is-primary" th:href="@{/home}">
+                            <span class="icon">
+                                <i class="fa fa-home"></i>
+                            </span>
+                            <span th:text="#{nav.home}"></span>
+                        </a>
+                        <a class="button is-warning" th:href="@{/logout}">
+                            <span class="icon">
+                                <i class="fa fa-arrow-right"></i>
+                            </span>
+                            <span th:text="#{nav.signout}"></span>
+                        </a>
+                    </span>
+                </div>
+            </nav>
+        </header>
+        <section class="columns">
+            <article class="column is-two-thirds container">
+                <div class="card is-fullwidth">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Sala 3.1
+                        </p>
+                    </header>
+                    <article class="card-content">
+                        <div class="content">
+                            <strong>Capacidade: </strong>
+                            <span>30 pessoas</span>
+                        </div>
+                        <div class="content">
+                            <strong>Equipamentos disponíveis: </strong>
+                            <ul>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+                <div class="card is-fullwidth">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Sala 3.1
+                        </p>
+                    </header>
+                    <article class="card-content">
+                        <div class="content">
+                            <strong>Capacidade: </strong>
+                            <span>30 pessoas</span>
+                        </div>
+                        <div class="content">
+                            <strong>Equipamentos disponíveis: </strong>
+                            <ul>
+                                <li>Televisão</li>
+                                <li>Computador</li>
+                                <li>Ar-condicionado</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+                <div class="card is-fullwidth">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Sala 3.1
+                        </p>
+                    </header>
+                    <article class="card-content">
+                        <div class="content">
+                            <strong>Capacidade: </strong>
+                            <span>30 pessoas</span>
+                        </div>
+                        <div class="content">
+                            <strong>Equipamentos disponíveis: </strong>
+                            <ul>
+                                <li>Televisão</li>
+                                <li>Ar-condicionado</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+                <div class="card is-fullwidth">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Sala 3.1
+                        </p>
+                    </header>
+                    <article class="card-content">
+                        <div class="content">
+                            <strong>Capacidade: </strong>
+                            <span>30 pessoas</span>
+                        </div>
+                        <div class="content">
+                            <strong>Equipamentos disponíveis: </strong>
+                            <ul>
+                                <li>Televisão</li>
+                                <li>Computador</li>
+                                <li>Ar-condicionado</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </article>
+            <aside class="column is-one-third has-text-centered">
+                <nav class="panel has-clear-background">
+                    <p class="panel-heading">
+                        Suas reuniões
+                    </p>
+                    <p class="panel-tabs">
+                        <a class="is-active" href="#">Todos os dias</a>
+                    </p>
+                    <a class="panel-block is-active" href="#">
+                        <div>
+                            <strong>Refatoração de código</strong>
+                            <span> marcado por Fabrício</span>
+                        </div>
+                        <div>
+                            15/12/2016 (15h30 - 17h30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                    <a class="panel-block" href="#">
+                        <div>
+                            <strong>Conferência com cliente</strong>
+                            <span> marcado por Bernardo</span>
+                        </div>
+                        <div>
+                            15/12/2016 (14:00 - 17:30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                    <a class="panel-block" href="#">
+                        <div>
+                            <strong>Conferência com cliente</strong>
+                            <span> marcado por Bernardo</span>
+                        </div>
+                        <div>
+                            15/12/2016 (14:00 - 17:30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                    <a class="panel-block" href="#">
+                        <div>
+                            <strong>Conferência com cliente</strong>
+                            <span> marcado por Bernardo</span>
+                        </div>
+                        <div>
+                            15/12/2016 (14:00 - 17:30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                    <a class="panel-block" href="#">
+                        <div>
+                            <strong>Conferência com cliente</strong>
+                            <span> marcado por Bernardo</span>
+                        </div>
+                        <div>
+                            15/12/2016 (14:00 - 17:30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                    <a class="panel-block" href="#">
+                        <div>
+                            <strong>Conferência com cliente</strong>
+                            <span> marcado por Bernardo</span>
+                        </div>
+                        <div>
+                            15/12/2016 (14:00 - 17:30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                    <a class="panel-block" href="#">
+                        <div>
+                            <strong>Conferência com cliente</strong>
+                            <span> marcado por Bernardo</span>
+                        </div>
+                        <div>
+                            15/12/2016 (14:00 - 17:30)
+                        </div>
+                        <div>
+                            <strong>Local: </strong>
+                            <span>Sala 3.1</span>
+                        </div>
+                    </a>
+                </nav>
+            </aside>
+        </section>
+        <footer>
+        </footer>
     </body>
 </html>

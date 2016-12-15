@@ -3,7 +3,11 @@ img.centered {
 }
 
 img.is-main-logo {
-  height: 15%;
+  height: 100px;
+}
+
+.has-clear-background {
+  background-color: #fefefe;
 }
 
 /*! bulma.io v0.2.3 | MIT License | github.com/jgthms/bulma */

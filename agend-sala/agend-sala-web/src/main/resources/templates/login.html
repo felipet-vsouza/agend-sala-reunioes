@@ -1,14 +1,10 @@
 <html>
-    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <head th:include="fragments :: head('Agendamento de reuniões')"></head>
     <body class="has-text-centered">
-
         <header th:include="fragments :: header-login" class="hero" style="margin-bottom: 20px;"></header>
-
-
         <div class="alert alert-success" th:if="${msg}">
             <strong>Sucesso!</strong> <span th:text="${msg}"></span>
         </div>
-
         <div class="box column is-offset-one-third is-one-third container ">
             <div class="content">
                 <h2 class="is-large" th:text="#{login.formLogin}" />
@@ -17,14 +13,13 @@
                     <p class="subtitle" th:text="#{login.msgerro}"></p>
                 </article>
                 <article th:if="${param.logout}" class="notification content is-warning">
-                    <strong class="subtitle" th:text="#{login.alerta} + ': '"></strong>
                     <p class="subtitle" th:text="#{login.msglogout}"></p>
                 </article>
             </div>
             <form th:action="@{/login}" th:object="${usuario}" method="POST">
                 <div class="control">
                     <label class="label" th:text="Email"></label>
-                    <input class="input" type="text" name="username"/> 
+                    <input class="input" type="email" name="username"/> 
                     <span th:if="${#fields.hasErrors('email')}" th:errors="*{username}" class="helper is-danger"></span>
                 </div>
                 <div class="control">
