@@ -28,14 +28,14 @@ public class AcessController {
 
     @RequestMapping("/login")
     String login(Model model, @AuthenticationPrincipal User user) {
-        
+
         if (user != null) {
             return "redirect:home";
         }
-        
+
         Usuario usuario = new Usuario();
         model.addAttribute("usuario", usuario);
-        
+
         model.addAttribute("user", new Usuario());
         return "login";
     }
