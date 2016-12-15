@@ -29,7 +29,7 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints= {
     @UniqueConstraint(columnNames = {"usuario", "agendamento"})
 }, name = "PARTICIPANTE")
-class Participante implements Serializable{
+public class Participante implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PARTICIPANTE")
     @SequenceGenerator(name = "SEQ_PARTICIPANTE", sequenceName = "SEQ_PARTICIPANTE", allocationSize = 1)
