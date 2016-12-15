@@ -39,14 +39,22 @@ public class Participante implements Serializable{
     @Basic(optional = false)
     @Column(name = "ID_PARTICIPANTE")
     private Long id;
+
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
+    }
     
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
     
-    @ManyToMany (targetEntity = Agendamento.class, cascade = CascadeType.PERSIST)
-    @Column(name = "AGENDAMENTO_PARTICIPANTE")
-    private List<Agendamento> agendamento;
+    @ManyToOne (targetEntity = Agendamento.class)
+    @JoinColumn(name = "ID_AGENDAMENTO")
+    private Agendamento agendamento;
     
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -57,14 +65,6 @@ public class Participante implements Serializable{
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public List<Agendamento> getAgendamento() {
-        return agendamento;
-    }
-
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
     }
 
     public Long getId() {
