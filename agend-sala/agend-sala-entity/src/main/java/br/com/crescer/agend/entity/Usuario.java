@@ -2,6 +2,7 @@ package br.com.crescer.agend.entity;
 
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 /*
@@ -30,6 +31,17 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "SENHA_USUARIO")
     private String senha;
+    
+    @OneToMany(mappedBy = "usuario")
+    private List<Participante> participantes;
+
+    public void setParticipantes(List<Participante> participantes) {
+        this.participantes = participantes;
+    }
+
+    public List<Participante> getParticipantes() {
+        return participantes;
+    }
 
     @Override
     public int hashCode() {

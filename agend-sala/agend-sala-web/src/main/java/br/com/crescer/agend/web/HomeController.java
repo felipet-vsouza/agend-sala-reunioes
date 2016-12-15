@@ -45,7 +45,7 @@ public class HomeController {
         
         Iterable<Sala> salas = salaServico.findAll();
         
-        List<Participante> participantes = participanteServico.findByUsuario(atual);
+        Iterable<Usuario> participantes = usuarioServico.findAll();
         
         model.addAttribute("salas", salas);
         model.addAttribute("sessao", atual);
