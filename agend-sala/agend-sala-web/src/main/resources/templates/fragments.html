@@ -13,14 +13,8 @@
 
     <body>
         <section th:fragment="header-login">
-            <div class="hero-body is-info">
-                <div class="container">
-                    <h1 class="title">
-                        <i class="fa fa-globe"></i> CS:GO Lobby
-                    </h1>
-                    <h2 class="subtitle" th:text="#{general.slogan}">
-                    </h2>
-                </div>
+            <div class="hero-body">
+                <img th:src="@{/css/logo.png}" class="image centered is-main-logo" />
             </div>
         </section>
     </body>

@@ -12,14 +12,13 @@
         <div class="box column is-offset-one-third is-one-third container ">
             <div class="content">
                 <h2 class="is-large" th:text="#{login.formLogin}" />
-                <p class="is-medium" th:text="#{login.formSuggestion}" />
-                <article th:if="${param.error}" class="tile is-parent notification is-danger">
-                    <strong class="subtitle" th:text="#{login.erro}"></strong>
-                    <p class="subtitle" th:text="': ' + #{login.msgerro}"></p>
+                <article th:if="${param.error}" class="notification content is-danger">
+                    <strong class="subtitle" th:text="#{login.erro} + ': '"></strong>
+                    <p class="subtitle" th:text="#{login.msgerro}"></p>
                 </article>
-                <article th:if="${param.logout}" class="tile is-parent notification is-warning">
-                    <strong class="subtitle" th:text="#{login.alerta}"></strong>
-                    <p class="subtitle" th:text="': ' + #{login.msglogout}"></p>
+                <article th:if="${param.logout}" class="notification content is-warning">
+                    <strong class="subtitle" th:text="#{login.alerta} + ': '"></strong>
+                    <p class="subtitle" th:text="#{login.msglogout}"></p>
                 </article>
             </div>
             <form th:action="@{/login}" th:object="${usuario}" method="POST">
