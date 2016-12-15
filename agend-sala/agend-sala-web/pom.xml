@@ -55,7 +55,7 @@
             <plugin>
                 <groupId>nl.geodienstencentrum.maven</groupId>
                 <artifactId>sass-maven-plugin</artifactId>
-<!--                <executions>
+                <executions>
                     <execution>
                         <id>generate-css</id>
                         <phase>generate-resources</phase>
@@ -64,10 +64,10 @@
                         </goals>
                         <configuration>
                             <sassSourceDirectory>${basedir}/src/main/resources/scss</sassSourceDirectory>
-                            <destination>${basedir}/src/main/resources/css</destination>
+                            <destination>${basedir}/src/main/resources/static/css</destination>
                         </configuration>
                     </execution>
-                </executions>-->
+                </executions>
             </plugin>
         </plugins>
     </build>
