@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -47,6 +49,10 @@ public class Agendamento implements Serializable {
     @Basic(optional = true)
     @Column(name = "DT_FINAL_AGENDAMENTO")
     private Date dataFinal;
+    
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
+    private Usuario criador;
 
     @OneToMany(mappedBy = "agendamento")
     private List<Participante> participantes;
