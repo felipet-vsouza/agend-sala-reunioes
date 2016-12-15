@@ -16,6 +16,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface AgendamentoRepositorio extends CrudRepository<Agendamento, Long> {
 
-    public Page<Agendamento> findAll(Pageable pgbl);
-    
+    public Page<Agendamento> findAll(Pageable pgbl);    
 }

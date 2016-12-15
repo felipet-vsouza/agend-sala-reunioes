@@ -5,10 +5,9 @@
  */
 package br.com.crescer.agend.repository;
 
-import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import br.com.crescer.agend.entity.Usuario;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -17,6 +16,8 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ParticipanteRepositorio extends CrudRepository<Participante, Long> {
 
-    public Page<Participante> findAll(Pageable pgbl);
-    
+    public Iterable<Participante> findAll();
+
+    public List<Participante> findByUsuario(Usuario usuario);
+
 }

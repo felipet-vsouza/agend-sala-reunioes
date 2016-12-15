@@ -6,9 +6,7 @@
 package br.com.crescer.agend.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,11 +15,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -39,14 +35,22 @@ public class Participante implements Serializable{
     @Basic(optional = false)
     @Column(name = "ID_PARTICIPANTE")
     private Long id;
+
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
+    }
     
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
     
-    @ManyToMany (targetEntity = Agendamento.class, cascade = CascadeType.PERSIST)
-    @Column(name = "AGENDAMENTO_PARTICIPANTE")
-    private List<Agendamento> agendamento;
+    @ManyToOne (targetEntity = Agendamento.class)
+    @JoinColumn(name = "ID_AGENDAMENTO")
+    private Agendamento agendamento;
     
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -57,14 +61,6 @@ public class Participante implements Serializable{
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public List<Agendamento> getAgendamento() {
-        return agendamento;
-    }
-
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
     }
 
     public Long getId() {
