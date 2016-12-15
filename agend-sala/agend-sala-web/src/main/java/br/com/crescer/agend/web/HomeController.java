@@ -13,6 +13,7 @@ import br.com.crescer.agend.service.AgendamentoServico;
 import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +48,25 @@ public class HomeController {
 
         Iterable<Sala> salas = salaServico.findAll();
 
-        List<Agendamento> agendamentos = atual.getParticipantes().
-                stream().map((Participante p) -> p.getAgendamento()).collect(Collectors.toList());;
+        List<Agendamento> agendamentos = obterAgendamentos(atual);
 
         model.addAttribute("salas", salas);
         model.addAttribute("sessao", atual);
         model.addAttribute("agendamentos", agendamentos);
         return "home";
+    }
+
+    private List<Agendamento> obterAgendamentos(Usuario atual) {
+        Date date = new Date();
+        date.setDate(date.getDate() - 1);
+        
+        List<Agendamento> agendamentos = atual.getParticipantes().
+                stream().sorted((e1, e2) -> e1.getAgendamento().getDataInicio().
+                compareTo(e2.getAgendamento().getDataInicio())).
+                filter(p -> p.getAgendamento().getDataInicio().after(date)
+                        ||  p.getAgendamento().getDataInicio().after(new Date())).
+                map((Participante p) -> p.getAgendamento()).collect(Collectors.toList());
+
+        return agendamentos;
     }
 }

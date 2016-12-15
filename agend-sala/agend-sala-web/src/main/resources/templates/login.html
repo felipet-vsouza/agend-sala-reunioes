@@ -16,6 +16,7 @@
                     <p class="subtitle" th:text="#{login.msglogout}"></p>
                 </article>
             </div>
+            
             <form th:action="@{/login}" th:object="${usuario}" method="POST">
                 <div class="control">
                     <label class="label" th:text="Email"></label>
