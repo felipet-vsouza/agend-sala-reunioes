@@ -25,10 +25,7 @@ public class ParticipanteServico {
 //        Equipamento equipamento = new Equipamento();
 //        return Stream.of(equipamento).collect(Collectors.toList());
 //    }
-    public Page<Participante> findAll(Pageable pgbl) {
-        return participanteRepositorio.findAll(pgbl);
-    }
-
+    
     public Iterable<Participante> findAll() {
         return participanteRepositorio.findAll();
     }
