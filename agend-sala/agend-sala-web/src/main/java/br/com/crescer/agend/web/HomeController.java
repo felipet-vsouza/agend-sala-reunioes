@@ -5,6 +5,7 @@
  */
 package br.com.crescer.agend.web;
 
+import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
@@ -13,6 +14,7 @@ import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -45,10 +47,11 @@ public class HomeController {
         
         Iterable<Sala> salas = salaServico.findAll();
         
-        Iterable<Usuario> participantes = usuarioServico.findAll();
+        List<Agendamento> agendamentos = atual.getParticipantes().stream().map((Participante p) -> p.getAgendamento()).collect(Collectors.toList());;
         
         model.addAttribute("salas", salas);
         model.addAttribute("sessao", atual);
+        model.addAttribute("agendamentos", agendamentos);
         return "home";
     }
 }
