@@ -33,26 +33,26 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Agendamento implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RESERVA")
-    @SequenceGenerator(name = "SEQ_RESERVA", sequenceName = "SEQ_RESERVA", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AGENDAMENTO")
+    @SequenceGenerator(name = "SEQ_AGENDAMENTO", sequenceName = "SEQ_AGENDAMENTO", allocationSize = 1)
     @Basic(optional = false)
-    @Column(name = "ID_RESERVA")
+    @Column(name = "ID_AGENDAMENTO")
     private Long id;
 
     @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     @Basic(optional = true)
-    @Column(name = "DT_INICIO_RESERVA")
+    @Column(name = "DT_INICIO_AGENDAMENTO")
     private Date dataInicio;
 
     @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     @Basic(optional = true)
-    @Column(name = "DT_FINAL_RESERVA")
+    @Column(name = "DT_FINAL_AGENDAMENTO")
     private Date dataFinal;
 
     @ManyToMany(targetEntity = Participante.class, cascade = CascadeType.PERSIST)
-    private List<Participante> caomigos;
+    private List<Participante> participantes;
 
 
     public Long getId() {
@@ -79,11 +79,13 @@ public class Agendamento implements Serializable {
         this.dataFinal = dataFinal;
     }
 
-    public List<Participante> getCaomigos() {
-        return caomigos;
+    public List<Participante> getParticipantes() {
+        return participantes;
     }
 
-    public void setCaomigos(List<Participante> caomigos) {
-        this.caomigos = caomigos;
+    public void setParticipantes(List<Participante> participantes) {
+        this.participantes = participantes;
     }
+
+
 }

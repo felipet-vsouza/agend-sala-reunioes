@@ -5,11 +5,11 @@
  */
 package br.com.crescer.agend.service;
 
-import br.com.crescer.agend.entity.Agendamento;
+import br.com.crescer.agend.entity.Participante;
+import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import br.com.crescer.agend.repository.AgendamentoRepositorio;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,31 +17,31 @@ import org.springframework.stereotype.Service;
  * @author henrique.ostermann
  */
 @Service
-public class AgendamentoServico {
+public class ParticipanteServico {
     @Autowired
-    AgendamentoRepositorio reservaRepositorio;
+    ParticipanteRepositorio participanteRepositorio;
 
 //     public List<Equipamento> list() {
 //        Equipamento equipamento = new Equipamento();
 //        return Stream.of(equipamento).collect(Collectors.toList());
 //    }
-    public Page<Agendamento> findAll(Pageable pgbl) {
-        return reservaRepositorio.findAll(pgbl);
+    public Page<Participante> findAll(Pageable pgbl) {
+        return participanteRepositorio.findAll(pgbl);
     }
 
-    public Iterable<Agendamento> findAll() {
-        return reservaRepositorio.findAll();
+    public Iterable<Participante> findAll() {
+        return participanteRepositorio.findAll();
     }
 
-    public Agendamento save(Agendamento reserva) {
-        return reservaRepositorio.save(reserva);
+    public Participante save(Participante participante) {
+        return participanteRepositorio.save(participante);
     }
 
     public void delete(Long id) {
-        reservaRepositorio.delete(id);
+        participanteRepositorio.delete(id);
     }
 
-    public Agendamento findOne(Long id) {
-        return reservaRepositorio.findOne(id);
+    public Participante findOne(Long id) {
+        return participanteRepositorio.findOne(id);
     }  
 }
