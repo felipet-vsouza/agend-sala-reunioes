@@ -8,8 +8,6 @@ package br.com.crescer.agend.service;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
