@@ -16,7 +16,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -25,10 +27,11 @@ import javax.persistence.UniqueConstraint;
  *
  * @author henrique.ostermann
  */
+//uniqueConstraints= {
+//    @UniqueConstraint(columnNames = {"USUARIO_PARTICIPANTE", "AGENDAMENTO_PARTICIPANTE"})
+//},
 @Entity
-@Table(uniqueConstraints= {
-    @UniqueConstraint(columnNames = {"usuario", "agendamento"})
-}, name = "PARTICIPANTE")
+@Table( name = "PARTICIPANTE")
 public class Participante implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PARTICIPANTE")
@@ -37,24 +40,16 @@ public class Participante implements Serializable{
     @Column(name = "ID_PARTICIPANTE")
     private Long id;
     
-    @Basic(optional = false)
-    @Column(name = "USUARIO_PARTICIPANTE")
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
     
-    @Basic(optional = false)
+    @ManyToMany (targetEntity = Agendamento.class, cascade = CascadeType.PERSIST)
     @Column(name = "AGENDAMENTO_PARTICIPANTE")
-    private Agendamento agendamento;
+    private List<Agendamento> agendamento;
     
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -64,13 +59,24 @@ public class Participante implements Serializable{
         this.usuario = usuario;
     }
 
-    public Agendamento getAgendamento() {
+    public List<Agendamento> getAgendamento() {
         return agendamento;
     }
 
-    public void setAgendamento(Agendamento agendamento) {
+    public void setAgendamento(List<Agendamento> agendamento) {
         this.agendamento = agendamento;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+
 
     public Status getStatus() {
         return status;

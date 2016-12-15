@@ -5,7 +5,6 @@
  */
 package br.com.crescer.agend.service;
 
-import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
