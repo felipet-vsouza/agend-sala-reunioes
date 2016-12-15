@@ -6,13 +6,13 @@
 package br.com.crescer.agend.repository;
 
 import br.com.crescer.agend.entity.Usuario;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Henrique
  */
-public interface UsuarioRepositorio extends CrudRepository<Usuario, Long> {
+public interface UsuarioRepositorio extends PagingAndSortingRepository<Usuario, Long> {
     Usuario findByEmail(String username);
 }
 
