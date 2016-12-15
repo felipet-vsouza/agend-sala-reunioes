@@ -28,27 +28,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomeController {
-    
+
     @Autowired
     UsuarioServico usuarioServico;
-    
+
     @Autowired
     SalaServico salaServico;
 
     @Autowired
     AgendamentoServico agendamentoServico;
-    
+
     @Autowired
     ParticipanteServico participanteServico;
-    
+
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
-        
+
         Iterable<Sala> salas = salaServico.findAll();
-        
-        List<Agendamento> agendamentos = atual.getParticipantes().stream().map((Participante p) -> p.getAgendamento()).collect(Collectors.toList());;
-        
+
+        List<Agendamento> agendamentos = atual.getParticipantes().
+                stream().map((Participante p) -> p.getAgendamento()).collect(Collectors.toList());;
+
         model.addAttribute("salas", salas);
         model.addAttribute("sessao", atual);
         model.addAttribute("agendamentos", agendamentos);
