@@ -7,15 +7,18 @@ package br.com.crescer.agend.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -54,7 +57,18 @@ public class Participante implements Serializable{
     
     @Enumerated(EnumType.STRING)
     private Status status;
+    
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "participante", cascade = CascadeType.ALL)
+    private Email email;
 
+    public Email getEmail() {
+        return email;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+    
     public Usuario getUsuario() {
         return usuario;
     }
