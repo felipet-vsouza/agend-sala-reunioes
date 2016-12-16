@@ -6,6 +6,11 @@ img.is-main-logo {
   height: 100px;
 }
 
+.custom-footer {
+  background-color: #fbb041 !important;
+  padding: 40px 20px 80px !important;
+}
+
 .has-clear-background {
   background-color: #fefefe;
 }

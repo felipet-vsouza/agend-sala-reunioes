@@ -51,82 +51,20 @@
         </header>
         <section class="columns">
             <article class="column is-two-thirds container">
-                <div class="card is-fullwidth">
+                <div class="card is-fullwidth" th:each="sala : ${salas}">
                     <header class="card-header">
-                        <p class="card-header-title">
-                            Sala 3.1
+                        <p class="card-header-title" th:text="${sala.nome}">
                         </p>
                     </header>
                     <article class="card-content">
-                        <div class="content">
-                            <strong>Capacidade: </strong>
-                            <span>30 pessoas</span>
+                        <div class="">
+                            <strong th:text="#{home.capacidade}"></strong>
+                            <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
                         </div>
                         <div class="content">
-                            <strong>Equipamentos disponíveis: </strong>
+                            <strong th:text="#{home.equipamentos}"></strong>
                             <ul>
-                            </ul>
-                        </div>
-                    </article>
-                </div>
-                <div class="card is-fullwidth">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Sala 3.1
-                        </p>
-                    </header>
-                    <article class="card-content">
-                        <div class="content">
-                            <strong>Capacidade: </strong>
-                            <span>30 pessoas</span>
-                        </div>
-                        <div class="content">
-                            <strong>Equipamentos disponíveis: </strong>
-                            <ul>
-                                <li>Televisão</li>
-                                <li>Computador</li>
-                                <li>Ar-condicionado</li>
-                            </ul>
-                        </div>
-                    </article>
-                </div>
-                <div class="card is-fullwidth">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Sala 3.1
-                        </p>
-                    </header>
-                    <article class="card-content">
-                        <div class="content">
-                            <strong>Capacidade: </strong>
-                            <span>30 pessoas</span>
-                        </div>
-                        <div class="content">
-                            <strong>Equipamentos disponíveis: </strong>
-                            <ul>
-                                <li>Televisão</li>
-                                <li>Ar-condicionado</li>
-                            </ul>
-                        </div>
-                    </article>
-                </div>
-                <div class="card is-fullwidth">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Sala 3.1
-                        </p>
-                    </header>
-                    <article class="card-content">
-                        <div class="content">
-                            <strong>Capacidade: </strong>
-                            <span>30 pessoas</span>
-                        </div>
-                        <div class="content">
-                            <strong>Equipamentos disponíveis: </strong>
-                            <ul>
-                                <li>Televisão</li>
-                                <li>Computador</li>
-                                <li>Ar-condicionado</li>
+                                <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
                             </ul>
                         </div>
                     </article>
@@ -140,101 +78,26 @@
                     <p class="panel-tabs">
                         <a class="is-active" href="#">Todos os dias</a>
                     </p>
-                    <a class="panel-block is-active" href="#">
+                    <a class="panel-block" th:each="agendamento : ${agendamentos}">
                         <div>
-                            <strong>Refatoração de código</strong>
-                            <span> marcado por Fabrício</span>
+                            <strong th:text="${agendamento.descricao}"></strong>
+                            <span th:text="' ' + #{home.marcadopor} + ' ' + ${agendamento.criador.nome}"></span>
+                        </div>
+                        <div th:text="${#dates.format(agendamento.dataInicio, 'dd/MM/yyyy (hh:mm a - ') + #dates.format(agendamento.dataFinal, 'hh:mm a)')}">
                         </div>
                         <div>
-                            15/12/2016 (15h30 - 17h30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
-                        </div>
-                    </a>
-                    <a class="panel-block" href="#">
-                        <div>
-                            <strong>Conferência com cliente</strong>
-                            <span> marcado por Bernardo</span>
-                        </div>
-                        <div>
-                            15/12/2016 (14:00 - 17:30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
-                        </div>
-                    </a>
-                    <a class="panel-block" href="#">
-                        <div>
-                            <strong>Conferência com cliente</strong>
-                            <span> marcado por Bernardo</span>
-                        </div>
-                        <div>
-                            15/12/2016 (14:00 - 17:30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
-                        </div>
-                    </a>
-                    <a class="panel-block" href="#">
-                        <div>
-                            <strong>Conferência com cliente</strong>
-                            <span> marcado por Bernardo</span>
-                        </div>
-                        <div>
-                            15/12/2016 (14:00 - 17:30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
-                        </div>
-                    </a>
-                    <a class="panel-block" href="#">
-                        <div>
-                            <strong>Conferência com cliente</strong>
-                            <span> marcado por Bernardo</span>
-                        </div>
-                        <div>
-                            15/12/2016 (14:00 - 17:30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
-                        </div>
-                    </a>
-                    <a class="panel-block" href="#">
-                        <div>
-                            <strong>Conferência com cliente</strong>
-                            <span> marcado por Bernardo</span>
-                        </div>
-                        <div>
-                            15/12/2016 (14:00 - 17:30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
-                        </div>
-                    </a>
-                    <a class="panel-block" href="#">
-                        <div>
-                            <strong>Conferência com cliente</strong>
-                            <span> marcado por Bernardo</span>
-                        </div>
-                        <div>
-                            15/12/2016 (14:00 - 17:30)
-                        </div>
-                        <div>
-                            <strong>Local: </strong>
-                            <span>Sala 3.1</span>
+                            <strong th:text="#{home.local}"></strong>
+                            <span th:text="${agendamento.sala.nome}"></span>
                         </div>
                     </a>
                 </nav>
             </aside>
         </section>
-        <footer>
+        <footer class="custom-footer has-text-centered content">
+            <span>
+                <p th:text="#{nav.logadocomo}"/>
+            </span>
+                <strong th:text="${sessao.nome}" />
         </footer>
     </body>
 </html>
