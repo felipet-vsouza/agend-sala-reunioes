@@ -56,6 +56,38 @@ public class Agendamento implements Serializable {
 
     @OneToMany(mappedBy = "agendamento")
     private List<Participante> participantes;
+    
+    @ManyToOne
+    @JoinColumn(name = "ID_SALA")
+    private Sala sala;
+    
+    @Basic(optional = true)
+    @Column(name = "DS_AGENDAMENTO")
+    private String descricao;
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
+    public Usuario getCriador() {
+        return criador;
+    }
+
+    public void setCriador(Usuario criador) {
+        this.criador = criador;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public Long getId() {
         return id;
