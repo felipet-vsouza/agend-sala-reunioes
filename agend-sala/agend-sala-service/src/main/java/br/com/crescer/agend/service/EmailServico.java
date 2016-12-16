@@ -5,9 +5,13 @@
  */
 package br.com.crescer.agend.service;
 
+import br.com.crescer.agend.entity.Email;
 import br.com.crescer.agend.entity.Usuario;
+import br.com.crescer.agend.repository.EmailRepositorio;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 import java.util.Properties;
+import java.util.UUID;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,6 +20,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -23,11 +28,29 @@ import javax.mail.internet.MimeMessage;
  */
 @Service
 public class EmailServico {
-    
-    public void enviarEmail(String[] destinatarios, String conteudo, String assunto, Usuario usuario){
-        
+
+    @Autowired
+    EmailRepositorio emailRepositorio;
+
+    public Email obterPeloHash(Email email) {
+        return emailRepositorio.findByHash(email);
+    }
+
+    public Email salvar(Email email) {
+        email.setHash(obterHash());
+        email.setDataEnvio(new Date());
+        return emailRepositorio.save(email);
+    }
+
+    private String obterHash() {
+        UUID hash = UUID.randomUUID();
+        return hash.toString().replaceAll("-", "");
+    }
+
+    public void enviarEmail(String[] destinatarios, String conteudo, String assunto, Usuario usuario) {
+
         Properties props = new Properties();
-        
+
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -37,28 +60,28 @@ public class EmailServico {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("email", "senha");
+                return new PasswordAuthentication("agendamentosalascwi@gmail.com", "cwisalas9876");
             }
         });
-        
+
         session.setDebug(true);
         try {
 
             String text = conteudo;
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("email"));
+            message.setFrom(new InternetAddress("agendamentosalascwi@gmail.com"));
 
-           Address[] toUser = null;
-            
+            Address[] toUser = null;
+
             for (String destinatario : destinatarios) {
                 toUser = InternetAddress.parse(destinatario);
             }
-            
+
             message.setRecipients(Message.RecipientType.TO, toUser);
             message.setSubject(assunto);
             message.setContent(text, "text/html; charset=utf-8");
-            
+
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
