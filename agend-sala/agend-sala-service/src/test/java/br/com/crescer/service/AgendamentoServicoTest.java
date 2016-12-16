@@ -118,8 +118,7 @@ public class AgendamentoServicoTest {
 
     @Test
     public void testObterAgendamentosParaDataAnterior() throws ParseException {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(obterDataAtual());
+        Calendar cal = obterDataAtual();
         cal.add(Calendar.DAY_OF_MONTH, -1);
         Date data = cal.getTime();
         Agendamento paraTeste = new Agendamento();
@@ -134,49 +133,45 @@ public class AgendamentoServicoTest {
         assertEquals(0, agendamentoServico.obterAgendamentos(usuario).size());
     }
 
-//    @Test
-//    public void testObterAgendamentosParaDataAtual() throws ParseException {
-//        Date data = obterDataAtual();
-//        Agendamento paraTeste = new Agendamento();
-//        paraTeste.setDataInicio(data);
-//        paraTeste.setDataFinal(data);
-//        List<Participante> participantes = new ArrayList<>();
-//        Participante p = new Participante();
-//        p.setUsuario(usuario);
-//        participantes.add(p);
-//        paraTeste.setParticipantes(participantes);
-//        agendamentoServico.save(paraTeste);
-//        Iterable<Agendamento> ee = agendamentoServico.findAll();
-//        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
-//    }
-//
-//    @Test
-//    public void testObterAgendamentosParaDataPosterior() throws ParseException {
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(obterDataAtual());
-//        cal.add(Calendar.DAY_OF_MONTH, 1);
-//        Date data = cal.getTime();
-//        Agendamento paraTeste = new Agendamento();
-//        paraTeste.setDataInicio(data);
-//        paraTeste.setDataFinal(data);
-//        List<Participante> participantes = new ArrayList<>();
-//        Participante p = new Participante();
-//        p.setUsuario(usuario);
-//        participantes.add(p);
-//        paraTeste.setParticipantes(participantes);
-//        agendamentoServico.save(paraTeste);
-//        Iterable<Agendamento> ee = agendamentoServico.findAll();
-//        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
-//    }
+    @Test
+    public void testObterAgendamentosParaDataAtual() throws ParseException {
+        Date data = obterDataAtual().getTime();
+        Agendamento paraTeste = new Agendamento();
+        paraTeste.setDataInicio(data);
+        paraTeste.setDataFinal(data);
+        List<Participante> participantes = new ArrayList<>();
+        Participante p = new Participante();
+        p.setUsuario(usuario);
+        participantes.add(p);
+        paraTeste.setParticipantes(participantes);
+        agendamentoServico.save(paraTeste);
+        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
+    }
+
+    @Test
+    public void testObterAgendamentosParaDataPosterior() throws ParseException {
+        Calendar cal = obterDataAtual();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        Date data = cal.getTime();
+        Agendamento paraTeste = new Agendamento();
+        paraTeste.setDataInicio(data);
+        paraTeste.setDataFinal(data);
+        List<Participante> participantes = new ArrayList<>();
+        Participante p = new Participante();
+        p.setUsuario(usuario);
+        participantes.add(p);
+        paraTeste.setParticipantes(participantes);
+        agendamentoServico.save(paraTeste);
+        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
+    }
     
-    private Date obterDataAtual() {
+    private Calendar obterDataAtual() {
         Calendar dataAtual = Calendar.getInstance();
         dataAtual.clear(Calendar.HOUR_OF_DAY);
         dataAtual.clear(Calendar.AM_PM);
         dataAtual.clear(Calendar.MINUTE);
         dataAtual.clear(Calendar.SECOND);
         dataAtual.clear(Calendar.MILLISECOND);
-        
-        return dataAtual.getTime();
+        return dataAtual;
     }
 }

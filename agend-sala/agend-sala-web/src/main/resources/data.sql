@@ -1,7 +1,7 @@
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor. 
  */
 /**
  * Author:  henrique.ostermann
@@ -53,43 +53,43 @@ INSERT INTO SALA_EQUIPAMENTO (SALA_ID_SALA, EQUIPAMENTO_ID_EQUIPAMENTO)  VALUES 
 INSERT INTO SALA_EQUIPAMENTO (SALA_ID_SALA, EQUIPAMENTO_ID_EQUIPAMENTO)  VALUES (9, 3);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(1, TO_DATE('2016/12/15 09:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 12:00', 'yyyy/mm/dd hh24:mi'), 1, 'Reunião com cliente', 1);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 09:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 12:00', 'yyyy/mm/dd hh24:mi'), 1, 'Reuniao com cliente', 1);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(2, TO_DATE('2016/12/15 12:10', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 14:00', 'yyyy/mm/dd hh24:mi'), 1, 'Definição de logo', 2);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 12:10', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 14:00', 'yyyy/mm/dd hh24:mi'), 1, 'Definicao de logo', 2);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(3, TO_DATE('2016/12/15 15:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 16:00', 'yyyy/mm/dd hh24:mi'), 1, 'Conversão de dados', 3);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 15:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 16:00', 'yyyy/mm/dd hh24:mi'), 1, 'Conversao de dados', 3);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(4, TO_DATE('2016/12/15 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Testes centralizados', 4);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Testes centralizados', 4);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(5, TO_DATE('2016/12/16 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/16 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'DOJO: integração contínua', 1);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/17 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/16 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'DOJO: integracao cont�nua', 1);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(6, TO_DATE('2016/12/14 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/14 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Confraternização', 2);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/14 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Confraternizacao', 2);
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (1, 1, 2, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 1, 2, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (2, 1, 3, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 1, 3, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (3, 2, 3, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 2, 3, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (4, 5, 3, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 5, 3, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (5, 6, 3, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 6, 3, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (6, 4, 1, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 4, 1, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (7, 5, 1, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 5, 1, 'CONFIRMADO');
 
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) 
-VALUES (8, 6, 1, 'CONFIRMADO');
+VALUES (SEQ_PARTICIPANTE.nextval, 6, 1, 'CONFIRMADO');

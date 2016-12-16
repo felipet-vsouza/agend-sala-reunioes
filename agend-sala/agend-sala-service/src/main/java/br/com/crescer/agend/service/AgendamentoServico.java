@@ -61,14 +61,11 @@ public class AgendamentoServico {
         dataAtual.clear(Calendar.MILLISECOND);
         
         Date dateInicial = dataAtual.getTime();
-//        dataAtual.add(Calendar.DAY_OF_MONTH, 1);
-//        dataAtual.add(Calendar.SECOND, -1);
-//        Date dateFinal = dataAtual.getTime();
 
         List<Agendamento> agendamentos = atual.getParticipantes().stream()
                 .sorted((e1, e2) -> e1.getAgendamento().getDataInicio().compareTo(e2.getAgendamento().getDataInicio()))
-                .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial))
-//                          && p.getAgendamento().getDataInicio().before(dateFinal))
+                .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial)
+                          || p.getAgendamento().getDataInicio().equals(dateInicial))
                 .map((Participante p) -> p.getAgendamento())
                 .collect(Collectors.toList());
 
