@@ -6,6 +6,8 @@
 package br.com.crescer.service;
 
 import br.com.crescer.agend.entity.Agendamento;
+import br.com.crescer.agend.entity.Participante;
+import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.service.AgendamentoServico;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,6 +16,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,11 +45,14 @@ public class AgendamentoServicoTest {
     private Iterable<Agendamento> agendamentos;
 
     @Mock
+    private Usuario usuario;
+    
+    @Mock
     private Pageable pageable;
 
     @Mock
     private Page<Agendamento> page;
-    
+
     @Mock
     private Agendamento agendamento;
 
@@ -60,7 +71,6 @@ public class AgendamentoServicoTest {
 //    public void testList() {
 //        assertNotNull(salaServico.list());
 //    }
-
     /**
      * Test of findAll method, of class PessoaService.
      */
@@ -106,4 +116,67 @@ public class AgendamentoServicoTest {
         verify(agendamentoRepositorio).findOne(1l);
     }
 
+    @Test
+    public void testObterAgendamentosParaDataAnterior() throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(obterDataAtual());
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        Date data = cal.getTime();
+        Agendamento paraTeste = new Agendamento();
+        paraTeste.setDataInicio(data);
+        paraTeste.setDataFinal(data);
+        List<Participante> participantes = new ArrayList<>();
+        Participante p = new Participante();
+        p.setUsuario(usuario);
+        participantes.add(p);
+        paraTeste.setParticipantes(participantes);
+        agendamentoServico.save(paraTeste);
+        assertEquals(0, agendamentoServico.obterAgendamentos(usuario).size());
+    }
+
+//    @Test
+//    public void testObterAgendamentosParaDataAtual() throws ParseException {
+//        Date data = obterDataAtual();
+//        Agendamento paraTeste = new Agendamento();
+//        paraTeste.setDataInicio(data);
+//        paraTeste.setDataFinal(data);
+//        List<Participante> participantes = new ArrayList<>();
+//        Participante p = new Participante();
+//        p.setUsuario(usuario);
+//        participantes.add(p);
+//        paraTeste.setParticipantes(participantes);
+//        agendamentoServico.save(paraTeste);
+//        Iterable<Agendamento> ee = agendamentoServico.findAll();
+//        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
+//    }
+//
+//    @Test
+//    public void testObterAgendamentosParaDataPosterior() throws ParseException {
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(obterDataAtual());
+//        cal.add(Calendar.DAY_OF_MONTH, 1);
+//        Date data = cal.getTime();
+//        Agendamento paraTeste = new Agendamento();
+//        paraTeste.setDataInicio(data);
+//        paraTeste.setDataFinal(data);
+//        List<Participante> participantes = new ArrayList<>();
+//        Participante p = new Participante();
+//        p.setUsuario(usuario);
+//        participantes.add(p);
+//        paraTeste.setParticipantes(participantes);
+//        agendamentoServico.save(paraTeste);
+//        Iterable<Agendamento> ee = agendamentoServico.findAll();
+//        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
+//    }
+    
+    private Date obterDataAtual() {
+        Calendar dataAtual = Calendar.getInstance();
+        dataAtual.clear(Calendar.HOUR_OF_DAY);
+        dataAtual.clear(Calendar.AM_PM);
+        dataAtual.clear(Calendar.MINUTE);
+        dataAtual.clear(Calendar.SECOND);
+        dataAtual.clear(Calendar.MILLISECOND);
+        
+        return dataAtual.getTime();
+    }
 }
