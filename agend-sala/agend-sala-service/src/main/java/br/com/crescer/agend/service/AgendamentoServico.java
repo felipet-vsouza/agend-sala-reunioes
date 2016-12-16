@@ -55,25 +55,4 @@ public class AgendamentoServico {
     public Agendamento findOne(Long id) {
         return reservaRepositorio.findOne(id);
     }
-
-    public List<Agendamento> obterAgendamentos(Usuario atual) {
-        Calendar dataAtual = Calendar.getInstance();
-        dataAtual.clear(Calendar.HOUR_OF_DAY);
-        dataAtual.clear(Calendar.MINUTE);
-        dataAtual.clear(Calendar.SECOND);
-        dataAtual.clear(Calendar.MILLISECOND);
-
-        Date dateInicial = dataAtual.getTime();
-
-        List<Agendamento> agendamentos = participanteRepositorio
-                .findByUsuario(atual)
-                .stream()
-                .sorted((e1, e2) -> e1.getAgendamento().getDataInicio().compareTo(e2.getAgendamento().getDataInicio()))
-                .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial)
-                || p.getAgendamento().getDataInicio().equals(dateInicial))
-                .map((Participante p) -> p.getAgendamento())
-                .collect(Collectors.toList());
-
-        return agendamentos;
-    }
 }

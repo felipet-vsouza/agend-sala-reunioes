@@ -55,15 +55,12 @@ public class AgendamentoServicoTest {
     @Mock
     private ParticipanteRepositorio participanteRepositorio;
 
-    List<Participante> participantes;
-
     @Before
     public void setUp() {
         when(agendamentoRepositorio.findAll()).thenReturn(agendamentos);
         when(agendamentoRepositorio.findAll(pageable)).thenReturn(page);
         when(agendamentoRepositorio.save(agendamento)).thenReturn(agendamento);
         when(agendamentoRepositorio.findOne(1l)).thenReturn(agendamento);
-        participantes = new ArrayList<>();
     }
 
     /**
@@ -116,63 +113,5 @@ public class AgendamentoServicoTest {
     public void testFindOne() {
         assertEquals(agendamento, agendamentoServico.findOne(1l));
         verify(agendamentoRepositorio).findOne(1l);
-    }
-
-    @Test
-    public void testObterAgendamentosParaDataAnterior() throws ParseException {
-        Calendar cal = obterDataAtual();
-        cal.add(Calendar.DAY_OF_MONTH, -1);
-        Date data = cal.getTime();
-        Agendamento agendamento = new Agendamento();
-        agendamento.setDataInicio(data);
-        agendamento.setDataFinal(data);
-        Participante p = new Participante();
-        p.setAgendamento(agendamento);
-        p.setUsuario(usuario);
-        participantes.add(p);
-        agendamento.setParticipantes(participantes);
-        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
-        assertEquals(0, agendamentoServico.obterAgendamentos(usuario).size());
-    }
-
-    @Test
-    public void testObterAgendamentosParaDataAtual() throws ParseException {
-        Date data = obterDataAtual().getTime();
-        Agendamento agendamento = new Agendamento();
-        agendamento.setDataInicio(data);
-        agendamento.setDataFinal(data);
-        Participante p = new Participante();
-        p.setAgendamento(agendamento);
-        p.setUsuario(usuario);
-        participantes.add(p);
-        agendamento.setParticipantes(participantes);
-        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
-        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
-    }
-
-    @Test
-    public void testObterAgendamentosParaDataPosterior() throws ParseException {
-        Calendar cal = obterDataAtual();
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        Date data = cal.getTime();
-        Agendamento agendamento = new Agendamento();
-        agendamento.setDataInicio(data);
-        agendamento.setDataFinal(data);
-        Participante p = new Participante();
-        p.setAgendamento(agendamento);
-        p.setUsuario(usuario);
-        participantes.add(p);
-        agendamento.setParticipantes(participantes);
-        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
-        assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
-    }
-
-    private Calendar obterDataAtual() {
-        Calendar dataAtual = Calendar.getInstance();
-        dataAtual.clear(Calendar.HOUR_OF_DAY);
-        dataAtual.clear(Calendar.MINUTE);
-        dataAtual.clear(Calendar.SECOND);
-        dataAtual.clear(Calendar.MILLISECOND);
-        return dataAtual;
     }
 }

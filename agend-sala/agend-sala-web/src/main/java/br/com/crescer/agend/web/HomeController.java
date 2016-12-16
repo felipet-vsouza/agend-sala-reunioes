@@ -13,9 +13,7 @@ import br.com.crescer.agend.service.AgendamentoServico;
 import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -37,9 +35,6 @@ public class HomeController {
     SalaServico salaServico;
 
     @Autowired
-    AgendamentoServico agendamentoServico;
-
-    @Autowired
     ParticipanteServico participanteServico;
 
     @RequestMapping(value = {"/home", "/"})
@@ -48,11 +43,11 @@ public class HomeController {
 
         Iterable<Sala> salas = salaServico.findAll();
 
-        List<Agendamento> agendamentos = agendamentoServico.obterAgendamentos(atual);
+        List<Participante> participacoes = participanteServico.obterParticipantesDeAgendamentos(atual);
 
         model.addAttribute("salas", salas);
         model.addAttribute("sessao", atual);
-        model.addAttribute("agendamentos", agendamentos);
+        model.addAttribute("participacoes", participacoes);
         return "home";
     }
 }
