@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.crescer.service;
 
 import br.com.crescer.agend.entity.Agendamento;
@@ -16,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
+import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +51,9 @@ public class AgendamentoServicoTest {
 
     @Mock
     private Agendamento agendamento;
+    
+    @Mock
+    private ParticipanteRepositorio participanteRepositorio;
 
     @Before
     public void setUp() {
@@ -118,57 +117,59 @@ public class AgendamentoServicoTest {
 
     @Test
     public void testObterAgendamentosParaDataAnterior() throws ParseException {
+        List<Participante> participantes = new ArrayList<>();
         Calendar cal = obterDataAtual();
         cal.add(Calendar.DAY_OF_MONTH, -1);
         Date data = cal.getTime();
-        Agendamento paraTeste = new Agendamento();
-        paraTeste.setDataInicio(data);
-        paraTeste.setDataFinal(data);
-        List<Participante> participantes = new ArrayList<>();
+        Agendamento agendamento = new Agendamento();
+        agendamento.setDataInicio(data);
+        agendamento.setDataFinal(data);
         Participante p = new Participante();
+        p.setAgendamento(agendamento);
         p.setUsuario(usuario);
         participantes.add(p);
-        paraTeste.setParticipantes(participantes);
-        agendamentoServico.save(paraTeste);
+        agendamento.setParticipantes(participantes);
+        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
         assertEquals(0, agendamentoServico.obterAgendamentos(usuario).size());
     }
 
     @Test
     public void testObterAgendamentosParaDataAtual() throws ParseException {
-        Date data = obterDataAtual().getTime();
-        Agendamento paraTeste = new Agendamento();
-        paraTeste.setDataInicio(data);
-        paraTeste.setDataFinal(data);
         List<Participante> participantes = new ArrayList<>();
+        Date data = obterDataAtual().getTime();
+        Agendamento agendamento = new Agendamento();
+        agendamento.setDataInicio(data);
+        agendamento.setDataFinal(data);
         Participante p = new Participante();
+        p.setAgendamento(agendamento);
         p.setUsuario(usuario);
         participantes.add(p);
-        paraTeste.setParticipantes(participantes);
-        agendamentoServico.save(paraTeste);
+        agendamento.setParticipantes(participantes);
+        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
         assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
     }
 
     @Test
     public void testObterAgendamentosParaDataPosterior() throws ParseException {
+        List<Participante> participantes = new ArrayList<>();
         Calendar cal = obterDataAtual();
         cal.add(Calendar.DAY_OF_MONTH, 1);
         Date data = cal.getTime();
-        Agendamento paraTeste = new Agendamento();
-        paraTeste.setDataInicio(data);
-        paraTeste.setDataFinal(data);
-        List<Participante> participantes = new ArrayList<>();
+        Agendamento agendamento = new Agendamento();
+        agendamento.setDataInicio(data);
+        agendamento.setDataFinal(data);
         Participante p = new Participante();
+        p.setAgendamento(agendamento);
         p.setUsuario(usuario);
         participantes.add(p);
-        paraTeste.setParticipantes(participantes);
-        agendamentoServico.save(paraTeste);
+        agendamento.setParticipantes(participantes);
+        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
         assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
     }
     
     private Calendar obterDataAtual() {
         Calendar dataAtual = Calendar.getInstance();
         dataAtual.clear(Calendar.HOUR_OF_DAY);
-        dataAtual.clear(Calendar.AM_PM);
         dataAtual.clear(Calendar.MINUTE);
         dataAtual.clear(Calendar.SECOND);
         dataAtual.clear(Calendar.MILLISECOND);

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
+import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,9 @@ public class AgendamentoServico {
 
     @Autowired
     AgendamentoRepositorio reservaRepositorio;
+
+    @Autowired
+    ParticipanteRepositorio participanteRepositorio;
 
 //     public List<Equipamento> list() {
 //        Equipamento equipamento = new Equipamento();
@@ -55,17 +59,18 @@ public class AgendamentoServico {
     public List<Agendamento> obterAgendamentos(Usuario atual) {
         Calendar dataAtual = Calendar.getInstance();
         dataAtual.clear(Calendar.HOUR_OF_DAY);
-        dataAtual.clear(Calendar.AM_PM);
         dataAtual.clear(Calendar.MINUTE);
         dataAtual.clear(Calendar.SECOND);
         dataAtual.clear(Calendar.MILLISECOND);
-        
+
         Date dateInicial = dataAtual.getTime();
 
-        List<Agendamento> agendamentos = atual.getParticipantes().stream()
+        List<Agendamento> agendamentos = participanteRepositorio
+                .findByUsuario(atual)
+                .stream()
                 .sorted((e1, e2) -> e1.getAgendamento().getDataInicio().compareTo(e2.getAgendamento().getDataInicio()))
                 .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial)
-                          || p.getAgendamento().getDataInicio().equals(dateInicial))
+                || p.getAgendamento().getDataInicio().equals(dateInicial))
                 .map((Participante p) -> p.getAgendamento())
                 .collect(Collectors.toList());
 
