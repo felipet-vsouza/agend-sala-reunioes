@@ -42,7 +42,7 @@ public class AgendamentoServicoTest {
 
     @Mock
     private Usuario usuario;
-    
+
     @Mock
     private Pageable pageable;
 
@@ -51,9 +51,11 @@ public class AgendamentoServicoTest {
 
     @Mock
     private Agendamento agendamento;
-    
+
     @Mock
     private ParticipanteRepositorio participanteRepositorio;
+
+    List<Participante> participantes;
 
     @Before
     public void setUp() {
@@ -61,6 +63,7 @@ public class AgendamentoServicoTest {
         when(agendamentoRepositorio.findAll(pageable)).thenReturn(page);
         when(agendamentoRepositorio.save(agendamento)).thenReturn(agendamento);
         when(agendamentoRepositorio.findOne(1l)).thenReturn(agendamento);
+        participantes = new ArrayList<>();
     }
 
     /**
@@ -117,7 +120,6 @@ public class AgendamentoServicoTest {
 
     @Test
     public void testObterAgendamentosParaDataAnterior() throws ParseException {
-        List<Participante> participantes = new ArrayList<>();
         Calendar cal = obterDataAtual();
         cal.add(Calendar.DAY_OF_MONTH, -1);
         Date data = cal.getTime();
@@ -135,7 +137,6 @@ public class AgendamentoServicoTest {
 
     @Test
     public void testObterAgendamentosParaDataAtual() throws ParseException {
-        List<Participante> participantes = new ArrayList<>();
         Date data = obterDataAtual().getTime();
         Agendamento agendamento = new Agendamento();
         agendamento.setDataInicio(data);
@@ -151,7 +152,6 @@ public class AgendamentoServicoTest {
 
     @Test
     public void testObterAgendamentosParaDataPosterior() throws ParseException {
-        List<Participante> participantes = new ArrayList<>();
         Calendar cal = obterDataAtual();
         cal.add(Calendar.DAY_OF_MONTH, 1);
         Date data = cal.getTime();
@@ -166,7 +166,7 @@ public class AgendamentoServicoTest {
         when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantes);
         assertEquals(1, agendamentoServico.obterAgendamentos(usuario).size());
     }
-    
+
     private Calendar obterDataAtual() {
         Calendar dataAtual = Calendar.getInstance();
         dataAtual.clear(Calendar.HOUR_OF_DAY);
