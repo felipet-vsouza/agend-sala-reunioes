@@ -42,22 +42,8 @@ public class SalaRepositorioTest {
 
     @Before
     public void setBefore() throws ParseException {
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        Equipamento e3 = new Equipamento();
-        e2.setNome("Cadeiras");
-        entityManager.persist(e1);
-        entityManager.persist(e2);
-        entityManager.persist(e3);
-        List<Equipamento> equipamentos = new ArrayList<>();
-        equipamentos.add(e1);
-        equipamentos.add(e2);
-        equipamentos.add(e3);
         final Sala sala = new Sala();
         sala.setCapacidade(20);
-        sala.setEquipamento(equipamentos);
         sala.setNome("Sala de testes");
         entityManager.persist(sala);
         Agendamento agendamento = new Agendamento();
@@ -78,7 +64,7 @@ public class SalaRepositorioTest {
         Equipamento e2 = new Equipamento();
         e2.setNome("Telefone");
         e1.setId(2l);
-        assertEquals(0, salaRepositorio.findAllSala(dataInicio, dataFinal, equipamentos, 20).size());
+        assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
     @Test
@@ -92,7 +78,7 @@ public class SalaRepositorioTest {
         Equipamento e2 = new Equipamento();
         e2.setNome("Telefone");
         e1.setId(2l);
-        assertEquals(0, salaRepositorio.findAllSala(dataInicio, dataFinal, equipamentos, 20).size());
+        assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
     @Test
@@ -106,7 +92,7 @@ public class SalaRepositorioTest {
         Equipamento e2 = new Equipamento();
         e2.setNome("Telefone");
         e1.setId(2l);
-        assertEquals(0, salaRepositorio.findAllSala(dataInicio, dataFinal, equipamentos, 20).size());
+        assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
     @Test
@@ -120,7 +106,7 @@ public class SalaRepositorioTest {
         Equipamento e2 = new Equipamento();
         e2.setNome("Telefone");
         e1.setId(2l);
-        assertEquals(0, salaRepositorio.findAllSala(dataInicio, dataFinal, equipamentos, 20).size());
+        assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
     @Test
@@ -134,7 +120,7 @@ public class SalaRepositorioTest {
         Equipamento e2 = new Equipamento();
         e2.setNome("Telefone");
         e1.setId(2l);
-        assertEquals(1, salaRepositorio.findAllSala(dataInicio, dataFinal, equipamentos, 20).size());
+        assertEquals(1, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
     @Test
@@ -148,6 +134,6 @@ public class SalaRepositorioTest {
         Equipamento e2 = new Equipamento();
         e2.setNome("Telefone");
         e1.setId(2l);
-        assertEquals(1, salaRepositorio.findAllSala(dataInicio, dataFinal, equipamentos, 20).size());
+        assertEquals(1, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 }
