@@ -7,12 +7,16 @@ img.is-main-logo {
 }
 
 .custom-footer {
-  background-color: #fbb041 !important;
-  padding: 40px 20px 80px !important;
+  background-color: #fbb041;
+  padding: 20px 20px 30px;
 }
 
 .has-clear-background {
   background-color: #fefefe;
+}
+
+.has-upper-margin {
+  margin-top: 10px;
 }
 
 /*! bulma.io v0.2.3 | MIT License | github.com/jgthms/bulma */

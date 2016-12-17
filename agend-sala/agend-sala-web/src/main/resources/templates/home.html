@@ -49,45 +49,50 @@
                 </div>
             </nav>
         </header>
-        <section class="columns">
-            <article class="column is-two-thirds container">
-                <div class="card is-fullwidth" th:each="sala : ${salas}">
-                    <header class="card-header">
-                        <p class="card-header-title" th:text="${sala.nome}">
-                        </p>
-                    </header>
-                    <article class="card-content">
-                        <div class="">
-                            <strong th:text="#{home.capacidade}"></strong>
-                            <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
-                        </div>
-                        <div class="content">
-                            <strong th:text="#{home.equipamentos}"></strong>
-                            <ul>
-                                <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
-                            </ul>
-                        </div>
-                    </article>
+        <section class="columns container is-fluid">
+            <article class="column is-two-thirds has-upper-margin">
+                <div class="columns is-multiline is-mobile">
+                    <section class="card column is-half" th:each="sala : ${salas}">
+                        <header class="card-header hero is-primary">
+                            <strong class="card-header-title" th:text="${sala.nome}">
+                            </strong>
+                        </header>
+                        <article class="card-content">
+                            <div class="">
+                                <strong th:text="#{home.capacidade}"></strong>
+                                <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
+                            </div>
+                            <div class="content">
+                                <strong th:text="#{home.equipamentos}"></strong>
+                                <ul>
+                                    <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
+                                </ul>
+                            </div>
+                        </article>
+                    </section>
                 </div>
             </article>
             <aside class="column is-one-third has-text-centered">
                 <nav class="panel has-clear-background">
-                    <p class="panel-heading">
-                        Suas reuniões
+                    <p class="panel-heading" th:text="#{home.reunioes}">
                     </p>
                     <p class="panel-tabs">
-                        <a class="is-active" href="#">Todos os dias</a>
+                        <a class="is-active" th:text="#{home.todosdias}"></a>
                     </p>
-                    <a class="panel-block" th:each="agendamento : ${agendamentos}">
+                    <a class="panel-block" th:each="participacao : ${participacoes}">
                         <div>
-                            <strong th:text="${agendamento.descricao}"></strong>
-                            <span th:text="' ' + #{home.marcadopor} + ' ' + ${agendamento.criador.nome}"></span>
+                            <strong th:text="${participacao.agendamento.descricao}"></strong>
+                            <span th:text="' ' + #{home.marcadopor} + ' ' + ${participacao.agendamento.criador.nome}"></span>
                         </div>
-                        <div th:text="${#dates.format(agendamento.dataInicio, 'dd/MM/yyyy (hh:mm a - ') + #dates.format(agendamento.dataFinal, 'hh:mm a)')}">
+                        <div th:text="${#dates.format(participacao.agendamento.dataInicio, 'dd/MM/yyyy (hh:mm a - ') + #dates.format(participacao.agendamento.dataFinal, 'hh:mm a)')}">
                         </div>
                         <div>
                             <strong th:text="#{home.local}"></strong>
-                            <span th:text="${agendamento.sala.nome}"></span>
+                            <span th:text="${participacao.agendamento.sala.nome}"></span>
+                        </div>
+                        <div>
+                            <strong th:text="#{home.status}"></strong>
+                            <span th:text="' ' + ${participacao.status}"></span>
                         </div>
                     </a>
                 </nav>
@@ -97,7 +102,7 @@
             <span>
                 <p th:text="#{nav.logadocomo}"/>
             </span>
-                <strong th:text="${sessao.nome}" />
+            <strong th:text="${sessao.nome}" />
         </footer>
     </body>
 </html>
