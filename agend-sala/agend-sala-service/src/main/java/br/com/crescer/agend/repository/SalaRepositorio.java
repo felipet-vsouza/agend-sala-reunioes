@@ -51,11 +51,12 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
             + //"                  s.DT_INICIO_AGENDAMENTO BETWEEN TO_DATE('2016-12-14 17:30:00', 'YYYY-MM-DD HH24:MI:SS') AND \n" +
             "                  s.DT_INICIO_AGENDAMENTO BETWEEN :DATAFINAL AND \n"
             + //"                  TO_DATE('2016-12-14 13:30:00', 'YYYY-MM-DD HH24:MI:SS')\n" +
-            "                  :DATAINICIO \n"
+            "                  :DATAINICIAL \n"
             + "                  OR\n"
-            + "                  s.DT_FINAL_AGENDAMENTO BETWEEN TO_DATE(':DATAINICIAL', 'YYYY-MM-DD HH24:MI:SS') AND \n"
+            +// "                  s.DT_FINAL_AGENDAMENTO BETWEEN TO_DATE(':DATAINICIAL', 'YYYY-MM-DD HH24:MI:SS') AND \n"
             + "                  s.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND \n"
-            + "                  TO_DATE('2016-12-14 17:30:00', 'YYYY-MM-DD HH24:MI:SS'))\n"
+            +// "                  TO_DATE('2016-12-14 17:30:00', 'YYYY-MM-DD HH24:MI:SS'))\n"
+            + "                  :DATAFINAL\n"
             + "    AND             \n" 
             + "    SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO" ,nativeQuery = true)
             public List<Sala> findAllSala(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
