@@ -26,12 +26,12 @@
                         <img th:src="@{/css/logo-preto.png}" />
                     </a>
                 </div>
-                <span class="nav-toggle">
+                <span id="nav-toggler" class="nav-toggle">
                     <span></span>
                     <span></span>
                     <span></span>
                 </span>
-                <div class="nav-right nav-menu">
+                <div id="nav-to-toggle" class="nav-right nav-menu">
                     <span class="nav-item">
                         <a class="button is-primary" th:href="@{/home}">
                             <span class="icon">
@@ -49,29 +49,13 @@
                 </div>
             </nav>
         </header>
+        <section class="modal" style="display: none;">
+            <div class="modal-background"></div>
+            <section class="modal-content">
+            </section>
+            <button class="modal-close"></button>
+        </section>
         <section class="columns container is-fluid">
-            <article class="column is-two-thirds has-upper-margin">
-                <div class="columns is-multiline is-mobile">
-                    <section class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala : ${salas}">
-                        <header class="card-header hero is-primary">
-                            <strong class="card-header-title" th:text="${sala.nome}">
-                            </strong>
-                        </header>
-                        <article class="card-content">
-                            <div class="">
-                                <strong th:text="#{home.capacidade}"></strong>
-                                <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
-                            </div>
-                            <div class="content">
-                                <strong th:text="#{home.equipamentos}"></strong>
-                                <ul>
-                                    <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
-                                </ul>
-                            </div>
-                        </article>
-                    </section>
-                </div>
-            </article>
             <aside class="column is-one-third has-text-centered">
                 <nav class="panel has-clear-background">
                     <p class="panel-heading" th:text="#{home.reunioes}">
@@ -96,7 +80,37 @@
                         </div>
                     </a>
                 </nav>
+                <div class="container is-fluid">
+                    <a id="but-filtro" class="button is-primary is-loader">
+                        <span class="icon">
+                            <i class="fa fa-filter"></i>
+                        </span>
+                        <span th:text="#{home.filtrosalas}"></span>
+                    </a>
+                </div>
             </aside>
+            <article class="column is-two-thirds has-upper-margin">
+                <div class="columns is-multiline is-mobile">
+                    <section class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala : ${salas}">
+                        <header class="card-header hero is-primary">
+                            <strong class="card-header-title" th:text="${sala.nome}">
+                            </strong>
+                        </header>
+                        <article class="card-content">
+                            <div class="">
+                                <strong th:text="#{home.capacidade}"></strong>
+                                <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
+                            </div>
+                            <div class="content">
+                                <strong th:text="#{home.equipamentos}"></strong>
+                                <ul>
+                                    <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
+                                </ul>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </article>
         </section>
         <footer class="custom-footer has-text-centered content">
             <span>
@@ -104,5 +118,7 @@
             </span>
             <strong th:text="${sessao.nome}" />
         </footer>
+        <script th:src="@{js/jquery.min.js}" />
+        <script th:src="@{js/_start.js}" />
     </body>
 </html>

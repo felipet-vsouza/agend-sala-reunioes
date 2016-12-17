@@ -23,15 +23,16 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
 
     public Page<Sala> findAll(Pageable pgbl);
 
-    @Query(value = "SELECT * FROM SALA SA "
-            + "WHERE EXISTS (SELECT * FROM SALA_EQUIPAMENTO SE, SALA "
-            + "              WHERE SE.SALA_ID_SALA = SALA.ID_SALA)"
-            + "              AND NOT EXISTS (SELECT * FROM AGENDAMENTO S"
-            + "              WHERE :DATAINICIAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO"
-            + "              OR :DATAFINAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO"
-            + "              OR S.DT_INICIO_AGENDAMENTO BETWEEN :DATAFINAL AND :DATAINICIAL "
-            + "              OR S.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL) "
-            + "      AND SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO", nativeQuery = true)
+    @Query(value = "SELECT * FROM SALA SA\n"
+            + "                         WHERE SA.ID_SALA NOT IN (\n"
+            + "                           SELECT S.ID_SALA FROM AGENDAMENTO S\n"
+            + "                           WHERE (:DATAINICIAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO\n"
+            + "                           OR :DATAFINAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO\n"
+            + "                           OR S.DT_INICIO_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL\n"
+            + "                           OR S.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL)\n"
+            + "                           AND NOT (S.DT_INICIO_AGENDAMENTO = :DATAFINAL)\n"
+            + "                           AND NOT (S.DT_FINAL_AGENDAMENTO = :DATAINICIAL))\n"
+            + "                        AND SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO", nativeQuery = true)
     public List<Sala> filtroDeSalas(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
             @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado);
 
