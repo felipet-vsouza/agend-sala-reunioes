@@ -5,6 +5,7 @@
  */
 package br.com.crescer.agend.repository;
 
+import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Sala;
 import java.util.Date;
 import java.util.List;
@@ -32,34 +33,27 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
      */
     @Query(value = "SELECT NOME_SALA \n"
             + "          FROM SALA SA \n"
-            + "          WHERE EXISTS \n"
+            + "          WHERE SA.ID_SALA IN \n"
             + "                (SELECT * \n"
             + "                 FROM SALA_EQUIPAMENTO SE, SALA  \n"
             + "                 WHERE SE.SALA_ID_SALA = SALA.ID_SALA\n"
-            //+ "                 AND   SE.EQUIPAMENTO_ID_EQUIPAMENTO IN (:EQUIPAMENTOSELECIONADO)\n"
-            + "                 AND   SE.EQUIPAMENTO_ID_EQUIPAMENTO IN :EQUIPAMENTOSELECIONADO\n"
-            + "    ) AND"
+            + "                 AND   SE.EQUIPAMENTO_ID_EQUIPAMENTO IN (:EQUIPAMENTOS)\n"
+            + "    ) AND SA.ID_SALA NOT IN"
             + "                (SELECT * \n"
             + "                FROM AGENDAMENTO s\n"
             + "                WHERE\n"
-            + //"                  TO_DATE(':DATAINICIAL', 'YYYY-MM-DD HH24:MI:SS') BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n" +
-            "                  :DATAINICIAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
+            + "                  :DATAINICIAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
             + "                  OR\n"
-            + //"                  TO_DATE(':DATAFINAL', 'YYYY-MM-DD HH24:MI:SS') BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n" +
-            "                  :DATAFINAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
+            + "                  :DATAFINAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
             + "                  OR\n"
-            + //"                  s.DT_INICIO_AGENDAMENTO BETWEEN TO_DATE('2016-12-14 17:30:00', 'YYYY-MM-DD HH24:MI:SS') AND \n" +
-            "                  s.DT_INICIO_AGENDAMENTO BETWEEN :DATAFINAL AND \n"
-            + //"                  TO_DATE('2016-12-14 13:30:00', 'YYYY-MM-DD HH24:MI:SS')\n" +
-            "                  :DATAINICIAL \n"
+            + "                  s.DT_INICIO_AGENDAMENTO BETWEEN :DATAFINAL AND \n"
+            + "                  :DATAINICIAL \n"
             + "                  OR\n"
-            +// "                  s.DT_FINAL_AGENDAMENTO BETWEEN TO_DATE(':DATAINICIAL', 'YYYY-MM-DD HH24:MI:SS') AND \n"
             + "                  s.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND \n"
-            +// "                  TO_DATE('2016-12-14 17:30:00', 'YYYY-MM-DD HH24:MI:SS'))\n"
             + "                  :DATAFINAL\n"
             + "    AND             \n" 
-            + "    SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO" ,nativeQuery = true)
+            + "    SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO", nativeQuery = true)
             public List<Sala> findAllSala(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
-                                          @Param("EQUIPAMENTOSELECIONADO") Long equipamentoSelecionado, 
-                                          @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado);
+                                          @Param("EQUIPAMENTOS") List<Equipamento> equipamentos, 
+                                          @Param("QUANTIDADESELECIONADO") Integer quantidadeSelecionado);
 }

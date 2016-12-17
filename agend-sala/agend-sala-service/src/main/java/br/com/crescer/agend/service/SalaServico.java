@@ -5,6 +5,7 @@
  */
 package br.com.crescer.agend.service;
 
+import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.repository.SalaRepositorio;
 import java.util.Date;
@@ -51,9 +52,7 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
-            @Param("EQUIPAMENTOSELECIONADO") Long equipamentoSelecionado,
-            @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado){
-        return salaRepositorio.findAllSala(dataInicial, dataFinal, equipamentoSelecionado, quantidadeSelecionado);
+    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, List<Equipamento> equipamentos, Integer quantidadeSelecionado){
+        return salaRepositorio.findAllSala(dataInicial, dataFinal, equipamentos, quantidadeSelecionado);
     }
 }

@@ -52,7 +52,7 @@
         <section class="columns container is-fluid">
             <article class="column is-two-thirds has-upper-margin">
                 <div class="columns is-multiline is-mobile">
-                    <section class="card column is-half" th:each="sala : ${salas}">
+                    <section class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala : ${salas}">
                         <header class="card-header hero is-primary">
                             <strong class="card-header-title" th:text="${sala.nome}">
                             </strong>
