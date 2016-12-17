@@ -52,7 +52,7 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, List<Equipamento> equipamentos, Integer quantidadeSelecionado){
-        return salaRepositorio.findAllSala(dataInicial, dataFinal, equipamentos, quantidadeSelecionado);
+    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado){
+        return salaRepositorio.filtroDeSalas(dataInicial, dataFinal, quantidadeSelecionado);
     }
 }
