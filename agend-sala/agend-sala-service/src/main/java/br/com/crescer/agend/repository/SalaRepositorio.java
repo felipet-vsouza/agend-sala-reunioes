@@ -42,7 +42,7 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
             + "                (SELECT * \n"
             + "                FROM AGENDAMENTO s\n"
             + "                WHERE\n"
-            + //"                  TO_DATE(':DATAINICIO', 'YYYY-MM-DD HH24:MI:SS') BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n" +
+            + //"                  TO_DATE(':DATAINICIAL', 'YYYY-MM-DD HH24:MI:SS') BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n" +
             "                  :DATAINICIAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
             + "                  OR\n"
             + //"                  TO_DATE(':DATAFINAL', 'YYYY-MM-DD HH24:MI:SS') BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n" +
