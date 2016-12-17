@@ -50,28 +50,6 @@
             </nav>
         </header>
         <section class="columns container is-fluid">
-            <article class="column is-two-thirds has-upper-margin">
-                <div class="columns is-multiline is-mobile">
-                    <section class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala : ${salas}">
-                        <header class="card-header hero is-primary">
-                            <strong class="card-header-title" th:text="${sala.nome}">
-                            </strong>
-                        </header>
-                        <article class="card-content">
-                            <div class="">
-                                <strong th:text="#{home.capacidade}"></strong>
-                                <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
-                            </div>
-                            <div class="content">
-                                <strong th:text="#{home.equipamentos}"></strong>
-                                <ul>
-                                    <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
-                                </ul>
-                            </div>
-                        </article>
-                    </section>
-                </div>
-            </article>
             <aside class="column is-one-third has-text-centered">
                 <nav class="panel has-clear-background">
                     <p class="panel-heading" th:text="#{home.reunioes}">
@@ -96,7 +74,37 @@
                         </div>
                     </a>
                 </nav>
+                <div class="container is-fluid">
+                    <a class="button is-primary">
+                        <span class="icon">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                        <span th:text="#{home.novareuniao}"></span>
+                    </a>
+                </div>
             </aside>
+            <article class="column is-two-thirds has-upper-margin">
+                <div class="columns is-multiline is-mobile">
+                    <section class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala : ${salas}">
+                        <header class="card-header hero is-primary">
+                            <strong class="card-header-title" th:text="${sala.nome}">
+                            </strong>
+                        </header>
+                        <article class="card-content">
+                            <div class="">
+                                <strong th:text="#{home.capacidade}"></strong>
+                                <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
+                            </div>
+                            <div class="content">
+                                <strong th:text="#{home.equipamentos}"></strong>
+                                <ul>
+                                    <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
+                                </ul>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </article>
         </section>
         <footer class="custom-footer has-text-centered content">
             <span>
