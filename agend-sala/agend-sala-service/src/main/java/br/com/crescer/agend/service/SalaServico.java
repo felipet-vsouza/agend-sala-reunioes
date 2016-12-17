@@ -8,6 +8,7 @@ package br.com.crescer.agend.service;
 import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.repository.SalaRepositorio;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +53,21 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado){
-        return salaRepositorio.filtroDeSalas(dataInicial, dataFinal, quantidadeSelecionado);
+    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado, List<Equipamento> equipamentos) {
+        List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, quantidadeSelecionado);
+        return filtrarEquipamentos(salas, equipamentos);
+    }
+
+    private List<Sala> filtrarEquipamentos(List<Sala> salas, List<Equipamento> equipamentos) {
+
+        List<Sala> salasFiltradas = new ArrayList<>();
+
+        for (int i = 0; i < salas.size(); i++) {
+            if (salas.get(i).getEquipamento().containsAll(equipamentos)) {
+                salasFiltradas.add(salas.get(i));
+            }
+        }
+
+        return salasFiltradas;
     }
 }
