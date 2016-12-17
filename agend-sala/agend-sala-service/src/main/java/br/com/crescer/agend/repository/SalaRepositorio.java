@@ -59,4 +59,6 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
             + "    AND             \n" 
             + "    SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO" ,nativeQuery = true)
             public List<Sala> findAllSala(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
-           @Param("EQUIPAMENTOSELECIONADO") Integer equipamentoSelecionado, @Param("QUANTIDADESELECIONADO") Integer quantidadeSelecionado);
+                                          @Param("EQUIPAMENTOSELECIONADO") Long equipamentoSelecionado, 
+                                          @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado);
+}
