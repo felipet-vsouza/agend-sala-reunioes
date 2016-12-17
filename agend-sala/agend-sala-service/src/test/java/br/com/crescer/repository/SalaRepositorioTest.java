@@ -57,13 +57,6 @@ public class SalaRepositorioTest {
     public void testaPorDataDeInicioAnteriorConflitante() throws ParseException {
         Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 13:00");
         Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:00");
-        List<Equipamento> equipamentos = new ArrayList<>();
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        e1.setId(1l);
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        e1.setId(2l);
         assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
@@ -71,27 +64,13 @@ public class SalaRepositorioTest {
     public void testaPorDataDeInicioPosteriorConflitante() throws ParseException {
         Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:00");
         Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
-        List<Equipamento> equipamentos = new ArrayList<>();
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        e1.setId(1l);
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        e1.setId(2l);
         assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
     @Test
     public void testaPorDataIntermediariaMenorConflitante() throws ParseException {
-        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 14:30");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:30");
-        List<Equipamento> equipamentos = new ArrayList<>();
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        e1.setId(1l);
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        e1.setId(2l);
+        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:01");
+        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:02");
         assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
@@ -99,13 +78,6 @@ public class SalaRepositorioTest {
     public void testaPorDataIntermediariaMaiorConflitante() throws ParseException {
         Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 13:00");
         Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
-        List<Equipamento> equipamentos = new ArrayList<>();
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        e1.setId(1l);
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        e1.setId(2l);
         assertEquals(0, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
@@ -113,13 +85,6 @@ public class SalaRepositorioTest {
     public void testaPorDataCoincidenteComDataInicial() throws ParseException {
         Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 13:00");
         Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 14:00");
-        List<Equipamento> equipamentos = new ArrayList<>();
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        e1.setId(1l);
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        e1.setId(2l);
         assertEquals(1, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 
@@ -127,13 +92,6 @@ public class SalaRepositorioTest {
     public void testaPorDataCoincidenteComDataFinal() throws ParseException {
         Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 16:00");
         Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
-        List<Equipamento> equipamentos = new ArrayList<>();
-        Equipamento e1 = new Equipamento();
-        e1.setNome("Televisão");
-        e1.setId(1l);
-        Equipamento e2 = new Equipamento();
-        e2.setNome("Telefone");
-        e1.setId(2l);
         assertEquals(1, salaRepositorio.filtroDeSalas(dataInicio, dataFinal, 20l).size());
     }
 }
