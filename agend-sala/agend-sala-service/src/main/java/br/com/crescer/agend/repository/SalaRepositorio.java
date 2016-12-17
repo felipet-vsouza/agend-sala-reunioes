@@ -23,37 +23,16 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
 
     public Page<Sala> findAll(Pageable pgbl);
 
-    /**
-     *
-     * @param dataInicial
-     * @param dataFinal
-     * @param equipamentoSelecionado
-     * @param quantidadeSelecionado
-     * @return
-     */
-    @Query(value = "SELECT NOME_SALA \n"
-            + "          FROM SALA SA \n"
-            + "          WHERE SA.ID_SALA IN \n"
-            + "                (SELECT * \n"
-            + "                 FROM SALA_EQUIPAMENTO SE, SALA  \n"
-            + "                 WHERE SE.SALA_ID_SALA = SALA.ID_SALA\n"
-            + "                 AND   SE.EQUIPAMENTO_ID_EQUIPAMENTO IN (:EQUIPAMENTOS)\n"
-            + "    ) AND SA.ID_SALA NOT IN"
-            + "                (SELECT * \n"
-            + "                FROM AGENDAMENTO s\n"
-            + "                WHERE\n"
-            + "                  :DATAINICIAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
-            + "                  OR\n"
-            + "                  :DATAFINAL BETWEEN s.DT_INICIO_AGENDAMENTO AND s.DT_FINAL_AGENDAMENTO\n"
-            + "                  OR\n"
-            + "                  s.DT_INICIO_AGENDAMENTO BETWEEN :DATAFINAL AND \n"
-            + "                  :DATAINICIAL \n"
-            + "                  OR\n"
-            + "                  s.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND \n"
-            + "                  :DATAFINAL\n"
-            + "    AND             \n" 
-            + "    SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO", nativeQuery = true)
-            public List<Sala> findAllSala(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
-                                          @Param("EQUIPAMENTOS") List<Equipamento> equipamentos, 
-                                          @Param("QUANTIDADESELECIONADO") Integer quantidadeSelecionado);
+    @Query(value = "SELECT * FROM SALA SA "
+            + "WHERE EXISTS (SELECT * FROM SALA_EQUIPAMENTO SE, SALA "
+            + "              WHERE SE.SALA_ID_SALA = SALA.ID_SALA)"
+            + "              AND NOT EXISTS (SELECT * FROM AGENDAMENTO S"
+            + "              WHERE :DATAINICIAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO"
+            + "              OR :DATAFINAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO"
+            + "              OR S.DT_INICIO_AGENDAMENTO BETWEEN :DATAFINAL AND :DATAINICIAL "
+            + "              OR S.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL) "
+            + "      AND SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO", nativeQuery = true)
+    public List<Sala> filtroDeSalas(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
+            @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado);
+
 }

@@ -49,24 +49,27 @@ INSERT INTO SALA_EQUIPAMENTO (SALA_ID_SALA, EQUIPAMENTO_ID_EQUIPAMENTO)  VALUES 
 INSERT INTO SALA_EQUIPAMENTO (SALA_ID_SALA, EQUIPAMENTO_ID_EQUIPAMENTO)  VALUES (9, 3);
 
 --AGENDAMENTO
+--AGENDAMENTO
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 09:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 12:00', 'yyyy/mm/dd hh24:mi'), 1, 'Reuni�o com cliente', 1);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 09:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 12:00', 'yyyy/mm/dd hh24:mi'), 1, 'Reuni�o com cliente', 1);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 12:10', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 14:00', 'yyyy/mm/dd hh24:mi'), 1, 'Defini��o de logo', 2);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 12:10', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 14:00', 'yyyy/mm/dd hh24:mi'), 1, 'Defini��o de logo', 2);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 15:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 16:00', 'yyyy/mm/dd hh24:mi'), 1, 'Convers�o de dados', 3);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 15:00', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 16:00', 'yyyy/mm/dd hh24:mi'), 1, 'Convers�o de dados', 3);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Testes centralizados', 4);
-INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/17 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/16 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'DOJO: integra��o cont�nua', 1);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Testes centralizados', 4);
 
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/14 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Confraternizacao', 2);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/16 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'DOJO: integra��o cont�nua', 1);
+
 INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
-values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/16 13:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 17:30', 'yyyy/mm/dd hh24:mi'), 1, 'Aula Crescer', 9);
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/14 17:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/14 19:00', 'yyyy/mm/dd hh24:mi'), 1, 'Confraternizacao', 2);
+
+INSERT INTO Agendamento(ID_AGENDAMENTO, DT_INICIO_AGENDAMENTO, DT_FINAL_AGENDAMENTO, ID_USUARIO, DS_AGENDAMENTO, ID_SALA) 
+values(SEQ_AGENDAMENTO.nextval, TO_DATE('2016/12/15 13:30', 'yyyy/mm/dd hh24:mi'), TO_DATE('2016/12/15 17:30', 'yyyy/mm/dd hh24:mi'), 1, 'Aula Crescer', 9);
 
 
 --PARTICIPANTES
