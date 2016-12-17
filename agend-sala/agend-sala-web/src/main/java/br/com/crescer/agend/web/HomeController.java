@@ -50,4 +50,9 @@ public class HomeController {
         model.addAttribute("participacoes", participacoes);
         return "home";
     }
+
+    @RequestMapping(value = "/home/salas")
+    public String filtraSalas() {
+        return "fragments :: form-salas";
+    }
 }

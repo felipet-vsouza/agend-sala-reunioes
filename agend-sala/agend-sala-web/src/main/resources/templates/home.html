@@ -26,12 +26,12 @@
                         <img th:src="@{/css/logo-preto.png}" />
                     </a>
                 </div>
-                <span class="nav-toggle">
+                <span id="nav-toggler" class="nav-toggle">
                     <span></span>
                     <span></span>
                     <span></span>
                 </span>
-                <div class="nav-right nav-menu">
+                <div id="nav-to-toggle" class="nav-right nav-menu">
                     <span class="nav-item">
                         <a class="button is-primary" th:href="@{/home}">
                             <span class="icon">
@@ -49,6 +49,12 @@
                 </div>
             </nav>
         </header>
+        <section class="modal" style="display: none;">
+            <div class="modal-background"></div>
+            <section class="modal-content">
+            </section>
+            <button class="modal-close"></button>
+        </section>
         <section class="columns container is-fluid">
             <aside class="column is-one-third has-text-centered">
                 <nav class="panel has-clear-background">
@@ -75,11 +81,11 @@
                     </a>
                 </nav>
                 <div class="container is-fluid">
-                    <a class="button is-primary">
+                    <a id="but-filtro" class="button is-primary is-loader">
                         <span class="icon">
-                            <i class="fa fa-plus"></i>
+                            <i class="fa fa-filter"></i>
                         </span>
-                        <span th:text="#{home.novareuniao}"></span>
+                        <span th:text="#{home.filtrosalas}"></span>
                     </a>
                 </div>
             </aside>
@@ -112,5 +118,7 @@
             </span>
             <strong th:text="${sessao.nome}" />
         </footer>
+        <script th:src="@{js/jquery.min.js}" />
+        <script th:src="@{js/_start.js}" />
     </body>
 </html>
