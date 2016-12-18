@@ -6,12 +6,16 @@
 package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Agendamento;
+import br.com.crescer.agend.entity.Email;
 import br.com.crescer.agend.entity.Participante;
+import br.com.crescer.agend.entity.Status;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +30,29 @@ public class ParticipanteServico {
     @Autowired
     ParticipanteRepositorio participanteRepositorio;
 
-//     public List<Equipamento> list() {
-//        Equipamento equipamento = new Equipamento();
-//        return Stream.of(equipamento).collect(Collectors.toList());
-//    }
+    @Autowired
+    EmailServico emailServico;
+
     public Iterable<Participante> findAll() {
         return participanteRepositorio.findAll();
+    }
+
+    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento) {
+
+        List<Participante> participantes = new ArrayList<>();
+        
+        for (int i = 0; i < usuarios.size(); i++) {
+            Participante participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
+            participantes.add(participante);
+            participanteRepositorio.save(participante);
+
+            Email email = new Email(participante, new Date(), obterToken());
+            emailServico.salvar(email);
+        }
+        
+        emailServico.enviarEmail(participantes, "Conteudo aqui!", "Você recebeu um convite para uma reunião.");
+        
+        return participantes;
     }
 
     public Participante save(Participante participante) {
@@ -69,4 +90,10 @@ public class ParticipanteServico {
 
         return participantes;
     }
+
+    private String obterToken() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+    
+    
 }

@@ -27,6 +27,15 @@ import javax.persistence.TemporalType;
 @Entity
 @Table( name = "EMAIL")
 public class Email implements Serializable{
+
+    public Email(Participante participante, Date dataEnvio, String hash) {
+        this.participante = participante;
+        this.dataEnvio = dataEnvio;
+        this.hash = hash;
+    }
+
+    public Email() {
+    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_EMAIL")
