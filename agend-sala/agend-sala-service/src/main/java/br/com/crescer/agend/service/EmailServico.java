@@ -5,15 +5,14 @@
  */
 package br.com.crescer.agend.service;
 
+import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Email;
 import br.com.crescer.agend.entity.Participante;
-import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.EmailRepositorio;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import java.util.Properties;
-import java.util.UUID;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -23,7 +22,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -42,9 +40,18 @@ public class EmailServico {
     public Email salvar(Email email) {
         return emailRepositorio.save(email);
     }
-    
+
     public boolean hashEhValido(Email email) {
         return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
+    }
+
+    public String emailCancelamento(Agendamento agendamento) {
+        return "Olá <br/>"
+                + "A reunião foi cancelada. Detalhes: <br/>"
+                + "Local: " + agendamento.getSala().getNome() + "<br/> "
+                + "Hora de inicio: " + agendamento.getDataInicio().toString() + "<br/>"
+                + "Marcada por: " + agendamento.getCriador().getNome() + "<br/><br/>"
+                + "Obrigado!";
     }
 
     public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {
@@ -72,11 +79,10 @@ public class EmailServico {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("agendamentosalascwi@gmail.com"));
 
-            Address[] toUser = null;
+            String emails = inserirDestinatarios(destinatarios);
 
-            for (Participante destinatario : destinatarios) {
-                toUser = InternetAddress.parse(destinatario.getUsuario().getEmail());
-            }
+            Address[] toUser = InternetAddress //Destinatário(s)
+                    .parse(emails);
 
             message.setRecipients(Message.RecipientType.TO, toUser);
             message.setSubject(assunto);
@@ -86,5 +92,18 @@ public class EmailServico {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String inserirDestinatarios(List<Participante> destinatarios) {
+        String emails = "";
+
+        for (int i = 0; i < destinatarios.size(); i++) {
+            emails += destinatarios.get(i).getUsuario().getEmail();
+            if (i < destinatarios.size() - 1) {
+                emails += ",";
+            }
+        }
+
+        return emails;
     }
 }

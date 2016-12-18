@@ -72,9 +72,9 @@ public class AgendamentoController {
     }
 
     @RequestMapping(value = {"/agendamento/detalhes/{id_detalhamento}"}, method = RequestMethod.GET)
-    public String detalhesAgendamento(@PathVariable(value = "id_detalhamento") long idAgendamento, Model model) {
+    public String detalhesAgendamento(@PathVariable(value = "id_detalhamento") long idDetalhamento, Model model) {
 
-        Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
+        Agendamento agendamento = agendamentoServico.findOne(idDetalhamento);
 
         List<Participante> participantes = participanteServico.findByAgendamento(agendamento);
 
@@ -91,6 +91,22 @@ public class AgendamentoController {
         model.addAttribute("ehCriadorDoAgendamento", ehCriadorDoAgendamento);
 
         return "fragments :: agendamento-detalhes";
+    }
+    
+    @RequestMapping(value = {"/agendamento/cancelar/{id_agendamento}"}, method = RequestMethod.GET)
+    public String cancelarAgendamento(@PathVariable(value = "id_agendamento") long idAgendamento, Model model) {
+
+        Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
+
+        boolean ehCriadorDoAgendamento = agendamentoServico.
+                ehCriadorDoAgendamento(usuarioServico.obterUsuarioDaSessao(), agendamento);
+        
+        if (ehCriadorDoAgendamento) {
+            agendamentoServico.cancelarAgendamento(agendamento.getParticipantes(), agendamento);
+            agendamentoServico.delete(idAgendamento);
+        }
+
+        return "home";
     }
 
     @RequestMapping("/aceitarparticipacao/{hash}")
