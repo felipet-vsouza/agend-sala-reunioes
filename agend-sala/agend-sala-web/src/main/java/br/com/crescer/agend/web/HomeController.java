@@ -6,10 +6,12 @@
 package br.com.crescer.agend.web;
 
 import br.com.crescer.agend.entity.Agendamento;
+import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.service.AgendamentoServico;
+import br.com.crescer.agend.service.EquipamentoServico;
 import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
@@ -36,6 +38,9 @@ public class HomeController {
 
     @Autowired
     ParticipanteServico participanteServico;
+    
+    @Autowired
+    EquipamentoServico equipamentoServico;
 
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
@@ -52,7 +57,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/home/salas")
-    public String filtraSalas() {
+    public String filtraSalas(Model model) {
+        Iterable<Equipamento> equipamentos = equipamentoServico.findAll();
+        model.addAttribute("equipamentos", equipamentos);
         return "fragments :: form-salas";
     }
 }

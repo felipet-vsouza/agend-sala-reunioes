@@ -39,8 +39,26 @@
                 <div class="control">
                     <input id="in-hrf" name="final" class="input" type="text" />
                 </div>
+                <label class="label" th:text="#{salas.equipamentos}" />
+                <div class="control" id="in-eqp">
+                    <input class="checkbox is-block" type="checkbox" th:each="equipamento : ${equipamentos}" th:text="${equipamento.nome}" th:value="${equipamento.id}" />
+                </div>
                 <a id="bt-get" class="button is-primary" th:text="#{salas.buscar}" />
             </form>
+        </section>
+
+        <section class="box content" th:fragment="lista-salas">
+            <h2 th:text="#{salas.disponiveis}" />
+            <article th:each="sala : ${salas}">
+                <h2 class="is-medium" th:text="${sala.nome}" />
+                <strong class="is-inline" th:text="#{salas.capacidade}" />
+                <p class="is-inline" th:text="${sala.capacidade}" />
+                <strong class="is-block" th:text="#{salas.possuiequipamentos}" />
+                <ul>
+                    <li th:each="equipamento : ${sala.equipamento}" th:text="${equipamento.nome}" /> 
+                </ul>
+                <hr />
+            </article>
         </section>
     </body>
 </html>

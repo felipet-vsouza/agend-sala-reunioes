@@ -92,18 +92,23 @@ class FiltroSalas {
                 minuto = self.horaFim.val().substring(3, 5);
                 finalDate.setHours(parseInt(hora));
                 finalDate.setMinutes(parseInt(minuto));
-                $.get('/salas/find', { 
-                    dataInicio: initialDate, 
-                    dataFim: finalDate, 
-                    capacidade: capacidade 
-                })
-                .then(res => {
-                    self.modalContent.html(res);
-                })
-                .fail(err => {
-                    console.log(err);
-                    self.modalContent.toggle();
+                var equipamentos = [];
+                $('#in-eqp :checked').each(function () {
+                    equipamentos.push(parseInt($(this).val()));
                 });
+                $.post('/salas/find', {
+                    dataInicio: initialDate,
+                    dataFim: finalDate,
+                    capacidade: capacidade,
+                    equipamentos: equipamentos
+                })
+                    .then(res => {
+                        self.modalContent.html(res);
+                    })
+                    .fail(err => {
+                        console.log(err);
+                        self.modalContent.toggle();
+                    });
             }
         });
     }

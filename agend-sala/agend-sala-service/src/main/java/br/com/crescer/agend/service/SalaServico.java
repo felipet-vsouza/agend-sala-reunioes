@@ -7,8 +7,10 @@ package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Sala;
+import br.com.crescer.agend.repository.EquipamentoRepositorio;
 import br.com.crescer.agend.repository.SalaRepositorio;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +30,10 @@ public class SalaServico {
 
     @Autowired
     SalaRepositorio salaRepositorio;
+    
+    @Autowired
+    EquipamentoRepositorio equipamentoRepositorio;
 
-//     public List<Sala> list() {
-//        Sala sala = new Sala();
-//        return Stream.of(sala).collect(Collectors.toList());
-//    }
     public Page<Sala> findAll(Pageable pgbl) {
         return salaRepositorio.findAll(pgbl);
     }
@@ -53,7 +54,11 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado, List<Equipamento> equipamentos) {
+    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado, Long[] ids) {
+        List<Long> lista = Arrays.asList(ids);
+        List<Equipamento> equipamentos = lista.stream()
+                .map(id -> equipamentoRepositorio.findOne(id))
+                .collect(Collectors.toList());
         List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, quantidadeSelecionado);
         return filtrarEquipamentos(salas, equipamentos);
     }
