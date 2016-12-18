@@ -49,12 +49,12 @@
                 </div>
             </nav>
         </header>
-        <section class="modal" style="display: none;">
+        <div class="modal">
             <div class="modal-background"></div>
-            <section class="modal-content">
-            </section>
+            <div class="modal-content">
+            </div>
             <button class="modal-close"></button>
-        </section>
+        </div>
         <section class="columns container is-fluid">
             <aside class="column is-one-third has-text-centered">
                 <nav class="panel has-clear-background">
@@ -80,14 +80,14 @@
                         </div>
                     </a>
                 </nav>
-                <div class="container is-fluid">
+                <section class="container is-fluid">
                     <a id="but-filtro" class="button is-primary is-loader">
                         <span class="icon">
                             <i class="fa fa-filter"></i>
                         </span>
                         <span th:text="#{home.filtrosalas}"></span>
                     </a>
-                </div>
+                </section>
             </aside>
             <article class="column is-two-thirds has-upper-margin">
                 <div class="columns is-multiline is-mobile">
@@ -119,6 +119,10 @@
             <strong th:text="${sessao.nome}" />
         </footer>
         <script th:src="@{js/jquery.min.js}" />
+        <script th:src="@{js/jquery-ui.min.js}" />
+        <script th:src="@{js/jquery.validate.min.js}" />
+        <script th:src="@{js/jquery.timepicker.min.js}" />
         <script th:src="@{js/_start.js}" />
+        <script th:src="@{js/salas.js}" />
     </body>
 </html>

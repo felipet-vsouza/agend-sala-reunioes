@@ -48,7 +48,9 @@ class Home {
     constructor() {
         this.modal = $('.modal');
         this.modalContent = $('.modal-content');
+        this.modalClose = $('.modal-close');
         this.defineFiltroSalasBind();
+        this.defineModalBinds();
     }
 
     defineFiltroSalasBind() {
@@ -57,13 +59,23 @@ class Home {
         this.filtroButton.click(function () {
             $.get('/home/salas')
                 .then(res => {
-                    self.modal.toggle();
+                    self.modal.css("display", "flex");
                     self.modalContent.html(res);
                 })
+                .then(function () {
+                    new FiltroSalas();
+                })
                 .fail(err => {
-                    self.modal.toggle();
-                    self.modalContent.html(res);
+                    self.modal.css("display", "flex");
+                    self.modalContent.html(err);
                 });
+        });
+    }
+
+    defineModalBinds() {
+        let self = this;
+        this.modalClose.click(function () {
+            self.modal.toggle();
         });
     }
 }

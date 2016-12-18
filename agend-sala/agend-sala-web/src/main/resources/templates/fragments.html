@@ -17,11 +17,30 @@
                 <img th:src="@{/css/logo.png}" class="image centered is-main-logo" />
             </div>
         </section>
-        
-        <section th:fragment="form-salas">
-            <article class="box container content">
-                <h1>Olá!</h1>
-            </article>
+
+        <section class="box" th:fragment="form-salas">
+            <header class="content">
+                <h1 th:text="#{salas.titulo}" />
+            </header>
+            <form id="frm-filtro">
+                <label class="label" th:text="#{salas.pessoasporsala}" />
+                <div class="control">
+                    <input id="in-pps" name="quantidade" class="input" type="number" />
+                </div>
+                <label class="label" th:text="#{salas.data}" />
+                <div class="control">
+                    <input id="in-dat" name="data" class="input" type="text" />
+                </div>
+                <label class="label" th:text="#{salas.horainicio}" />
+                <div class="control">
+                    <input id="in-hri" name="inicio" class="input" type="text" />
+                </div>
+                <label class="label" th:text="#{salas.horafinal}" />
+                <div class="control">
+                    <input id="in-hrf" name="final" class="input" type="text" />
+                </div>
+                <a id="bt-get" class="button is-primary" th:text="#{salas.buscar}" />
+            </form>
         </section>
     </body>
 </html>
