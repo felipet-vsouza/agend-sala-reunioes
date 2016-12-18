@@ -33,6 +33,18 @@ public class AgendamentoServico {
     
     @Autowired
     SalaRepositorio salaRepositorio;
+    
+    @Autowired
+    EmailServico emailServico;
+    
+    public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento){
+        
+        emailServico.enviarEmail(participantes, emailServico.emailCancelamento(agendamento), "Reunião cancelada.");
+        
+        for (int i = 0; i < participantes.size(); i++) {
+            participanteServico.delete(participantes.get(i).getId());
+        }
+    }
 
     public Page<Agendamento> findAll(Pageable pgbl) {
         return agendamentoRepositorio.findAll(pgbl);
