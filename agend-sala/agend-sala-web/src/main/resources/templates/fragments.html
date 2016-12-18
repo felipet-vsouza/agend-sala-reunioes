@@ -25,7 +25,7 @@
             <form id="frm-agendamento">
                 <label class="label" th:text="#{agendamento.nome}" />
                 <div class="control">
-                    <input id="in-pps" name="quantidade" class="input" type="number" />
+                    <input id="ag-nm" name="quantidade" class="input" type="number" />
                 </div>
                 <label class="label" th:text="#{agendamento.data}" />
                 <div class="control">
@@ -40,7 +40,7 @@
                     <input id="ag-hrf" name="final" class="input" type="text" />
                 </div>
                 
-                <a id="bt-get" class="button is-primary" th:text="#{agendamento.salvar}" />
+                <a id="bt-post" class="button is-primary" th:text="#{agendamento.salvar}" />
             </form>
         </section>
 

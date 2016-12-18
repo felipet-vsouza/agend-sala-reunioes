@@ -78,7 +78,7 @@ class Home {
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);
-                    new FiltroSalas();
+                    new AgendamentoSalas();
                 })
                 .fail(err => {
                     self.modal.css("display", "flex");
