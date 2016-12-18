@@ -66,7 +66,7 @@ public class HomeController {
     @RequestMapping(value = "/home/agendamento")
     public String agendamentoSalas(Model model) {
         Iterable<Sala> salas = salaServico.findAll();
-        model.addAttribute("equipamentos", salas);
+        model.addAttribute("salas", salas);
         return "fragments :: form-agendamento";
     }
 }
