@@ -42,6 +42,10 @@ public class EmailServico {
     public Email salvar(Email email) {
         return emailRepositorio.save(email);
     }
+    
+    public boolean hashEhValido(Email email) {
+        return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
+    }
 
     public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {
 
