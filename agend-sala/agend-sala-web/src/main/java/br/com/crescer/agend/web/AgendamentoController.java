@@ -18,12 +18,14 @@ import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +56,7 @@ public class AgendamentoController {
     public String adicionarAgendamento(long idSala, String descricao,
             Date dataInicial, Date dataFinal, List<Usuario> usuarios) {
 
-        Usuario usuario = obterUsuarioDaSessao();
+        Usuario usuario = usuarioServico.obterUsuarioDaSessao();
 
         Sala sala = salaServico.findOne(idSala);
 
@@ -64,19 +66,39 @@ public class AgendamentoController {
 
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
 
-        emailServico.enviarEmail(participantes,
-                conteudoEmail(participantes.get(0).getAgendamento(),
-                        participantes.get(0).getEmail()), "Convite para uma reunião.");
+        emailServico.enviarEmail(participantes, "Conteúdo aqui." , "Convite para uma reunião.");
 
         return "home";
+    }
+
+    @RequestMapping(value = {"/agendamento/detalhes/{id_detalhamento}"}, method = RequestMethod.GET)
+    public String detalhesAgendamento(@PathVariable(value = "id_detalhamento") long idAgendamento, Model model) {
+
+        Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
+
+        List<Participante> participantes = participanteServico.findByAgendamento(agendamento);
+
+        List<Participante> confirmados = participanteServico.obterParticipantesPorStatus(Status.CONFIRMADO, participantes);
+        List<Participante> pendentes = participanteServico.obterParticipantesPorStatus(Status.PENDENTE, participantes);
+        List<Participante> recusados = participanteServico.obterParticipantesPorStatus(Status.RECUSADO, participantes);
+
+        boolean ehCriadorDoAgendamento = agendamentoServico.ehCriadorDoAgendamento(usuarioServico.obterUsuarioDaSessao(), agendamento);
+
+        model.addAttribute("agendamento", agendamento);
+        model.addAttribute("confirmados", confirmados);
+        model.addAttribute("pendentes", pendentes);
+        model.addAttribute("recusados", recusados);
+        model.addAttribute("ehCriadorDoAgendamento", ehCriadorDoAgendamento);
+
+        return "fragments :: agendamento-detalhes";
     }
 
     @RequestMapping("/aceitarparticipacao/{hash}")
     public String aceitarParticipao(@PathVariable(value = "hash") String hash) {
 
-       Email email = emailServico.findByHash(hash);
+        Email email = emailServico.findByHash(hash);
 
-        if (hashEhValido(email)) {
+        if (emailServico.hashEhValido(email)) {
             email.getParticipante().setStatus(Status.CONFIRMADO);
             emailServico.salvar(email);
         }
@@ -89,32 +111,11 @@ public class AgendamentoController {
 
         Email email = emailServico.findByHash(hash);
 
-        if (hashEhValido(email)) {
+        if (emailServico.hashEhValido(email)) {
             email.getParticipante().setStatus(Status.RECUSADO);
             emailServico.salvar(email);
         }
 
         return "home";
-    }
-
-    private boolean hashEhValido(Email email) {
-        return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
-    }
-
-    private String conteudoEmail(Agendamento agendamento, Email email) {
-        return "Olá <br/>"
-                + "Voce recebeu um convite para uma reunião, enviado por" + obterUsuarioDaSessao().getNome() + ". <br/>"
-                + "Detalhes <br/> Local: " + agendamento.getSala().getNome() + "<br/> "
-                + "Hora de inicio: " + agendamento.getDataInicio().toString() + "<br/>"
-                + "Hora de termino: " + agendamento.getDataFinal().toString() + "<br/><br/>"
-                + "<a href=\"http://localhost:9090/aceitarparticipacao/" + email.getHash() + ".com\">Aceitar</a> |"
-                + "<a href=\"http://localhost:9090/recusarparticipacao/" + email.getHash() + ".com\">Recusar</a> <br/></br>"
-                + "Sua reposta é muito importante. Obrigado!";
-    }
-
-    private Usuario obterUsuarioDaSessao() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = usuarioServico.findByEmail(user.getUsername());
-        return usuario;
     }
 }

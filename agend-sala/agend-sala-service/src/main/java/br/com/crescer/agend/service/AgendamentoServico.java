@@ -67,6 +67,10 @@ public class AgendamentoServico {
         }
     }
     
+    public boolean ehCriadorDoAgendamento(Usuario usuarioSessao, Agendamento agendamento) {
+        return usuarioSessao.equals(agendamento.getCriador());
+    } 
+    
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, long capacidade){
         List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, capacidade);
         return salas.contains(sala);
