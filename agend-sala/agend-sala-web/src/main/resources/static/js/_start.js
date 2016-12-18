@@ -61,8 +61,6 @@ class Home {
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);
-                })
-                .then(function () {
                     new FiltroSalas();
                 })
                 .fail(err => {

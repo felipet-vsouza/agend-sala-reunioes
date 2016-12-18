@@ -81,18 +81,22 @@
                     </a>
                 </nav>
                 <section class="container is-fluid">
-                    <a id="but-filtro" class="button is-primary is-loader">
-                        <span class="icon">
-                            <i class="fa fa-filter"></i>
-                        </span>
-                        <span th:text="#{home.filtrosalas}"></span>
-                    </a>
-                    <a id="but-agendamento" class="button is-success is-loader">
-                        <span class="icon">
-                            <i class="fa fa-plus"></i>
-                        </span>
-                        <span th:text="#{home.novoagendamento}"></span>
-                    </a>
+                    <div>
+                        <a id="but-filtro" class="button is-primary is-loader">
+                            <span class="icon">
+                                <i class="fa fa-filter"></i>
+                            </span>
+                            <span th:text="#{home.filtrosalas}"></span>
+                        </a>
+                    </div>
+                    <div class="has-upper-margin">
+                        <a id="but-agendamento" class="button is-success is-loader">
+                            <span class="icon">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span th:text="#{home.novoagendamento}"></span>
+                        </a>
+                    </div>
                 </section>
             </aside>
             <article class="column is-two-thirds has-upper-margin">

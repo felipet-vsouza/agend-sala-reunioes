@@ -30,7 +30,7 @@ public class SalaServico {
 
     @Autowired
     SalaRepositorio salaRepositorio;
-    
+
     @Autowired
     EquipamentoRepositorio equipamentoRepositorio;
 
@@ -54,13 +54,16 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado, Long[] ids) {
-        List<Long> lista = Arrays.asList(ids);
-        List<Equipamento> equipamentos = lista.stream()
-                .map(id -> equipamentoRepositorio.findOne(id))
-                .collect(Collectors.toList());
+    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado, List<Long> ids) {
         List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, quantidadeSelecionado);
-        return filtrarEquipamentos(salas, equipamentos);
+        if (ids != null) {
+            List<Equipamento> equipamentos = ids.stream()
+                    .map(id -> equipamentoRepositorio.findOne(id))
+                    .collect(Collectors.toList());
+            return filtrarEquipamentos(salas, equipamentos);
+        } else {
+            return salas;
+        }
     }
 
     private List<Sala> filtrarEquipamentos(List<Sala> salas, List<Equipamento> equipamentos) {

@@ -15,9 +15,9 @@ $.validator.addMethod("anyHour",
 $.validator.addMethod("validHour",
     function (value, element) {
         let hour = value.substring(0, 2);
-        return (hour >= 7 && hour <= 22);
+        return (hour >= 8 && hour <= 22);
     },
-    "Por favor, insira um horário entre 7h e 22h."
+    "Por favor, insira um horário entre 8h e 22h."
 );
 
 class FiltroSalas {
@@ -96,7 +96,7 @@ class FiltroSalas {
                 $('#in-eqp :checked').each(function () {
                     equipamentos.push(parseInt($(this).val()));
                 });
-                $.post('/salas/find', {
+                $.get('/salas/find', {
                     dataInicio: initialDate,
                     dataFim: finalDate,
                     capacidade: capacidade,
