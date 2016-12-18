@@ -50,7 +50,7 @@ public class AgendamentoController {
     @Autowired
     AgendamentoServico agendamentoServico;
 
-    @RequestMapping(value = {"/agendamento", "/adicionar"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/agendamento/adicionar"}, method = RequestMethod.POST)
     public String adicionarAgendamento(long idSala, String descricao,
             Date dataInicial, Date dataFinal, List<Usuario> usuarios) {
 
