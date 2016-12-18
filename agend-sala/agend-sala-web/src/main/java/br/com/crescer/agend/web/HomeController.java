@@ -38,7 +38,7 @@ public class HomeController {
 
     @Autowired
     ParticipanteServico participanteServico;
-    
+
     @Autowired
     EquipamentoServico equipamentoServico;
 
@@ -61,5 +61,12 @@ public class HomeController {
         Iterable<Equipamento> equipamentos = equipamentoServico.findAll();
         model.addAttribute("equipamentos", equipamentos);
         return "fragments :: form-salas";
+    }
+
+    @RequestMapping(value = "/home/agendamento")
+    public String agendamentoSalas(Model model) {
+        Iterable<Sala> salas = salaServico.findAll();
+        model.addAttribute("equipamentos", salas);
+        return "fragments :: form-agendamento";
     }
 }

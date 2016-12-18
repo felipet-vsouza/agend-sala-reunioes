@@ -50,6 +50,7 @@ class Home {
         this.modalContent = $('.modal-content');
         this.modalClose = $('.modal-close');
         this.defineFiltroSalasBind();
+        this.defineAgendamentoSalasBind();
         this.defineDetalheAgendamentosBind();
         this.defineModalBinds();
     }
@@ -82,6 +83,22 @@ class Home {
                 })
                 .fail(err => {
                     console.error(err);
+                });
+        });
+    }
+        defineAgendamentoSalasBind() {
+        let self = this;
+        this.filtroButton = $('#but-agendamento');
+        this.filtroButton.click(function () {
+            $.get('/home/agendamento')
+                .then(res => {
+                    self.modal.css("display", "flex");
+                    self.modalContent.html(res);
+                    new AgendamentoSalas();
+                })
+                .fail(err => {
+                    self.modal.css("display", "flex");
+                    self.modalContent.html(err);
                 });
         });
     }
