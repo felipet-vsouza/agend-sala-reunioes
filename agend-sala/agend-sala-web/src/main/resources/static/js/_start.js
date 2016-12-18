@@ -50,6 +50,7 @@ class Home {
         this.modalContent = $('.modal-content');
         this.modalClose = $('.modal-close');
         this.defineFiltroSalasBind();
+        this.defineAgendamentoSalasBind();
         this.defineModalBinds();
     }
 
@@ -58,6 +59,22 @@ class Home {
         this.filtroButton = $('#but-filtro');
         this.filtroButton.click(function () {
             $.get('/home/salas')
+                .then(res => {
+                    self.modal.css("display", "flex");
+                    self.modalContent.html(res);
+                    new FiltroSalas();
+                })
+                .fail(err => {
+                    self.modal.css("display", "flex");
+                    self.modalContent.html(err);
+                });
+        });
+    }
+        defineAgendamentoSalasBind() {
+        let self = this;
+        this.filtroButton = $('#but-agendamento');
+        this.filtroButton.click(function () {
+            $.get('/home/agendamento')
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);
