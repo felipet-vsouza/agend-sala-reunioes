@@ -63,7 +63,8 @@
                     <p class="panel-tabs">
                         <a class="is-active" th:text="#{home.todosdias}"></a>
                     </p>
-                    <a class="panel-block" th:each="participacao : ${participacoes}">
+                    <a class="panel-block is-agendamento" th:each="participacao : ${participacoes}">
+                        <input type="hidden" class="is-id" th:value="${participacao.agendamento.id}" />
                         <div>
                             <strong th:text="${participacao.agendamento.descricao}"></strong>
                             <span th:text="' ' + #{home.marcadopor} + ' ' + ${participacao.agendamento.criador.nome}"></span>

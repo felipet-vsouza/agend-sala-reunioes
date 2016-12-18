@@ -50,6 +50,7 @@ class Home {
         this.modalContent = $('.modal-content');
         this.modalClose = $('.modal-close');
         this.defineFiltroSalasBind();
+        this.defineDetalheAgendamentosBind();
         this.defineModalBinds();
     }
 
@@ -64,8 +65,25 @@ class Home {
                     new FiltroSalas();
                 })
                 .fail(err => {
+                    self.modal.toggle();
+                    console.log(err);
+                });
+        });
+    }
+
+    defineDetalheAgendamentosBind() {
+        let self = this;
+        $('.is-agendamento').click(function () {
+            let agendamento = $(this);
+            let id = agendamento.find('.is-id');
+            $.get(`agendamento/detalhes/${id}`)
+                .then(res => {
                     self.modal.css("display", "flex");
-                    self.modalContent.html(err);
+                    self.modalContent.html(res);
+                })
+                .fail(err => {
+                    self.modal.toggle();
+                    console.log(err);
                 });
         });
     }
