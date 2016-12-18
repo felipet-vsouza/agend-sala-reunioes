@@ -6,9 +6,11 @@
 package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Email;
+import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.EmailRepositorio;
 import java.util.Date;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import java.util.Properties;
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class EmailServico {
         return hash.toString().replaceAll("-", "");
     }
 
-    public void enviarEmail(String[] destinatarios, String conteudo, String assunto, Usuario usuario) {
+    public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {
 
         Properties props = new Properties();
 
@@ -74,8 +76,8 @@ public class EmailServico {
 
             Address[] toUser = null;
 
-            for (String destinatario : destinatarios) {
-                toUser = InternetAddress.parse(destinatario);
+            for (Participante destinatario : destinatarios) {
+                toUser = InternetAddress.parse(destinatario.getUsuario().getEmail());
             }
 
             message.setRecipients(Message.RecipientType.TO, toUser);

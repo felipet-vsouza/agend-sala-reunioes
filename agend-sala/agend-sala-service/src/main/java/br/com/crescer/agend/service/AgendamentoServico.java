@@ -7,16 +7,15 @@ package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
+import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
-import br.com.crescer.agend.repository.ParticipanteRepositorio;
-import java.util.Calendar;
+import br.com.crescer.agend.repository.SalaRepositorio;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,32 +26,49 @@ import org.springframework.stereotype.Service;
 public class AgendamentoServico {
 
     @Autowired
-    AgendamentoRepositorio reservaRepositorio;
-
+    AgendamentoRepositorio agendamentoRepositorio;
+    
     @Autowired
-    ParticipanteRepositorio participanteRepositorio;
+    ParticipanteServico participanteServico;
+    
+    @Autowired
+    SalaRepositorio salaRepositorio;
 
-//     public List<Equipamento> list() {
-//        Equipamento equipamento = new Equipamento();
-//        return Stream.of(equipamento).collect(Collectors.toList());
-//    }
     public Page<Agendamento> findAll(Pageable pgbl) {
-        return reservaRepositorio.findAll(pgbl);
+        return agendamentoRepositorio.findAll(pgbl);
     }
 
     public Iterable<Agendamento> findAll() {
-        return reservaRepositorio.findAll();
+        return agendamentoRepositorio.findAll();
     }
 
     public Agendamento save(Agendamento reserva) {
-        return reservaRepositorio.save(reserva);
+        return agendamentoRepositorio.save(reserva);
     }
 
     public void delete(Long id) {
-        reservaRepositorio.delete(id);
+        agendamentoRepositorio.delete(id);
     }
 
     public Agendamento findOne(Long id) {
-        return reservaRepositorio.findOne(id);
+        return agendamentoRepositorio.findOne(id);
+    }
+    
+    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala){
+        
+        if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size())) {
+            agendamento.setDataFinal(dataFinal);
+            agendamento.setDataInicio(dataInicial);
+            agendamentoRepositorio.save(agendamento);
+            
+            return participanteServico.save(usuarios, agendamento);
+        } else{
+            return null;
+        }
+    }
+    
+    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, long capacidade){
+        List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, capacidade);
+        return salas.contains(sala);
     }
 }
