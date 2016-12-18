@@ -92,7 +92,7 @@ public class ParticipanteServico {
     }
 
     private String obterToken() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return UUID.randomUUID().toString();
     }
     
     

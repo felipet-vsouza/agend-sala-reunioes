@@ -40,14 +40,7 @@ public class EmailServico {
     }
 
     public Email salvar(Email email) {
-        email.setHash(obterHash());
-        email.setDataEnvio(new Date());
         return emailRepositorio.save(email);
-    }
-
-    private String obterHash() {
-        UUID hash = UUID.randomUUID();
-        return hash.toString();
     }
 
     public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {

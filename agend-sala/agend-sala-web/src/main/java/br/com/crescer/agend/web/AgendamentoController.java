@@ -72,19 +72,32 @@ public class AgendamentoController {
     }
 
     @RequestMapping("/aceitarparticipacao/{hash}")
-    public String aceitarParticipao(@PathVariable(value = "hash") String hash) {   
+    public String aceitarParticipao(@PathVariable(value = "hash") String hash) {
 
-        Email email = emailServico.findByHash(hash);
-        
+       Email email = emailServico.findByHash(hash);
+
         if (hashEhValido(email)) {
             email.getParticipante().setStatus(Status.CONFIRMADO);
             emailServico.salvar(email);
         }
-        
+
         return "home";
     }
-    
-    private boolean hashEhValido(Email email){
+
+    @RequestMapping("/recusarparticipacao/{hash}")
+    public String recusarParticipao(@PathVariable(value = "hash") String hash) {
+
+        Email email = emailServico.findByHash(hash);
+
+        if (hashEhValido(email)) {
+            email.getParticipante().setStatus(Status.RECUSADO);
+            emailServico.salvar(email);
+        }
+
+        return "home";
+    }
+
+    private boolean hashEhValido(Email email) {
         return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
     }
 
