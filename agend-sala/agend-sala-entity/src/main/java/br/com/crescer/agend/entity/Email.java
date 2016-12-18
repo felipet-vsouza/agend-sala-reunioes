@@ -19,14 +19,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author henrique.mentz
  */
 @Entity
-@Table( name = "EMAIL")
-public class Email implements Serializable{
+@Table(name = "EMAIL")
+public class Email implements Serializable {
 
     public Email(Participante participante, Date dataEnvio, String hash) {
         this.participante = participante;
@@ -36,24 +37,25 @@ public class Email implements Serializable{
 
     public Email() {
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_EMAIL")
     @SequenceGenerator(name = "SEQ_EMAIL", sequenceName = "SEQ_EMAIL", allocationSize = 1)
     @Basic(optional = false)
     @Column(name = "ID_EMAIL")
     private Long id;
-    
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @OneToOne(fetch = FetchType.EAGER)
     private Participante participante;
-    
-    @Temporal(TemporalType.DATE)
+
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "DATA_ENVIO", nullable = false)
     private Date dataEnvio;
-    
+
     @Column(name = "HASH_EMAIL", nullable = false)
     private String hash;
-    
+
     public Long getId() {
         return id;
     }

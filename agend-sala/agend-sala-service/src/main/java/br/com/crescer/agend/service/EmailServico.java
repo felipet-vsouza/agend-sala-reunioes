@@ -23,6 +23,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -34,19 +35,12 @@ public class EmailServico {
     @Autowired
     EmailRepositorio emailRepositorio;
 
-    public Email obterPeloHash(Email email) {
-        return emailRepositorio.findByHash(email);
+    public Email findByHash(String hash) {
+        return emailRepositorio.findByhash(hash);
     }
 
     public Email salvar(Email email) {
-        email.setHash(obterHash());
-        email.setDataEnvio(new Date());
         return emailRepositorio.save(email);
-    }
-
-    private String obterHash() {
-        UUID hash = UUID.randomUUID();
-        return hash.toString().replaceAll("-", "");
     }
 
     public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {

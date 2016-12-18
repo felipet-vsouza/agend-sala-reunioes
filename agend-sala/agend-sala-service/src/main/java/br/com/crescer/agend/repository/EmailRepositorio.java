@@ -14,5 +14,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface EmailRepositorio extends CrudRepository<Email, Long> {
     
-    Email findByHash(Email email);
+    Email findByhash(String hash);
+    
+    
 }

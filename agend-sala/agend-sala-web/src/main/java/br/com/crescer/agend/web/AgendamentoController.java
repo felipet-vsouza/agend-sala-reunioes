@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -62,12 +63,42 @@ public class AgendamentoController {
         agendamento.setDescricao(descricao);
 
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
-        
-        emailServico.enviarEmail(participantes, 
-                conteudoEmail(participantes.get(0).getAgendamento(), 
+
+        emailServico.enviarEmail(participantes,
+                conteudoEmail(participantes.get(0).getAgendamento(),
                         participantes.get(0).getEmail()), "Convite para uma reunião.");
 
         return "home";
+    }
+
+    @RequestMapping("/aceitarparticipacao/{hash}")
+    public String aceitarParticipao(@PathVariable(value = "hash") String hash) {
+
+       Email email = emailServico.findByHash(hash);
+
+        if (hashEhValido(email)) {
+            email.getParticipante().setStatus(Status.CONFIRMADO);
+            emailServico.salvar(email);
+        }
+
+        return "home";
+    }
+
+    @RequestMapping("/recusarparticipacao/{hash}")
+    public String recusarParticipao(@PathVariable(value = "hash") String hash) {
+
+        Email email = emailServico.findByHash(hash);
+
+        if (hashEhValido(email)) {
+            email.getParticipante().setStatus(Status.RECUSADO);
+            emailServico.salvar(email);
+        }
+
+        return "home";
+    }
+
+    private boolean hashEhValido(Email email) {
+        return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
     }
 
     private String conteudoEmail(Agendamento agendamento, Email email) {
