@@ -65,8 +65,7 @@ class Home {
                     new FiltroSalas();
                 })
                 .fail(err => {
-                    self.modal.toggle();
-                    console.log(err);
+                    console.error(err);
                 });
         });
     }
@@ -75,15 +74,14 @@ class Home {
         let self = this;
         $('.is-agendamento').click(function () {
             let agendamento = $(this);
-            let id = agendamento.find('.is-id');
+            let id = agendamento.find('.is-id').val();
             $.get(`agendamento/detalhes/${id}`)
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);
                 })
                 .fail(err => {
-                    self.modal.toggle();
-                    console.log(err);
+                    console.error(err);
                 });
         });
     }
