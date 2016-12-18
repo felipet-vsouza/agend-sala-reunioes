@@ -70,6 +70,15 @@ public class ParticipanteServico {
     public List<Participante> findByUsuario(Usuario usuario) {
         return participanteRepositorio.findByUsuario(usuario);
     }
+    
+    public List<Participante> findByAgendamento(Agendamento agendamento){
+        return participanteRepositorio.findByAgendamento(agendamento);
+    }
+    
+    public List<Participante> obterParticipantesPorStatus(Status status, List<Participante> participantes){
+        participantes = participantes.stream().filter(p -> p.getStatus().equals(status)).collect(Collectors.toList());
+        return participantes;
+    }
 
     public List<Participante> obterParticipantesDeAgendamentos(Usuario atual) {
         Calendar dataAtual = Calendar.getInstance();
