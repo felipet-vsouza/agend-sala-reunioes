@@ -90,32 +90,32 @@
         <section class="box container" th:fragment="agendamento-detalhes">
             <header class="content has-text-centered">
                 <h1 th:text="${agendamento.descricao}" />
-                <p class="is-inline" th:text="#{agendamento.marcadopor}" />
+                <p class="is-inline" th:text="#{agenddetalhes.marcadopor}" />
                 <strong class="is-inline" th:text="${agendamento.criador.nome}" />
                 <div class="has-upper-margin">
-                    <h3 class="is-inline" th:text="#{agendamento.data}" />
+                    <h3 class="is-inline" th:text="#{agenddetalhes.data}" />
                     <h1 class="is-inline" th:text="${#dates.format(agendamento.dataInicio, 'dd/MM/yyyy')}" />
-                    <p th:text="#{agendamento.from} + ' ' + ${#dates.format(agendamento.dataInicio, 'hh:mm a')} + ' ' + #{agendamento.to} + ' ' + ${#dates.format(agendamento.dataFinal, 'hh:mm a')}" />
+                    <p th:text="#{agenddetalhes.from} + ' ' + ${#dates.format(agendamento.dataInicio, 'hh:mm a')} + ' ' + #{agenddetalhes.to} + ' ' + ${#dates.format(agendamento.dataFinal, 'hh:mm a')}" />
                     <hr />
                 </div>
             </header>
             <article class="content">
                 <div>
-                    <strong th:text="#{agendamento.confirmados}" />
+                    <strong th:text="#{agenddetalhes.confirmados}" />
                     <ul>
                         <li th:each="confirmado : ${confirmados}" th:text="${confirmado.usuario.nome}" />
                     </ul>
                 </div>
                 <hr />
                 <div>
-                    <strong th:text="#{agendamento.pendentes}" />
+                    <strong th:text="#{agenddetalhes.pendentes}" />
                     <ul>
                         <li th:each="pendente : ${pendentes}" th:text="${pendente.usuario.nome}" />
                     </ul>
                 </div>
                 <hr />
                 <div>
-                    <strong th:text="#{agendamento.recusados}" />
+                    <strong th:text="#{agenddetalhes.recusados}" />
                     <ul>
                         <li th:each="recusado : ${recusados}" th:text="${recusado.usuario.nome}" />
                     </ul>
@@ -123,7 +123,7 @@
             </article>
             <footer th:if="${ehCriadorDoAgendamento}">
                 <a class="button is-danger" th:href="@{/agendamento/cancelar/} + ${agendamento.id}">
-                    <span th:text="#{agendamento.cancelar}"></span>
+                    <span th:text="#{agenddetalhes.cancelar}"></span>
                 </a>
             </footer>
         </section>
