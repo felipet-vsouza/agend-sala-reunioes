@@ -31,6 +31,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "AGENDAMENTO")
 public class Agendamento implements Serializable {
 
+    public Agendamento() {
+    }
+
+    public Agendamento(Date dataInicio, Date dataFinal, Usuario criador, Sala sala, String descricao) {
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.criador = criador;
+        this.sala = sala;
+        this.descricao = descricao;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AGENDAMENTO")
     @SequenceGenerator(name = "SEQ_AGENDAMENTO", sequenceName = "SEQ_AGENDAMENTO", allocationSize = 1)
@@ -49,18 +60,18 @@ public class Agendamento implements Serializable {
     @Basic(optional = true)
     @Column(name = "DT_FINAL_AGENDAMENTO")
     private Date dataFinal;
-    
+
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
     private Usuario criador;
 
     @OneToMany(mappedBy = "agendamento")
     private List<Participante> participantes;
-    
+
     @ManyToOne
     @JoinColumn(name = "ID_SALA")
     private Sala sala;
-    
+
     @Basic(optional = true)
     @Column(name = "DS_AGENDAMENTO")
     private String descricao;
@@ -120,6 +131,5 @@ public class Agendamento implements Serializable {
     public void setParticipantes(List<Participante> participantes) {
         this.participantes = participantes;
     }
-
 
 }

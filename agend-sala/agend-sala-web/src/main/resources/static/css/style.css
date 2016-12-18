@@ -19,6 +19,15 @@ img.is-main-logo {
   margin-top: 10px;
 }
 
+.ui-datepicker {
+  background-color: rgba(255, 255, 200, 0.9);
+  width: 200px;
+}
+
+.ui-state-default {
+  color: #222222;
+}
+
 /*! bulma.io v0.2.3 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {

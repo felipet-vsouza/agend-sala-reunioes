@@ -32,6 +32,16 @@ import javax.persistence.Table;
 @Entity
 @Table( name = "PARTICIPANTE")
 public class Participante implements Serializable{
+
+    public Participante() {
+    }
+
+    public Participante(Usuario usuario, Agendamento agendamento, Status status) {
+        this.usuario = usuario;
+        this.agendamento = agendamento;
+        this.status = status;
+    }
+       
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PARTICIPANTE")
     @SequenceGenerator(name = "SEQ_PARTICIPANTE", sequenceName = "SEQ_PARTICIPANTE", allocationSize = 1)
