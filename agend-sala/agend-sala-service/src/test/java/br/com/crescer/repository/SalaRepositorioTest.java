@@ -84,7 +84,7 @@ public class SalaRepositorioTest {
     public void testaPorDataIntermediariaMaiorConflitante() throws ParseException {
         Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 13:00");
         Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
-        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
 
     /**
