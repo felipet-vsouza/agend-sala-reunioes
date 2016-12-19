@@ -5,6 +5,20 @@ $.validator.addMethod("anyDate",
     "Por favor, insira uma data válida."
 );
 
+$.validator.addMethod("afterCurrentDay",
+    function (value, element) {
+        let atual = new Date();
+        atual.setHours(0);
+        atual.setMinutes(0);
+        atual.setSeconds(0);
+        atual.setMilliseconds(0);
+        let from = value.split("/");
+        let selecionada = new Date(from[2], from[1] - 1, from[0]);
+        return (selecionada >= atual);
+    },
+    "Por favor, selecione uma data após a atual."
+);
+
 $.validator.addMethod("anyHour",
     function (value, element) {
         return value.match(/^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/);
@@ -60,7 +74,8 @@ class FiltroSalas {
                 },
                 data: {
                     required: true,
-                    anyDate: true
+                    anyDate: true,
+                    afterCurrentDay: true
                 },
                 inicio: {
                     required: true,
