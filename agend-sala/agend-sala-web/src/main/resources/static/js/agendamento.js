@@ -1,9 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 $.validator.addMethod("anyDate",
     function (value, element) {
         return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
@@ -29,7 +23,8 @@ $.validator.addMethod("validHour",
 class AgendamentoSalas {
     constructor() {
         this.form = $('#frm-agendamento');
-        this.sala = $('#ag-sl')
+        this.descricao = $('#ag-des');
+        this.sala = $('#ag-sl');
         this.name = $('#ag-nm');
         this.date = $('#in-dat');
         this.horaInicio = $('#ag-hri');
@@ -61,6 +56,13 @@ class AgendamentoSalas {
     defineFormValidation() {
         this.form.validate({
             rules: {
+                sala: {
+                    required: true
+                },
+                descricao: {
+                    required: true
+                },
+
                 data: {
                     required: true,
                     anyDate: true
@@ -87,25 +89,23 @@ class AgendamentoSalas {
                 let finalDate = self.date.datepicker("getDate");
                 let hora = self.horaInicio.val().substring(0, 2);
                 let minuto = self.horaInicio.val().substring(3, 5);
+                let descricao = self.descricao.val();
                 initialDate.setHours(parseInt(hora));
                 initialDate.setMinutes(parseInt(minuto));
                 hora = self.horaFim.val().substring(0, 2);
                 minuto = self.horaFim.val().substring(3, 5);
                 finalDate.setHours(parseInt(hora));
                 finalDate.setMinutes(parseInt(minuto));
+                var idSala = parseInt($( '#ag-sl option:selected').val());
                 var usuarios = [];
-                var salas = [];
                 $('#ag-nm :checked').each(function () {
                     usuarios.push(parseInt($(this).val()));
                 });
-                $('#ag-sl :checked').each(function () {
-                    salas.push(parseInt($(this).val()));
-                });
                 $.post('/agendamento/adicionar', {
-                    nomeSala: nameSala
-                    dataInicio: initialDate,
-                    dataFim: finalDate,
-                    salas: salas,
+                    idSala: idSala,
+                    descricao: descricao,
+                    dataInicial: initialDate,
+                    dataFinal: finalDate,
                     usuarios: usuarios
                 })
                     .then(res => {
