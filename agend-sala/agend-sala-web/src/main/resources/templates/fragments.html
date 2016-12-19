@@ -23,8 +23,8 @@
                 <h1 th:text="#{agendamento.titulo}" />
             </header>
             <form id="frm-agendamento">
-                <label class="label" th:text="#{agendamento.nome}"/>
-                <div class="control" id="ag-nm">
+                <label class="label" th:text="#{agendamento.sala}"/>
+                <div class="control" id="ag-sl">
                     <span class="select">
                         <select  name="nome">
                             <option>Selecione a sala</option>
@@ -34,7 +34,7 @@
                 </div>
                 <label class="label" th:text="#{agendamento.data}" />
                 <div class="control">
-                    <input id="ag-dat" name="data" class="input" type="text" />
+                    <input id="in-dat" name="data" class="input" type="text" />
                 </div>
                 <label class="label" th:text="#{agendamento.horainicio}" />
                 <div class="control">
@@ -43,21 +43,12 @@
                 <label class="label" th:text="#{agendamento.horafinal}" />
                 <div class="control">
                     <input id="ag-hrf" name="final" class="input" type="text" />
-                </div>
-                <label class="label" th:text="#{agendamento.participante}" />
-                <div class="control">
-                    <input id="ag-ptc" name="participantes" class="input" type="text" />
-                    <a class="button is-warning" >
-                        <span class="icon is-small">
-                            <i class="fa fa-plus"></i>
-                        </span>
-                    </a>
-                </div>
+                </div>     
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
                     <table class="table">
                         <tbody>
-                            <tr th:each="usuario : ${usuarios}">
+                            <tr id="ag-nm" th:each="usuario : ${usuarios}">
                                 <td>
                                     <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" />
                                 </td>

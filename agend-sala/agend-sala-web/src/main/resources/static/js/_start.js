@@ -110,7 +110,7 @@ class Home {
         let self = this;
         this.filtroButton = $('#but-agendamento');
         this.filtroButton.click(function () {
-            $.get('/home/agendamento')
+            $.post('/home/agendamento')
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);

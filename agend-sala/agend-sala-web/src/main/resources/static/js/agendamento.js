@@ -29,11 +29,12 @@ $.validator.addMethod("validHour",
 class AgendamentoSalas {
     constructor() {
         this.form = $('#frm-agendamento');
-        this.capacity = $('#ag-nm');
-        this.date = $('#ag-dat');
+        this.sala = $('#ag-sl')
+        this.name = $('#ag-nm');
+        this.date = $('#in-dat');
         this.horaInicio = $('#ag-hri');
         this.horaFim = $('#ag-hrf');
-        this.getButton = $('#bt-post');
+        this.postButton = $('#bt-post');
         this.modalContent = $('.modal-content');
         this.defineFieldFormats();
         this.defineFormValidation();
@@ -46,7 +47,7 @@ class AgendamentoSalas {
         });
         let timepickerConfig = {
             timeFormat: 'HH:mm',
-            minTime: '07:00',
+            minTime: '08:00',
             maxTime: '22:00',
             defaultTime: '13:30',
             dynamic: false,
@@ -60,10 +61,6 @@ class AgendamentoSalas {
     defineFormValidation() {
         this.form.validate({
             rules: {
-                quantidade: {
-                    required: true,
-                    min: 0
-                },
                 data: {
                     required: true,
                     anyDate: true
@@ -84,7 +81,7 @@ class AgendamentoSalas {
 
     defineButtonBind() {
         let self = this;
-        this.getButton.click(function () {
+        this.postButton.click(function () {
             if (self.form.valid()) {
                 let initialDate = self.date.datepicker("getDate");
                 let finalDate = self.date.datepicker("getDate");
@@ -96,15 +93,20 @@ class AgendamentoSalas {
                 minuto = self.horaFim.val().substring(3, 5);
                 finalDate.setHours(parseInt(hora));
                 finalDate.setMinutes(parseInt(minuto));
+                var usuarios = [];
                 var salas = [];
                 $('#ag-nm :checked').each(function () {
+                    usuarios.push(parseInt($(this).val()));
+                });
+                $('#ag-sl :checked').each(function () {
                     salas.push(parseInt($(this).val()));
                 });
                 $.post('/agendamento/adicionar', {
-                    nomesala: nameSala
+                    nomeSala: nameSala
                     dataInicio: initialDate,
                     dataFim: finalDate,
-                    capacidade: capacidade,
+                    salas: salas,
+                    usuarios: usuarios
                 })
                     .then(res => {
                         self.modalContent.html(res);
