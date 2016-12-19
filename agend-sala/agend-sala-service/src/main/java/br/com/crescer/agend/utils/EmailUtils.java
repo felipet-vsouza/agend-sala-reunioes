@@ -9,7 +9,6 @@ import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Email;
 import java.text.SimpleDateFormat;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 
 /**
  *
