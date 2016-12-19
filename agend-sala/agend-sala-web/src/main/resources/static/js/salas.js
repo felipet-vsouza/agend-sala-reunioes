@@ -1,3 +1,15 @@
+var parseBrazilianDate = function (content) {
+    let from = content.split("/");
+    return new Date(from[2], from[1] - 1, from[0]);
+}
+
+var parseHour = function(content) {
+    let hour = parseInt(content.substring(0,2));
+    let minute = parseInt(content.substring(3,5));
+    hour += minute / 60;
+    return hour;    
+}
+
 $.validator.addMethod("anyDate",
     function (value, element) {
         return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
@@ -12,8 +24,7 @@ $.validator.addMethod("afterCurrentDay",
         atual.setMinutes(0);
         atual.setSeconds(0);
         atual.setMilliseconds(0);
-        let from = value.split("/");
-        let selecionada = new Date(from[2], from[1] - 1, from[0]);
+        let selecionada = parseBrazilianDate(value);
         return (selecionada >= atual);
     },
     "Por favor, selecione uma data após a atual."
@@ -32,6 +43,15 @@ $.validator.addMethod("validHour",
         return (hour >= 8 && hour <= 22);
     },
     "Por favor, insira um horário entre 8h e 22h."
+);
+
+$.validator.addMethod('competesWithOtherHour',
+    function (value, element, params) {
+        var initial = parseHour($(`input[name="${params[0]}"]`).val()),
+            final = parseHour($(`input[name="${params[1]}"]`).val());
+        return (initial < final);
+    },
+    "A hora inicial deve ser anterior à final."
 );
 
 class FiltroSalas {
@@ -80,12 +100,14 @@ class FiltroSalas {
                 inicio: {
                     required: true,
                     anyHour: true,
-                    validHour: true
+                    validHour: true,
+                    competesWithOtherHour: ['inicio', 'final']
                 },
                 final: {
                     required: true,
                     anyHour: true,
-                    validHour: true
+                    validHour: true,
+                    competesWithOtherHour: ['inicio', 'final']
                 }
             }
         });
