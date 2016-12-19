@@ -37,7 +37,7 @@
                 </div>
                 <label class="label" th:text="#{agendamento.data}" />
                 <div class="control">
-                    <input id="in-dat" name="data" class="input" type="text" />
+                    <input id="ag-dat" name="data" class="input" type="text" />
                 </div>
                 <label class="label" th:text="#{agendamento.horainicio}" />
                 <div class="control">
@@ -59,7 +59,7 @@
                         </tbody>
                     </table>
                 </div>
-                <a id="bt-post" class="button is-primary" th:text="#{agendamento.salvar}" />
+                <a id="bt-post" class="button is-primary is-loader" th:text="#{agendamento.salvar}" />
             </form>
         </section>
 
@@ -162,6 +162,11 @@
         <section th:fragment="cancelamentomensagem">
             <p th:if="${sucesso}" class="notification is-success" th:text="#{cancelamentomensagem.sucesso}" />
             <p th:unless="${sucesso}" class="notification is-danger" th:text="#{cancelamentomensagem.erro}" />
+        </section>
+
+        <section th:fragment="agendamentomensagem">
+            <p th:if="${sucesso}" class="notification is-success" th:text="#{agendamentomensagem.sucesso}" />
+            <p th:unless="${sucesso}" class="notification is-danger" th:text="#{agendamentomensagem.erro}" />
         </section>
 
         <nav class="panel has-clear-background" th:fragment="reunioes">

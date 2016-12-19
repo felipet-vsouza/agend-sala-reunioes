@@ -51,7 +51,7 @@ public class AgendamentoController {
     AgendamentoServico agendamentoServico;
 
     @RequestMapping(value = {"/agendamento/adicionar"}, method = RequestMethod.POST)
-    public String adicionarAgendamento(long idSala, String descricao,
+    public String adicionarAgendamento(Model model, long idSala, String descricao,
             Date dataInicial, Date dataFinal, @RequestParam(value="usuarios[]", required = false) List<Long> idsUsuarios) {
 
         List<Usuario> usuarios = idsUsuarios.stream()
@@ -69,7 +69,9 @@ public class AgendamentoController {
 
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
 
-        return "home";
+        model.addAttribute("sucesso", true);
+        
+        return "fragments :: agendamentomensagem";
     }
 
     @RequestMapping(value = {"/agendamento/detalhes/{id_detalhamento}"}, method = RequestMethod.GET)
