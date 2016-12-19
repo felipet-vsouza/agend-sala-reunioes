@@ -23,17 +23,26 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
 
     public Page<Sala> findAll(Pageable pgbl);
 
-    @Query(value = "SELECT * FROM SALA SA\n"
-            + "                         WHERE SA.ID_SALA NOT IN (\n"
-            + "                           SELECT S.ID_SALA FROM AGENDAMENTO S\n"
-            + "                           WHERE (:DATAINICIAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO\n"
-            + "                           OR :DATAFINAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO\n"
-            + "                           OR S.DT_INICIO_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL\n"
-            + "                           OR S.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL)\n"
-            + "                           AND NOT (S.DT_INICIO_AGENDAMENTO = :DATAFINAL)\n"
-            + "                           AND NOT (S.DT_FINAL_AGENDAMENTO = :DATAINICIAL))\n"
-            + "                        AND SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO", nativeQuery = true)
+    @Query(value = ""
+            + " SELECT * "
+            + "   FROM SALA SA "
+            + "  WHERE SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO "
+            + "    AND SA.ID_SALA NOT IN ( "
+            + "     SELECT S.ID_SALA "
+            + "       FROM AGENDAMENTO S "
+            + "      WHERE ( "
+            + "          :DATAINICIAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO "
+            + "          OR :DATAFINAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO "
+            + "          OR S.DT_INICIO_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL "
+            + "          OR S.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL "
+            + "         ) "
+            + "         AND NOT (S.DT_INICIO_AGENDAMENTO = :DATAFINAL) "
+            + "         AND NOT (S.DT_FINAL_AGENDAMENTO = :DATAINICIAL)"
+            + "      ) ", nativeQuery = true)
     public List<Sala> filtroDeSalas(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
             @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado);
+
+    @Query("SELECT S FROM Agendamento A JOIN A.sala S WHERE A.dataInicio >= :inicio OR A.dataFinal <= :fim AND S.capacidade >= :capacidade ")
+    public List<Sala> findByIntervalo(@Param("inicio") final Date dataInicio, @Param("fim") final Date dataFinal, @Param("capacidade")  Integer capacidade);
 
 }
