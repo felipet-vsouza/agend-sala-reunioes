@@ -8,9 +8,9 @@
  * Created: 15/12/2016
  */
 -- -- TABELA USUARIO
-Insert into USUARIO (ID_USUARIO,EMAIL_USUARIO,NOME_USUARIO,SENHA_USUARIO) values ('1','felipe.souza@cwi.com.br','Felipe Souza','$2a$10$ofd6tqa.yBM3N0BgNqFbTuBnO3EwoGbx6Np2GizCjMkvJLZbjlxxK');
-Insert into USUARIO (ID_USUARIO,EMAIL_USUARIO,NOME_USUARIO,SENHA_USUARIO) values ('2','henrique.ostermann@cwi.com.br','Henrique Ostermann','$2a$10$RIJaNA3vfkRxoSpqeJ83K.cWGACTtve8EfWENLWiSVOOur9DwHKDG');
-Insert into USUARIO (ID_USUARIO,EMAIL_USUARIO,NOME_USUARIO,SENHA_USUARIO) values ('3','henrique.mentz@cwi.com.br','Henrique Mentz','$2a$10$V7T2i916qHS6y4ZTOsB6DeySxFYttRsWxb1oj9ZSrYnKlJJ3Z8WRu');
+Insert into USUARIO (ID_USUARIO,EMAIL_USUARIO,NOME_USUARIO,SENHA_USUARIO) values (SEQ_USUARIO,'felipe.souza@cwi.com.br','Felipe Souza','$2a$10$ofd6tqa.yBM3N0BgNqFbTuBnO3EwoGbx6Np2GizCjMkvJLZbjlxxK');
+Insert into USUARIO (ID_USUARIO,EMAIL_USUARIO,NOME_USUARIO,SENHA_USUARIO) values (SEQ_USUARIO,'henrique.ostermann@cwi.com.br','Henrique Ostermann','$2a$10$RIJaNA3vfkRxoSpqeJ83K.cWGACTtve8EfWENLWiSVOOur9DwHKDG');
+Insert into USUARIO (ID_USUARIO,EMAIL_USUARIO,NOME_USUARIO,SENHA_USUARIO) values (SEQ_USUARIO,'henrique.mentz@cwi.com.br','Henrique Mentz','$2a$10$V7T2i916qHS6y4ZTOsB6DeySxFYttRsWxb1oj9ZSrYnKlJJ3Z8WRu');
 
 --TABELA EQUIPAMENTOS   
 INSERT INTO EQUIPAMENTO (ID_EQUIPAMENTO, NOME_EQUIPAMENTO)  VALUES (SEQ_EQUIPAMENTO.nextval, 'Televisão');
@@ -92,4 +92,4 @@ VALUES (SEQ_PARTICIPANTE.nextval, 6, 1, 'CONFIRMADO');
 INSERT INTO PARTICIPANTE(ID_PARTICIPANTE, ID_AGENDAMENTO, ID_USUARIO, STATUS) VALUES (9, 6, 2, 'PENDENTE');
               
               insert into Email(ID_EMAIL, DATA_ENVIO, HASH_EMAIL, PARTICIPANTE_ID_PARTICIPANTE) values
-              (1, TO_DATE('2016/12/19 00:30', 'yyyy/mm/dd hh24:mi'), '123456789', 9) 
+              (SEQ_EMAIL.nextval, TO_DATE('2016/12/19 00:30', 'yyyy/mm/dd hh24:mi'), '123456789', 9) 
