@@ -19,12 +19,14 @@ import br.com.crescer.agend.service.UsuarioServico;
 import br.com.crescer.agend.utils.EmailUtils;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -50,8 +52,12 @@ public class AgendamentoController {
 
     @RequestMapping(value = {"/agendamento/adicionar"}, method = RequestMethod.POST)
     public String adicionarAgendamento(long idSala, String descricao,
-            Date dataInicial, Date dataFinal, List<Usuario> usuarios) {
+            Date dataInicial, Date dataFinal, @RequestParam(value="usuarios[]", required = false) List<Long> idsUsuarios) {
 
+        List<Usuario> usuarios = idsUsuarios.stream()
+                .map(id -> usuarioServico.findOne(id))
+                .collect(Collectors.toList());
+        
         Usuario usuario = usuarioServico.obterUsuarioDaSessao();
 
         Sala sala = salaServico.findOne(idSala);
@@ -59,6 +65,7 @@ public class AgendamentoController {
         Agendamento agendamento = new Agendamento();
         agendamento.setCriador(usuario);
         agendamento.setDescricao(descricao);
+        agendamento.setSala(sala);
 
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
 

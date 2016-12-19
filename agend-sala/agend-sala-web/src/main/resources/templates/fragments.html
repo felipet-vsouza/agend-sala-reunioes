@@ -26,11 +26,14 @@
                 <label class="label" th:text="#{agendamento.sala}"/>
                 <div class="control" id="ag-sl">
                     <span class="select">
-                        <select  name="nome">
-                            <option>Selecione a sala</option>
-                            <option th:each="sala : ${salas}" th:text="${sala.nome}"></option>
+                        <select  name="sala">
+                            <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
                         </select>
                     </span>
+                </div>
+                <label class="label" th:text="#{agendamento.descricao}" />
+                <div class="control">
+                    <input id="ag-des" name="descricao" class="input" type="text" />
                 </div>
                 <label class="label" th:text="#{agendamento.data}" />
                 <div class="control">
