@@ -49,6 +49,7 @@ class Home {
         this.modal = $('.modal');
         this.modalContent = $('.modal-content');
         this.modalClose = $('.modal-close');
+        this.reunioes = $('#pn-reunioes');
         this.defineFiltroSalasBind();
         this.defineAgendamentoSalasBind();
         this.defineDetalheAgendamentosBind();
@@ -83,7 +84,14 @@ class Home {
                     $('#agend-cancela').click(function () {
                         new PopupConfirmation({
                             onAgreed: function () {
-                                window.location = `/agendamento/cancelar/${id}`;
+                                $.post(`/agendamento/cancelar/${id}`)
+                                    .then(res => {
+                                        self.defineModalContent(res);
+                                        self.refreshPainelReunioes()
+                                    })
+                                    .fail(err => {
+                                        console.error('Erro na requisição: ', err);
+                                    });
                             },
                             onDisagreed: function () {
                                 self.modal.toggle();
@@ -125,6 +133,17 @@ class Home {
     defineModalContent(content) {
         this.modalContent.html(content);
     }
+
+    refreshPainelReunioes() {
+        let self = this;
+        $.get('/home/reunioes')
+            .then(res => {
+                self.reunioes.html(res);
+            })
+            .fail(err => {
+                console.error('Erro na requisição: ', err);
+            });
+    }
 }
 
 class PopupConfirmation {
@@ -141,7 +160,7 @@ class PopupConfirmation {
             .then(res => {
                 self.container.defineModalContent(res);
                 $('#conf-sim').click(self.onAgreed);
-                $('#conf-nao').click(self.onDisgreed);
+                $('#conf-nao').click(self.onDisagreed);
             })
             .fail(err => {
                 console.error('Erro na requisição: ', err);

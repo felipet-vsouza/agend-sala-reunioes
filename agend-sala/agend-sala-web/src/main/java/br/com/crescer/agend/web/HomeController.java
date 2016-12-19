@@ -67,9 +67,17 @@ public class HomeController {
         model.addAttribute("salas", salas);
         return "fragments :: form-agendamento";
     }
-    
+
     @RequestMapping(value = "/home/confirmation")
     public String confirmacao() {
         return "fragments :: confirmacao";
+    }
+
+    @RequestMapping(value = "/home/reunioes")
+    public String reunioes(Model model, @AuthenticationPrincipal User user) {
+        Usuario atual = usuarioServico.findByEmail(user.getUsername());
+        List<Participante> participacoes = participanteServico.obterParticipantesDeAgendamentos(atual);
+        model.addAttribute("participacoes", participacoes);
+        return "fragments :: reunioes";
     }
 }

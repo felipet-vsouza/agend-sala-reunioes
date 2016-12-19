@@ -57,32 +57,12 @@
         </div>
         <section class="columns container is-fluid">
             <aside class="column is-one-third has-text-centered">
-                <nav class="panel has-clear-background">
-                    <p class="panel-heading" th:text="#{home.reunioes}">
-                    </p>
-                    <p class="panel-tabs">
-                        <a class="is-active" th:text="#{home.todosdias}"></a>
-                    </p>
-                    <a class="panel-block is-agendamento" th:each="participacao : ${participacoes}">
-                        <input type="hidden" class="is-id" th:value="${participacao.agendamento.id}" />
-                        <div>
-                            <strong th:text="${participacao.agendamento.descricao}"></strong>
-                            <span th:text="' ' + #{home.marcadopor} + ' ' + ${participacao.agendamento.criador.nome}"></span>
-                        </div>
-                        <div th:text="${#dates.format(participacao.agendamento.dataInicio, 'dd/MM/yyyy (hh:mm a - ') + #dates.format(participacao.agendamento.dataFinal, 'hh:mm a)')}">
-                        </div>
-                        <div>
-                            <strong th:text="#{home.local}"></strong>
-                            <span th:text="${participacao.agendamento.sala.nome}"></span>
-                        </div>
-                        <div>
-                            <strong th:text="#{home.status}"></strong>
-                            <span th:text="' ' + ${participacao.status}"></span>
-                        </div>
-                    </a>
-                </nav>
+                <section id="pn-reunioes">
+                    <nav class="panel has-clear-background" th:include="fragments :: reunioes">
+                    </nav>
+                </section>
                 <section class="container is-fluid">
-                    <div>
+                    <div class="has-upper-margin">
                         <a id="but-filtro" class="button is-primary is-loader">
                             <span class="icon">
                                 <i class="fa fa-filter"></i>

@@ -66,7 +66,7 @@ public class AgendamentoController {
 
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
 
-        emailServico.enviarEmail(participantes, "Conteúdo aqui." , "Convite para uma reunião.");
+        emailServico.enviarEmail(participantes, "Conteúdo aqui.", "Convite para uma reunião.");
 
         return "home";
     }
@@ -92,21 +92,23 @@ public class AgendamentoController {
 
         return "fragments :: agendamento-detalhes";
     }
-    
-    @RequestMapping(value = {"/agendamento/cancelar/{id_agendamento}"}, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/agendamento/cancelar/{id_agendamento}"}, method = RequestMethod.POST)
     public String cancelarAgendamento(@PathVariable(value = "id_agendamento") long idAgendamento, Model model) {
 
         Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
 
         boolean ehCriadorDoAgendamento = agendamentoServico.
                 ehCriadorDoAgendamento(usuarioServico.obterUsuarioDaSessao(), agendamento);
-        
+
         if (ehCriadorDoAgendamento) {
             agendamentoServico.cancelarAgendamento(agendamento.getParticipantes(), agendamento);
             agendamentoServico.delete(idAgendamento);
+            model.addAttribute("sucesso", true);
+        } else {
+            model.addAttribute("sucesso", false);
         }
-
-        return "home";
+        return "fragments :: cancelamentomensagem";
     }
 
     @RequestMapping("/aceitarparticipacao/{hash}")
