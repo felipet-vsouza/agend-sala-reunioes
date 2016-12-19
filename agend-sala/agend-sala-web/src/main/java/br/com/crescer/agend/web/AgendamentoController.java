@@ -16,14 +16,10 @@ import br.com.crescer.agend.service.EmailServico;
 import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
-import java.util.ArrayList;
+import br.com.crescer.agend.utils.EmailUtils;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,8 +61,6 @@ public class AgendamentoController {
         agendamento.setDescricao(descricao);
 
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
-
-        emailServico.enviarEmail(participantes, "Conteúdo aqui." , "Convite para uma reunião.");
 
         return "home";
     }
