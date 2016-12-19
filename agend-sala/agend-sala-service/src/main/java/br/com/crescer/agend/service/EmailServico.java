@@ -44,18 +44,8 @@ public class EmailServico {
     public boolean hashEhValido(Email email) {
         return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
     }
-
-    public String emailCancelamento(Agendamento agendamento) {
-        return "Olá <br/>"
-                + "A reunião foi cancelada. Detalhes: <br/>"
-                + "Local: " + agendamento.getSala().getNome() + "<br/> "
-                + "Hora de inicio: " + agendamento.getDataInicio().toString() + "<br/>"
-                + "Marcada por: " + agendamento.getCriador().getNome() + "<br/><br/>"
-                + "Obrigado!";
-    }
-
-    public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {
-
+    
+    public void enviarEmail(Participante participante, String conteudo, String assunto){
         Properties props = new Properties();
 
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -79,10 +69,7 @@ public class EmailServico {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("agendamentosalascwi@gmail.com"));
 
-            String emails = inserirDestinatarios(destinatarios);
-
-            Address[] toUser = InternetAddress //Destinatário(s)
-                    .parse(emails);
+            Address[] toUser = InternetAddress.parse(participante.getUsuario().getEmail());
 
             message.setRecipients(Message.RecipientType.TO, toUser);
             message.setSubject(assunto);
@@ -94,16 +81,9 @@ public class EmailServico {
         }
     }
 
-    private String inserirDestinatarios(List<Participante> destinatarios) {
-        String emails = "";
-
+    public void enviarEmail(List<Participante> destinatarios, String conteudo, String assunto) {
         for (int i = 0; i < destinatarios.size(); i++) {
-            emails += destinatarios.get(i).getUsuario().getEmail();
-            if (i < destinatarios.size() - 1) {
-                emails += ",";
-            }
+            this.enviarEmail(destinatarios.get(i), conteudo, assunto);
         }
-
-        return emails;
     }
 }

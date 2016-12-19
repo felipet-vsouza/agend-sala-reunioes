@@ -11,9 +11,11 @@ import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Status;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
+import br.com.crescer.agend.utils.EmailUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -42,15 +44,16 @@ public class ParticipanteServico {
         List<Participante> participantes = new ArrayList<>();
         
         for (int i = 0; i < usuarios.size(); i++) {
+                       
             Participante participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
             participantes.add(participante);
             participanteRepositorio.save(participante);
 
             Email email = new Email(participante, new Date(), obterToken());
-            emailServico.salvar(email);
+            emailServico.salvar(email);   
+            
+            emailServico.enviarEmail(participante, EmailUtils.emailConvite(agendamento, email), "Você recebeu um convite para uma reunião.");
         }
-        
-        emailServico.enviarEmail(participantes, "Conteudo aqui!", "Você recebeu um convite para uma reunião.");
         
         return participantes;
     }

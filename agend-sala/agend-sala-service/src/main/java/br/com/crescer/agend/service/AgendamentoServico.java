@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
 import br.com.crescer.agend.repository.SalaRepositorio;
+import br.com.crescer.agend.utils.EmailUtils;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class AgendamentoServico {
     
     public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento){
         
-        emailServico.enviarEmail(participantes, emailServico.emailCancelamento(agendamento), "Reunião cancelada.");
+        emailServico.enviarEmail(participantes, EmailUtils.emailCancelamento(agendamento), "Reunião cancelada.");
         
         for (int i = 0; i < participantes.size(); i++) {
             participanteServico.delete(participantes.get(i).getId());
@@ -74,6 +75,7 @@ public class AgendamentoServico {
             agendamentoRepositorio.save(agendamento);
             
             return participanteServico.save(usuarios, agendamento);
+            
         } else{
             return null;
         }
