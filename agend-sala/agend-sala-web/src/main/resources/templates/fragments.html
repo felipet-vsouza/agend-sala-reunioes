@@ -56,14 +56,11 @@
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th>E-mail</th>
-                            </tr>
-                        </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
+                            <tr th:each="usuario : ${usuarios}">
+                                <td>
+                                    <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
