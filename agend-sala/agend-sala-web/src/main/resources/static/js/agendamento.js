@@ -26,7 +26,7 @@ class AgendamentoSalas {
         this.descricao = $('#ag-des');
         this.sala = $('#ag-sl');
         this.name = $('#ag-nm');
-        this.date = $('#in-dat');
+        this.date = $('#ag-dat');
         this.horaInicio = $('#ag-hri');
         this.horaFim = $('#ag-hrf');
         this.postButton = $('#bt-post');
