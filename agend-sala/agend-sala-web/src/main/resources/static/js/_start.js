@@ -76,17 +76,29 @@ class Home {
         $('.is-agendamento').click(function () {
             let agendamento = $(this);
             let id = agendamento.find('.is-id').val();
-            $.get(`agendamento/detalhes/${id}`)
+            $.get(`/agendamento/detalhes/${id}`)
                 .then(res => {
                     self.modal.css("display", "flex");
-                    self.modalContent.html(res);
+                    self.defineModalContent(res);
+                    $('#agend-cancela').click(function () {
+                        new PopupConfirmation({
+                            onAgreed: function () {
+                                window.location = `/agendamento/cancelar/${id}`;
+                            },
+                            onDisagreed: function () {
+                                self.modal.toggle();
+                            },
+                            container: self
+                        });
+                    });
                 })
                 .fail(err => {
                     console.error(err);
                 });
         });
     }
-        defineAgendamentoSalasBind() {
+
+    defineAgendamentoSalasBind() {
         let self = this;
         this.filtroButton = $('#but-agendamento');
         this.filtroButton.click(function () {
@@ -108,5 +120,31 @@ class Home {
         this.modalClose.click(function () {
             self.modal.toggle();
         });
+    }
+
+    defineModalContent(content) {
+        this.modalContent.html(content);
+    }
+}
+
+class PopupConfirmation {
+    constructor(configurations) {
+        this.onAgreed = configurations.onAgreed;
+        this.onDisagreed = configurations.onDisagreed;
+        this.container = configurations.container;
+        this.showPopupAndSetBinds();
+    }
+
+    showPopupAndSetBinds() {
+        let self = this;
+        $.get('/home/confirmation')
+            .then(res => {
+                self.container.defineModalContent(res);
+                $('#conf-sim').click(self.onAgreed);
+                $('#conf-nao').click(self.onDisgreed);
+            })
+            .fail(err => {
+                console.error('Erro na requisição: ', err);
+            });
     }
 }

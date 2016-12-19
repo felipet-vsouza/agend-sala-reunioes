@@ -5,12 +5,10 @@
  */
 package br.com.crescer.agend.web;
 
-import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
-import br.com.crescer.agend.service.AgendamentoServico;
 import br.com.crescer.agend.service.EquipamentoServico;
 import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
@@ -68,5 +66,10 @@ public class HomeController {
         Iterable<Sala> salas = salaServico.findAll();
         model.addAttribute("salas", salas);
         return "fragments :: form-agendamento";
+    }
+    
+    @RequestMapping(value = "/home/confirmation")
+    public String confirmacao() {
+        return "fragments :: confirmacao";
     }
 }

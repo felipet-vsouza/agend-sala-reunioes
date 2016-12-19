@@ -97,7 +97,7 @@
                 <div class="control" id="in-eqp">
                     <input class="checkbox is-block" type="checkbox" th:each="equipamento : ${equipamentos}" th:text="${equipamento.nome}" th:value="${equipamento.id}" />
                 </div>
-                <a id="bt-get" class="button is-primary" th:text="#{salas.buscar}" />
+                <a id="bt-get" class="button is-primary is-loader" th:text="#{salas.buscar}" />
             </form>
         </section>
 
@@ -150,10 +150,22 @@
                 </div>
             </article>
             <footer th:if="${ehCriadorDoAgendamento}">
-                <a class="button is-danger" th:href="@{/agendamento/cancelar/} + ${agendamento.id}">
+                <a id="agend-cancela" class="button is-danger is-loader">
                     <span th:text="#{agenddetalhes.cancelar}"></span>
                 </a>
             </footer>
+        </section>
+        
+        <section class="box content has-text-centered" th:fragment="confirmacao">
+            <h1 th:text="#{confirmacao.titulo}"></h1>
+            <div class="columns">
+                <a id="conf-nao" class="column is-half button is-medium is-danger">
+                    <span th:text="#{confirmacao.nao}"></span>
+                </a>
+                <a id="conf-sim" class="column is-half button is-medium is-success">
+                    <span th:text="#{confirmacao.sim}"></span>
+                </a>
+            </div>
         </section>
     </body>
 </html>
