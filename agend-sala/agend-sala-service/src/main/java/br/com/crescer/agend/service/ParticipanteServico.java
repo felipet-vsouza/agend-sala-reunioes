@@ -62,9 +62,7 @@ public class ParticipanteServico {
             emailServico.salvar(email);
 
             if (!usuarios.get(i).equals(usarioCriadorAgendamento)) {
-
-                EmailUtils emailUtils = new EmailUtils();
-                String conteudo = emailUtils.emailConvite(agendamento, email);
+                String conteudo = EmailUtils.emailConvite(agendamento, email);
 
                 detalhamentoDoEmail(participante, conteudo, "Voce recebeu o convite de uma reunião.");
             }
