@@ -13,6 +13,7 @@ import br.com.crescer.agend.service.EquipamentoServico;
 import br.com.crescer.agend.service.ParticipanteServico;
 import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
+import br.com.crescer.agend.utils.EmailUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,6 +43,10 @@ public class HomeController {
 
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
+        
+        EmailUtils email = new EmailUtils();
+        String teste = email.testeTemplate();
+        
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
 
         Iterable<Sala> salas = salaServico.findAll();

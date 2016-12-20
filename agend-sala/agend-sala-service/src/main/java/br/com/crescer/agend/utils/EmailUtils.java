@@ -8,17 +8,50 @@ package br.com.crescer.agend.utils;
 import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Email;
 import java.text.SimpleDateFormat;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.HashSet;
+import java.util.Set;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 /**
  *
  * @author Henrique
  */
 public class EmailUtils {
-    
+
+    public EmailUtils() {
+        
+        Set<ITemplateResolver> templatesResolvers = new HashSet<>();
+
+        ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
+        emailTemplateResolver.setTemplateMode("HTML5");
+        emailTemplateResolver.setPrefix("/templates/");
+        emailTemplateResolver.setCharacterEncoding("UTF-8");
+        emailTemplateResolver.setSuffix(".html");
+        emailTemplateResolver.setOrder(1);
+        templatesResolvers.add(emailTemplateResolver);
+
+        templateEngine.setTemplateResolvers(templatesResolvers);
+
+    }
+
+    private final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+
     final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
 
-    public static String emailCancelamento(Agendamento agendamento) {        
+    public String testeTemplate() {
+        final Context ctx = new Context();
+        String teste = "TESTE EMAIL";
+        ctx.setVariable("teste", teste);
+
+        final String htmlContent = this.templateEngine.process("login", ctx);
+
+        return htmlContent;
+    }
+
+    public static String emailCancelamento(Agendamento agendamento) {
         return "Olá <br/>"
                 + "A reunião foi cancelada. Detalhes: <br/>"
                 + "Local: " + agendamento.getSala().getNome() + "<br/> "
