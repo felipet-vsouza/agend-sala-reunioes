@@ -40,6 +40,10 @@ public class EmailServico {
     public Email salvar(Email email) {
         return emailRepositorio.save(email);
     }
+    
+    public void delete(Email email){
+       emailRepositorio.delete(email);
+    }
 
     public boolean hashEhValido(Email email) {
         if (email == null) {

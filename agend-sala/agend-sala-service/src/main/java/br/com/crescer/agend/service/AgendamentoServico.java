@@ -28,20 +28,20 @@ public class AgendamentoServico {
 
     @Autowired
     AgendamentoRepositorio agendamentoRepositorio;
-    
+
     @Autowired
     ParticipanteServico participanteServico;
-    
+
     @Autowired
     SalaRepositorio salaRepositorio;
-    
+
     @Autowired
     EmailServico emailServico;
-    
-    public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento){
-        
+
+    public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento) {
+
         emailServico.enviarEmail(participantes, EmailUtils.emailCancelamento(agendamento), "Reunião cancelada.");
-        
+
         for (int i = 0; i < participantes.size(); i++) {
             participanteServico.delete(participantes.get(i).getId());
         }
@@ -66,26 +66,30 @@ public class AgendamentoServico {
     public Agendamento findOne(Long id) {
         return agendamentoRepositorio.findOne(id);
     }
-    
-    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala){
-        
+
+    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) {
+
         if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size())) {
             agendamento.setDataFinal(dataFinal);
             agendamento.setDataInicio(dataInicial);
-            agendamentoRepositorio.save(agendamento);
             
-            return participanteServico.save(usuarios, agendamento);
-            
-        } else{
+            if (agendamento.getId() != null) {
+                return participanteServico.update(agendamento.getParticipantes(), usuarios, agendamento);
+            } else {
+                
+                agendamentoRepositorio.save(agendamento);
+                return participanteServico.save(usuarios, agendamento);
+            }
+        } else {
             return null;
         }
     }
-    
+
     public boolean ehCriadorDoAgendamento(Usuario usuarioSessao, Agendamento agendamento) {
         return usuarioSessao.equals(agendamento.getCriador());
-    } 
-    
-    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, long capacidade){
+    }
+
+    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, long capacidade) {
         List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, capacidade);
         return salas.contains(sala);
     }

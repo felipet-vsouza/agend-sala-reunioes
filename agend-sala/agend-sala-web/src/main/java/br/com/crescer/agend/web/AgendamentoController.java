@@ -51,6 +51,27 @@ public class AgendamentoController {
 
     @Autowired
     AgendamentoServico agendamentoServico;
+    
+    @RequestMapping(value = {"/agendamento/alterar/{id_agendamento}"}, method = RequestMethod.POST)
+    public String alterarAgendamento(@PathVariable(value = "id_agendamento") long idAgendamento, Model model, long idSala, String descricao,
+            Date dataInicial, Date dataFinal, @RequestParam(value = "usuarios[]", required = false) List<Long> idsUsuarios) {
+
+        List<Usuario> usuarios = idsUsuarios.stream()
+                .map(id -> usuarioServico.findOne(id))
+                .collect(Collectors.toList());
+
+        Sala sala = salaServico.findOne(idSala);
+
+        Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
+        agendamento.setDescricao(descricao);
+        agendamento.setSala(sala);
+
+        agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
+
+        model.addAttribute("sucesso", true);
+
+        return "fragments :: agendamentomensagem";
+    }
 
     @RequestMapping(value = {"/agendamento/adicionar"}, method = RequestMethod.POST)
     public String adicionarAgendamento(Model model, long idSala, String descricao,
@@ -75,6 +96,8 @@ public class AgendamentoController {
 
         return "fragments :: agendamentomensagem";
     }
+    
+    
 
     @RequestMapping(value = {"/agendamento/detalhes/{id_detalhamento}"}, method = RequestMethod.GET)
     public String detalhesAgendamento(@PathVariable(value = "id_detalhamento") long idDetalhamento, Model model) {
