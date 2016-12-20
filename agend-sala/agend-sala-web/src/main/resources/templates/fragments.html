@@ -67,30 +67,31 @@
             <header class="content">
                 <h1 th:text="#{agendamento.titulo}" />
             </header>
-            <form id="frm-agendamento">
+            <form id="frm-alterar">
                 <label class="label" th:text="#{agendamento.sala}"/>
                 <div class="control" id="al-sl">
-                    <span class="select">
-                        <select  name="sala">
+                    <span class="select" >
+                        <select name="sala">
                             <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
-                        </select>
+                        </select>                    
+                    <!--th:value="${agendamento.sala.id}"-->
                     </span>
                 </div>
                 <label class="label" th:text="#{agendamento.descricao}" />
                 <div class="control">
-                    <input id="al-des" name="descricao" class="input" type="text" />
+                    <input id="al-des" name="descricao" class="input" type="text" th:value="${agendamento.descricao}" />
                 </div>
                 <label class="label" th:text="#{agendamento.data}" />
                 <div class="control">
-                    <input id="al-dat" name="data" class="input" type="text" />
+                    <input id="al-dat" name="data" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'dd/MM/yyyy')}"/>
                 </div>
                 <label class="label" th:text="#{agendamento.horainicio}" />
                 <div class="control">
-                    <input id="al-hri" name="inicio" class="input" type="text" />
+                    <input id="al-hri" name="inicio" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'HH:mm ')}"/>
                 </div>
                 <label class="label" th:text="#{agendamento.horafinal}" />
                 <div class="control">
-                    <input id="al-hrf" name="final" class="input" type="text" />
+                    <input id="al-hrf" name="final" class="input" type="text" th:value="${#dates.format(agendamento.dataFinal, 'HH:mm ')}"/>
                 </div>     
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
@@ -98,13 +99,13 @@
                         <tbody>
                             <tr id="al-nm" th:each="usuario : ${usuarios}">
                                 <td>
-                                    <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" />
+                                    <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" th:checked="${#lists.contains(participantes, usuario.id)}" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <a id="bt-post" class="button is-primary" th:text="#{agendamento.agendar}" />
+                <a id="bt-post" class="button is-primary" th:text="#{agendamento.alterar}" />
             </form>
         </section>
 

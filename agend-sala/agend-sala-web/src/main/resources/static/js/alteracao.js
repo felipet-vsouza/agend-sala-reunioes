@@ -22,7 +22,7 @@ $.validator.addMethod("validHour",
 
 class AlteracaoSalas {
     constructor(id) {
-        this.form = $('#frm-alteracao');
+        this.form = $('#frm-alterar');
         this.descricao = $('#al-des');
         this.id = $('#ag-id')
         this.sala = $('#al-sl');
@@ -90,7 +90,7 @@ class AlteracaoSalas {
                 let hora = self.horaInicio.val().substring(0, 2);
                 let minuto = self.horaInicio.val().substring(3, 5);
                 let descricao = self.descricao.val();
-                
+
                 initialDate.setHours(parseInt(hora));
                 initialDate.setMinutes(parseInt(minuto));
                 hora = self.horaFim.val().substring(0, 2);
@@ -102,7 +102,9 @@ class AlteracaoSalas {
                 $('#al-nm :checked').each(function () {
                     usuarios.push(parseInt($(this).val()));
                 });
-                $.post(`/agendamento/alterar/${id}`, {
+                
+                $.post(`/agendamento/alterar/${self.id}`, {
+                    
                     idSala: idSala,
                     descricao: descricao,
                     dataInicial: initialDate,

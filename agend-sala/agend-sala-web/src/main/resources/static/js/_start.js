@@ -162,7 +162,14 @@ class Home {
                     });
                     $('#agend-altera').click(function () {
                         let id = parseInt($('#ag-id').val());
-                        new AlteracaoSalas(id);    
+                        $.get(`/home/alteracao/${id}`)
+                            .then(res => {
+                                self.defineModalContent(res);
+                                new AlteracaoSalas(id);
+                            })
+                            .fail(err => {
+                                console.error('Erro na requisição: ', err);
+                            });
                     });
                 })
                 .fail(err => {
