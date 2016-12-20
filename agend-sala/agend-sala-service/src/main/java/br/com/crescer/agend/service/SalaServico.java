@@ -52,8 +52,8 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, int quantidadeSelecionado, List<Long> ids) {
-        List<Sala> conflituosas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, quantidadeSelecionado);
+    public List<Sala> FiltroSalas(Date dataInicial, Date dataFinal, int quantidadeSelecionado, List<Long> ids) {
+        List<Sala> conflituosas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, quantidadeSelecionado, null);
         List<Sala> validas = IteratorUtils.toList(findAll().iterator())
                 .stream()
                 .filter(s -> !conflituosas.contains(s))

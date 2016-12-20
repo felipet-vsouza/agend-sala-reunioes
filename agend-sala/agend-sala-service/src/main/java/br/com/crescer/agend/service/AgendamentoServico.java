@@ -15,9 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
 import br.com.crescer.agend.repository.SalaRepositorio;
+import br.com.crescer.agend.repository.UsuarioRepositorio;
 import br.com.crescer.agend.utils.EmailUtils;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,6 +37,9 @@ public class AgendamentoServico {
 
     @Autowired
     SalaRepositorio salaRepositorio;
+
+    @Autowired
+    UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
     EmailServico emailServico;
@@ -67,9 +72,16 @@ public class AgendamentoServico {
         return agendamentoRepositorio.findOne(id);
     }
 
-    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
-
-        if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size())) {
+    public List<Participante> save(List<Long> idsUsuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
+        List<Usuario> usuarios;
+        if (idsUsuarios != null) {
+            usuarios = idsUsuarios.stream()
+                    .map(id -> usuarioRepositorio.findOne(id))
+                    .collect(Collectors.toList());
+        } else {
+            throw new RegraNegocioException("Ao menos um participante deve ser selecionado.");
+        }
+        if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size(), agendamento)) {
             agendamento.setDataFinal(dataFinal);
             agendamento.setDataInicio(dataInicial);
 
@@ -88,8 +100,8 @@ public class AgendamentoServico {
         return usuarioSessao.equals(agendamento.getCriador());
     }
 
-    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade) {
-        List<Sala> salas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, capacidade);
+    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
+        List<Sala> salas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, capacidade, agendamento.getId());
         return !salas.contains(sala);
     }
 }

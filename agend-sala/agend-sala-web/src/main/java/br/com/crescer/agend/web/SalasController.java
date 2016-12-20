@@ -30,8 +30,8 @@ public class SalasController {
     EquipamentoServico equipamentoServico;
     
     @RequestMapping(value = {"/salas/find"})
-    public String salas(Model model, Date dataInicio, Date dataFim, long capacidade, @RequestParam(value="equipamentos[]", required = false) List<Long> equipamentos) {
-        List<Sala> salas = salaServico.findAllSala(dataInicio, dataFim, capacidade, equipamentos);
+    public String salas(Model model, Date dataInicio, Date dataFim, int capacidade, @RequestParam(value="equipamentos[]", required = false) List<Long> equipamentos) {
+        List<Sala> salas = salaServico.FiltroSalas(dataInicio, dataFim, capacidade, equipamentos);
         model.addAttribute("salas", salas);
         return "fragments :: lista-salas";
     }

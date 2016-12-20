@@ -24,7 +24,7 @@ class AlteracaoSalas {
     constructor(id) {
         this.form = $('#frm-alterar');
         this.descricao = $('#al-des');
-        this.id = $('#ag-id')
+        this.id = id;
         this.sala = $('#al-sl');
         this.name = $('#al-nm');
         this.date = $('#al-dat');
@@ -103,7 +103,7 @@ class AlteracaoSalas {
                     usuarios.push(parseInt($(this).val()));
                 });
                 
-                $.post(`/agendamento/alterar/${idSala}`, {
+                $.post(`/agendamento/alterar/${self.id}`, {
                     
                     idSala: idSala,
                     descricao: descricao,

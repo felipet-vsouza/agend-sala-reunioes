@@ -56,14 +56,11 @@ public class AgendamentoController {
     public String alterarAgendamento(@PathVariable(value = "id_agendamento") long idAgendamento, Model model, long idSala, String descricao,
             Date dataInicial, Date dataFinal, @RequestParam(value = "usuarios[]", required = false) List<Long> idsUsuarios) {
         try {
-            List<Usuario> usuarios = idsUsuarios.stream()
-                    .map(id -> usuarioServico.findOne(id))
-                    .collect(Collectors.toList());
             Sala sala = salaServico.findOne(idSala);
             Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
             agendamento.setDescricao(descricao);
             agendamento.setSala(sala);
-            agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
+            agendamentoServico.save(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
             model.addAttribute("sucesso", true);
         } catch (RegraNegocioException e) {
             model.addAttribute("sucesso", false);
@@ -75,16 +72,13 @@ public class AgendamentoController {
     public String adicionarAgendamento(Model model, long idSala, String descricao,
             Date dataInicial, Date dataFinal, @RequestParam(value = "usuarios[]", required = false) List<Long> idsUsuarios) {
         try {
-            List<Usuario> usuarios = idsUsuarios.stream()
-                    .map(id -> usuarioServico.findOne(id))
-                    .collect(Collectors.toList());
             Usuario usuario = usuarioServico.obterUsuarioDaSessao();
             Sala sala = salaServico.findOne(idSala);
             Agendamento agendamento = new Agendamento();
             agendamento.setCriador(usuario);
             agendamento.setDescricao(descricao);
             agendamento.setSala(sala);
-            agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
+            agendamentoServico.save(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
             model.addAttribute("sucesso", true);
         } catch (RegraNegocioException e) {
             model.addAttribute("sucesso", false);

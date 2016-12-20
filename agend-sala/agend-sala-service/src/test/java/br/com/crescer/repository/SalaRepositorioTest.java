@@ -36,11 +36,13 @@ public class SalaRepositorioTest {
 
     @Autowired
     private SalaRepositorio salaRepositorio;
+    
+    Agendamento agendamento;
 
     @Before
     public void criarAgendamento() throws ParseException {
         entityManager.clear();
-        final Agendamento agendamento = new Agendamento();
+        agendamento = new Agendamento();
         agendamento.setDataFinal(getDateByString("25/12/2016 17:30"));
         agendamento.setDataInicio(getDateByString("25/12/2016 13:30"));
         agendamento.setSala(criarSala());
@@ -59,56 +61,63 @@ public class SalaRepositorioTest {
     public void testaPorDataDeInicioAnteriorConflitante() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 13:00");
         Date dataFinal = getDateByString("25/12/2016 14:00");
-        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
 
     @Test
     public void testaPorDataDeInicioPosteriorConflitante() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 17:00");
         Date dataFinal = getDateByString("25/12/2016 18:00");
-        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
 
     @Test
     public void testaPorDataIntermediariaMenorConflitante() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 15:01");
         Date dataFinal = getDateByString("25/12/2016 15:02");
-        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
 
     @Test
     public void testaPorDataIntermediariaMaiorConflitante() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 13:00");
         Date dataFinal = getDateByString("25/12/2016 18:00");
-        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
     
     @Test
     public void testaPorDataCoincidenteComDataInicial() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 13:00");
         Date dataFinal = getDateByString("25/12/2016 13:30");
-        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
 
     @Test
     public void testaPorDataCoincidenteComDataFinal() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 17:30");
         Date dataFinal = getDateByString("25/12/2016 18:00");
-        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
 
     @Test
     public void testaPorDataNaoCoincidenteAnterior() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 12:00");
         Date dataFinal = getDateByString("25/12/2016 13:00");
-        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
     }
 
     @Test
     public void testaPorDataNaoCoincidentePosterior() throws ParseException {
         Date dataInicio = getDateByString("25/12/2016 18:00");
         Date dataFinal = getDateByString("25/12/2016 19:00");
-        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, null).size());
+    }
+
+    @Test
+    public void testaPorAgendamentoComIdIgual() throws ParseException {
+        Date dataInicio = getDateByString("25/12/2016 18:00");
+        Date dataFinal = getDateByString("25/12/2016 19:00");
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20, agendamento.getId()).size());
     }
 
     private static Date getDateByString(final String date) throws ParseException {
