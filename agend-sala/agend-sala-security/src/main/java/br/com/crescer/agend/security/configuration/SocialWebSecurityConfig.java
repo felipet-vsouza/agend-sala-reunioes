@@ -26,7 +26,7 @@ public class SocialWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/add")
+                .antMatchers("/add", "/recusarparticipacao/*", "/aceitarparticipacao/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
