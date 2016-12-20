@@ -73,6 +73,8 @@ public class ParticipanteServico {
 
     public List<Participante> update(List<Participante> participantes, List<Usuario> usuarios, Agendamento agendamento) {
 
+        Usuario usarioCriadorAgendamento = agendamento.getCriador();
+
         for (int i = 0; i < participantes.size(); i++) {
 
             emailServico.delete(participantes.get(i).getEmail());
@@ -81,14 +83,24 @@ public class ParticipanteServico {
 
         for (int i = 0; i < usuarios.size(); i++) {
 
-            Participante participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
+            Participante participante;
+
+            if (usuarios.get(i).equals(usarioCriadorAgendamento)) {
+                participante = new Participante(usuarios.get(i), agendamento, Status.CONFIRMADO);
+            } else{
+                participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
+            }
+
             participantes.add(participante);
             participanteRepositorio.save(participante);
 
             Email email = new Email(participante, new Date(), obterToken());
             emailServico.salvar(email);
 
-            detalhamentoDoEmail(participante, "Reunião alterada", "Reunião alterada.");
+            if (!usuarios.get(i).equals(usarioCriadorAgendamento)) {
+                String conteudo = EmailUtils.emailAlteracao(agendamento, email);
+                detalhamentoDoEmail(participante, conteudo, "Reunião alterada.");
+            }
         }
 
         return participantes;
@@ -133,7 +145,7 @@ public class ParticipanteServico {
                 .stream()
                 .sorted((e1, e2) -> e1.getAgendamento().getDataInicio().compareTo(e2.getAgendamento().getDataInicio()))
                 .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial)
-                        || p.getAgendamento().getDataInicio().equals(dateInicial))
+                || p.getAgendamento().getDataInicio().equals(dateInicial))
                 .collect(Collectors.toList());
 
         return participantes;
