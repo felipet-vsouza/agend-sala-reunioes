@@ -5173,4 +5173,16 @@ a.panel-block:hover {
   border-bottom-color: #fbb041;
 }
 
+i.is-recusado {
+  color: #696969;
+}
+
+i.is-pendente {
+  color: #FFFF00;
+}
+
+i.is-success {
+  color: #23d160;
+}
+
 /*# sourceMappingURL=style.css.map */

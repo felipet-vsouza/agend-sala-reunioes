@@ -239,7 +239,18 @@
                 </div>
                 <div>
                     <strong th:text="#{home.status}"></strong>
-                    <span th:text="' ' + ${participacao.status}"></span>
+                    <span>
+                        <p class="is-inline" th:text="' ' + ${participacao.status}" />
+                        <span class="icon" th:if="${participacao.status} eq ${confirmado}">
+                            <i class="fa fa-circle fa-1 is-success" aria-hidden="true"></i>
+                        </span>
+                        <span class="icon" th:if="${participacao.status} eq ${pendente}">
+                            <i class="fa fa-circle fa-1 is-pendente" aria-hidden="true"></i>
+                        </span>
+                        <span class="icon" th:if="${participacao.status} eq ${recusado}">
+                            <i class="fa fa-circle fa-1 is-recusado" aria-hidden="true"></i>
+                        </span>
+                    </span>
                 </div>
             </a>
         </nav>

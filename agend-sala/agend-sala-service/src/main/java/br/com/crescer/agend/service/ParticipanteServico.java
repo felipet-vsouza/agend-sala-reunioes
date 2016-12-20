@@ -42,7 +42,7 @@ public class ParticipanteServico {
     public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento) {
 
         List<Participante> participantes = new ArrayList<>();
-        
+
         Usuario usarioCriadorAgendamento = agendamento.getCriador();
 
         for (int i = 0; i < usuarios.size(); i++) {
@@ -62,7 +62,9 @@ public class ParticipanteServico {
             emailServico.salvar(email);
 
             if (!usuarios.get(i).equals(usarioCriadorAgendamento)) {
-                detalhamentoDoEmail(participante, EmailUtils.emailConvite(agendamento, email), "Voce recebeu o convite de uma reunião.");
+                String conteudo = EmailUtils.emailConvite(agendamento, email);
+
+                detalhamentoDoEmail(participante, conteudo, "Voce recebeu o convite de uma reunião.");
             }
         }
 
@@ -72,6 +74,7 @@ public class ParticipanteServico {
     public List<Participante> update(List<Participante> participantes, List<Usuario> usuarios, Agendamento agendamento) {
 
         for (int i = 0; i < participantes.size(); i++) {
+
             emailServico.delete(participantes.get(i).getEmail());
             this.delete(participantes.get(i).getId());
         }
@@ -130,7 +133,7 @@ public class ParticipanteServico {
                 .stream()
                 .sorted((e1, e2) -> e1.getAgendamento().getDataInicio().compareTo(e2.getAgendamento().getDataInicio()))
                 .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial)
-                || p.getAgendamento().getDataInicio().equals(dateInicial))
+                        || p.getAgendamento().getDataInicio().equals(dateInicial))
                 .collect(Collectors.toList());
 
         return participantes;

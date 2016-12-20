@@ -9,6 +9,7 @@ import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Sala;
+import br.com.crescer.agend.entity.Status;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.service.AgendamentoServico;
 import br.com.crescer.agend.service.EquipamentoServico;
@@ -72,15 +73,15 @@ public class HomeController {
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
         
-        EmailUtils email = new EmailUtils();
-        String teste = email.testeTemplate();
-        
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
 
         Iterable<Sala> salas = salaServico.findAll();
 
         List<Participante> participacoes = participanteServico.obterParticipantesDeAgendamentos(atual);
 
+        model.addAttribute("confirmado", Status.CONFIRMADO);
+        model.addAttribute("pendente", Status.PENDENTE);
+        model.addAttribute("recusado", Status.RECUSADO);
         model.addAttribute("salas", salas);
         model.addAttribute("sessao", atual);
         model.addAttribute("participacoes", participacoes);
