@@ -9,6 +9,7 @@ import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
+import br.com.crescer.agend.exception.RegraNegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,7 +68,7 @@ public class AgendamentoServico {
         return agendamentoRepositorio.findOne(id);
     }
 
-    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) {
+    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
 
         if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size())) {
             agendamento.setDataFinal(dataFinal);
@@ -81,7 +82,7 @@ public class AgendamentoServico {
                 return participanteServico.save(usuarios, agendamento);
             }
         } else {
-            return null;
+            throw new RegraNegocioException("A sala está indisponível.");
         }
     }
 
