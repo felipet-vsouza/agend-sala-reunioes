@@ -160,6 +160,10 @@ class Home {
                             container: self
                         });
                     });
+                    $('#agend-altera').click(function () {
+                        let id = parseInt($('#ag-id').val());
+                        new AlteracaoSalas(id);    
+                    });
                 })
                 .fail(err => {
                     console.error(err);
