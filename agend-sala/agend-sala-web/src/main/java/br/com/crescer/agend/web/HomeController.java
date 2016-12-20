@@ -44,8 +44,8 @@ public class HomeController {
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
         
-        EmailUtils email = new EmailUtils();
-        String teste = email.testeTemplate();
+//        EmailUtils email = new EmailUtils();
+//        String teste = email.testeTemplate();
         
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
 
