@@ -26,7 +26,7 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
     @Query(value = ""
             + " SELECT * "
             + "   FROM SALA SA "
-            + "  WHERE SA.CAPACIDADE_SALA >= :QUANTIDADESELECIONADO "
+            + "  WHERE SA.CAPACIDADE_SALA >= :CAPACIDADE "
             + "    AND SA.ID_SALA NOT IN ( "
             + "     SELECT S.ID_SALA "
             + "       FROM AGENDAMENTO S "
@@ -40,7 +40,7 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
             + "         AND NOT (S.DT_FINAL_AGENDAMENTO = :DATAINICIAL)"
             + "      ) ", nativeQuery = true)
     public List<Sala> filtroDeSalas(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
-            @Param("QUANTIDADESELECIONADO") Long quantidadeSelecionado);
+            @Param("CAPACIDADE") Long capacidade);
 
     @Query("SELECT S FROM Agendamento A JOIN A.sala S WHERE A.dataInicio >= :inicio OR A.dataFinal <= :fim AND S.capacidade >= :capacidade ")
     public List<Sala> findByIntervalo(@Param("inicio") final Date dataInicio, @Param("fim") final Date dataFinal, @Param("capacidade")  Integer capacidade);

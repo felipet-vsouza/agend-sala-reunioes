@@ -63,6 +63,51 @@
             </form>
         </section>
 
+        <section class="box" th:fragment="form-alterar">
+            <header class="content">
+                <h1 th:text="#{agendamento.titulo}" />
+            </header>
+            <form id="frm-agendamento">
+                <label class="label" th:text="#{agendamento.sala}"/>
+                <div class="control" id="al-sl">
+                    <span class="select">
+                        <select  name="sala">
+                            <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
+                        </select>
+                    </span>
+                </div>
+                <label class="label" th:text="#{agendamento.descricao}" />
+                <div class="control">
+                    <input id="al-des" name="descricao" class="input" type="text" />
+                </div>
+                <label class="label" th:text="#{agendamento.data}" />
+                <div class="control">
+                    <input id="al-dat" name="data" class="input" type="text" />
+                </div>
+                <label class="label" th:text="#{agendamento.horainicio}" />
+                <div class="control">
+                    <input id="al-hri" name="inicio" class="input" type="text" />
+                </div>
+                <label class="label" th:text="#{agendamento.horafinal}" />
+                <div class="control">
+                    <input id="al-hrf" name="final" class="input" type="text" />
+                </div>     
+                <label class="label" th:text="#{agendamento.participante}" />
+                <div class="control">
+                    <table class="table">
+                        <tbody>
+                            <tr id="al-nm" th:each="usuario : ${usuarios}">
+                                <td>
+                                    <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a id="bt-post" class="button is-primary" th:text="#{agendamento.agendar}" />
+            </form>
+        </section>
+
         <section class="box" th:fragment="form-salas">
             <header class="content">
                 <h1 th:text="#{salas.titulo}" />
