@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head th:include="fragments :: head('Agendamento de reuniões')"></head>
+    <body>
+        <header class="hero">
+            <nav class="hero-head nav">
+                <div class="nav-left">
+                </div>
+                <div class="nav-center">
+                    <a class="nav-item is-brand" th:href="@{/home}">
+                        <img th:src="@{/css/logo-preto.png}" />
+                    </a>
+                </div>
+                <span id="nav-toggler" class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+                <div id="nav-to-toggle" class="nav-right nav-menu">
+                    <span class="nav-item">
+                        <a th:if="${sessao eq null}" class="button is-primary" th:href="@{/login}">
+                            <span class="icon">
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                            <span th:text="#{message.login}"></span>
+                        </a>
+                        <a th:unless="${sessao eq null}" class="button is-primary" th:href="@{/home}">
+                            <span class="icon">
+                                <i class="fa fa-home"></i>
+                            </span>
+                            <span th:text="#{message.home}"></span>
+                        </a>
+                    </span>
+                </div>
+            </nav>
+            <section class="hero-body">
+                <div class="container has-text-centered">
+                    <h1 th:if="${aceitar}" class="title" th:text="#{message.aceitar}"></h1>
+                    <h1 th:if="${recusar}" class="title" th:text="#{message.recusar}"></h1>
+                    <h1 th:if="${erro}" class="title" th:text="#{message.erro}"></h1>
+                    <h2 th:if="${erro}" class="subtitle" th:text="#{message.detalheerro}"></h2>
+                    <h2 th:unless="${erro}" class="subtitle" th:text="#{message.detalhes}" />
+                    <article th:unless="${erro}" class="content">
+                        <h3 class="is-bold" th:text="${agendamento.descricao}"/>
+                        <p class="is-inline" th:text="#{message.marcadopor}" />
+                        <strong class="is-inline is-bold" th:text="${agendamento.criador.nome}" />    
+                    </article>
+                </div>
+            </section>
+        </header>
+    </body>
+</html>

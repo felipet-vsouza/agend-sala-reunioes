@@ -42,10 +42,13 @@ public class EmailServico {
     }
 
     public boolean hashEhValido(Email email) {
+        if (email == null) {
+            return false;
+        }
         return email.getParticipante().getAgendamento().getDataInicio().after(new Date());
     }
-    
-    public void enviarEmail(Participante participante, String conteudo, String assunto){
+
+    public void enviarEmail(Participante participante, String conteudo, String assunto) {
         Properties props = new Properties();
 
         props.put("mail.smtp.host", "smtp.gmail.com");

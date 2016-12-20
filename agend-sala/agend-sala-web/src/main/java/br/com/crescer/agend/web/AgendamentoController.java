@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,12 +54,12 @@ public class AgendamentoController {
 
     @RequestMapping(value = {"/agendamento/adicionar"}, method = RequestMethod.POST)
     public String adicionarAgendamento(Model model, long idSala, String descricao,
-            Date dataInicial, Date dataFinal, @RequestParam(value="usuarios[]", required = false) List<Long> idsUsuarios) {
+            Date dataInicial, Date dataFinal, @RequestParam(value = "usuarios[]", required = false) List<Long> idsUsuarios) {
 
         List<Usuario> usuarios = idsUsuarios.stream()
                 .map(id -> usuarioServico.findOne(id))
                 .collect(Collectors.toList());
-        
+
         Usuario usuario = usuarioServico.obterUsuarioDaSessao();
 
         Sala sala = salaServico.findOne(idSala);
@@ -70,7 +72,7 @@ public class AgendamentoController {
         List<Participante> participantes = agendamentoServico.save(usuarios, agendamento, dataInicial, dataFinal, sala);
 
         model.addAttribute("sucesso", true);
-        
+
         return "fragments :: agendamentomensagem";
     }
 
@@ -115,28 +117,44 @@ public class AgendamentoController {
     }
 
     @RequestMapping("/aceitarparticipacao/{hash}")
-    public String aceitarParticipao(@PathVariable(value = "hash") String hash) {
-
+    public String aceitarParticipao(@AuthenticationPrincipal User user, Model model, @PathVariable(value = "hash") String hash) {
         Email email = emailServico.findByHash(hash);
+
+        if (user == null) {
+            model.addAttribute("sessao", user);
+        } else {
+            model.addAttribute("sessao", usuarioServico.findByEmail(user.getUsername()));
+        }
 
         if (emailServico.hashEhValido(email)) {
             email.getParticipante().setStatus(Status.CONFIRMADO);
             emailServico.salvar(email);
+            model.addAttribute("agendamento", email.getParticipante().getAgendamento());
+            model.addAttribute("aceitar", true);
+        } else {
+            model.addAttribute("erro", true);
         }
-
-        return "home";
+        return "message";
     }
 
     @RequestMapping("/recusarparticipacao/{hash}")
-    public String recusarParticipao(@PathVariable(value = "hash") String hash) {
-
+    public String recusarParticipao(@AuthenticationPrincipal User user, Model model, @PathVariable(value = "hash") String hash) {
         Email email = emailServico.findByHash(hash);
+
+        if (user == null) {
+            model.addAttribute("sessao", user);
+        } else {
+            model.addAttribute("sessao", usuarioServico.findByEmail(user.getUsername()));
+        }
 
         if (emailServico.hashEhValido(email)) {
             email.getParticipante().setStatus(Status.RECUSADO);
             emailServico.salvar(email);
+            model.addAttribute("agendamento", email.getParticipante().getAgendamento());
+            model.addAttribute("recusar", true);
+        } else {
+            model.addAttribute("erro", true);
         }
-
-        return "home";
+        return "message";
     }
 }
