@@ -10,15 +10,13 @@ import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.repository.EquipamentoRepositorio;
 import br.com.crescer.agend.repository.SalaRepositorio;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 /**
@@ -54,15 +52,19 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, Long quantidadeSelecionado, List<Long> ids) {
-        List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, quantidadeSelecionado);
+    public List<Sala> findAllSala(Date dataInicial, Date dataFinal, int quantidadeSelecionado, List<Long> ids) {
+        List<Sala> conflituosas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, quantidadeSelecionado);
+        List<Sala> validas = IteratorUtils.toList(findAll().iterator())
+                .stream()
+                .filter(s -> !conflituosas.contains(s))
+                .collect(Collectors.toList());
         if (ids != null) {
             List<Equipamento> equipamentos = ids.stream()
                     .map(id -> equipamentoRepositorio.findOne(id))
                     .collect(Collectors.toList());
-            return filtrarEquipamentos(salas, equipamentos);
+            return filtrarEquipamentos(validas, equipamentos);
         } else {
-            return salas;
+            return validas;
         }
     }
 

@@ -23,26 +23,14 @@ public interface SalaRepositorio extends CrudRepository<Sala, Long> {
 
     public Page<Sala> findAll(Pageable pgbl);
 
-    @Query(value = ""
-            + " SELECT * "
-            + "   FROM SALA SA "
-            + "  WHERE SA.CAPACIDADE_SALA >= :CAPACIDADE "
-            + "    AND SA.ID_SALA NOT IN ( "
-            + "     SELECT S.ID_SALA "
-            + "       FROM AGENDAMENTO S "
-            + "      WHERE ( "
-            + "          :DATAINICIAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO "
-            + "          OR :DATAFINAL BETWEEN S.DT_INICIO_AGENDAMENTO AND S.DT_FINAL_AGENDAMENTO "
-            + "          OR S.DT_INICIO_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL "
-            + "          OR S.DT_FINAL_AGENDAMENTO BETWEEN :DATAINICIAL AND :DATAFINAL "
-            + "         ) "
-            + "         AND NOT (S.DT_INICIO_AGENDAMENTO = :DATAFINAL) "
-            + "         AND NOT (S.DT_FINAL_AGENDAMENTO = :DATAINICIAL)"
-            + "      ) ", nativeQuery = true)
-    public List<Sala> filtroDeSalas(@Param("DATAINICIAL") Date dataInicial, @Param("DATAFINAL") Date dataFinal,
-            @Param("CAPACIDADE") Long capacidade);
-
-    @Query("SELECT S FROM Agendamento A JOIN A.sala S WHERE A.dataInicio >= :inicio OR A.dataFinal <= :fim AND S.capacidade >= :capacidade ")
-    public List<Sala> findByIntervalo(@Param("inicio") final Date dataInicio, @Param("fim") final Date dataFinal, @Param("capacidade")  Integer capacidade);
+    @Query("   SELECT S "
+            + "FROM Agendamento A "
+            + "JOIN A.sala S "
+            + "WHERE NOT (:inicio < A.dataInicio OR :inicio >= A.dataFinal)"
+            + "  OR  NOT (:fim <= A.dataInicio OR :fim > A.dataFinal)"
+            + "  OR      (A.dataInicio < :fim AND A.dataInicio > :inicio)"
+            + "  OR      (A.dataFinal < :fim AND A.dataFinal > :inicio)"
+            + "  OR S.capacidade < :capacidade ")
+    public List<Sala> findByIntervalo(@Param("inicio") final Date dataInicio, @Param("fim") final Date dataFinal, @Param("capacidade") Integer capacidade);
 
 }

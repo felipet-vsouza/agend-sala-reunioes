@@ -40,12 +40,11 @@ public class AgendamentoServico {
     EmailServico emailServico;
 
     public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento) {
-
         emailServico.enviarEmail(participantes, EmailUtils.emailCancelamento(agendamento), "Reunião cancelada.");
-
         for (int i = 0; i < participantes.size(); i++) {
             participanteServico.delete(participantes.get(i).getId());
         }
+        this.delete(agendamento.getId());
     }
 
     public Page<Agendamento> findAll(Pageable pgbl) {
@@ -73,11 +72,10 @@ public class AgendamentoServico {
         if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size())) {
             agendamento.setDataFinal(dataFinal);
             agendamento.setDataInicio(dataInicial);
-            
+
             if (agendamento.getId() != null) {
                 return participanteServico.update(agendamento.getParticipantes(), usuarios, agendamento);
             } else {
-                
                 agendamentoRepositorio.save(agendamento);
                 return participanteServico.save(usuarios, agendamento);
             }
@@ -90,8 +88,8 @@ public class AgendamentoServico {
         return usuarioSessao.equals(agendamento.getCriador());
     }
 
-    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, long capacidade) {
-        List<Sala> salas = salaRepositorio.filtroDeSalas(dataInicial, dataFinal, capacidade);
-        return salas.contains(sala);
+    private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade) {
+        List<Sala> salas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, capacidade);
+        return !salas.contains(sala);
     }
 }

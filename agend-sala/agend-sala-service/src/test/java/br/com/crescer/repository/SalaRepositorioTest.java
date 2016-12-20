@@ -38,22 +38,18 @@ public class SalaRepositorioTest {
     private SalaRepositorio salaRepositorio;
 
     @Before
-    public void setBefore() throws ParseException {
-        this.criarAgendamentoTest(this.criarSalaTest());
-    }
-
-    private Agendamento criarAgendamentoTest(final Sala sala) throws ParseException {
+    public void criarAgendamento() throws ParseException {
+        entityManager.clear();
         final Agendamento agendamento = new Agendamento();
-        agendamento.setDataFinal(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 14:00"));
-        agendamento.setDataInicio(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 16:00"));
-        agendamento.setSala(sala);
+        agendamento.setDataFinal(getDateByString("25/12/2016 17:30"));
+        agendamento.setDataInicio(getDateByString("25/12/2016 13:30"));
+        agendamento.setSala(criarSala());
         entityManager.persist(agendamento);
-        return agendamento;
     }
 
-    private Sala criarSalaTest() {
+    private Sala criarSala() {
         final Sala sala = new Sala();
-        sala.setCapacidade(20);
+        sala.setCapacidade(30);
         sala.setNome("Sala de testes");
         entityManager.persist(sala);
         return sala;
@@ -61,52 +57,61 @@ public class SalaRepositorioTest {
 
     @Test
     public void testaPorDataDeInicioAnteriorConflitante() throws ParseException {
-        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 13:00");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:00");
+        Date dataInicio = getDateByString("25/12/2016 13:00");
+        Date dataFinal = getDateByString("25/12/2016 14:00");
         assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
 
     @Test
     public void testaPorDataDeInicioPosteriorConflitante() throws ParseException {
-        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:00");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
+        Date dataInicio = getDateByString("25/12/2016 17:00");
+        Date dataFinal = getDateByString("25/12/2016 18:00");
         assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
 
     @Test
     public void testaPorDataIntermediariaMenorConflitante() throws ParseException {
-        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:01");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 15:02");
+        Date dataInicio = getDateByString("25/12/2016 15:01");
+        Date dataFinal = getDateByString("25/12/2016 15:02");
         assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
 
     @Test
     public void testaPorDataIntermediariaMaiorConflitante() throws ParseException {
-        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 13:00");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
+        Date dataInicio = getDateByString("25/12/2016 13:00");
+        Date dataFinal = getDateByString("25/12/2016 18:00");
         assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
-
-    /**
-     * 
-     * @throws ParseException 
-     */
+    
     @Test
     public void testaPorDataCoincidenteComDataInicial() throws ParseException {
-        Date dataInicio = getDateByString("15/12/2016 13:00");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 14:01");
-//        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
-        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        Date dataInicio = getDateByString("25/12/2016 13:00");
+        Date dataFinal = getDateByString("25/12/2016 13:30");
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
 
     @Test
     public void testaPorDataCoincidenteComDataFinal() throws ParseException {
-        Date dataInicio = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 16:00");
-        Date dataFinal = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/12/2016 17:00");
-        assertEquals(1, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+        Date dataInicio = getDateByString("25/12/2016 17:30");
+        Date dataFinal = getDateByString("25/12/2016 18:00");
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+    }
+
+    @Test
+    public void testaPorDataNaoCoincidenteAnterior() throws ParseException {
+        Date dataInicio = getDateByString("25/12/2016 12:00");
+        Date dataFinal = getDateByString("25/12/2016 13:00");
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
+    }
+
+    @Test
+    public void testaPorDataNaoCoincidentePosterior() throws ParseException {
+        Date dataInicio = getDateByString("25/12/2016 18:00");
+        Date dataFinal = getDateByString("25/12/2016 19:00");
+        assertEquals(0, salaRepositorio.findByIntervalo(dataInicio, dataFinal, 20).size());
     }
 
     private static Date getDateByString(final String date) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(date);
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
     }
 }
