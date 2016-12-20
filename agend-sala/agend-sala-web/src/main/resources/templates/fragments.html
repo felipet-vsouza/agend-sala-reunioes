@@ -72,9 +72,9 @@
                 <div class="control" id="al-sl">
                     <span class="select" >
                         <select name="sala">
-                            <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
+                            <option th:each="sala : ${salas}" th:text="${sala.nome}" th:selected="${agendamento.sala.id eq sala.id}" th:value="${sala.id}"></option>
                         </select>                    
-                    <!--th:value="${agendamento.sala.id}"-->
+                        <!-- th:selected="${agendamento.idSala}""-->
                     </span>
                 </div>
                 <label class="label" th:text="#{agendamento.descricao}" />
@@ -87,11 +87,11 @@
                 </div>
                 <label class="label" th:text="#{agendamento.horainicio}" />
                 <div class="control">
-                    <input id="al-hri" name="inicio" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'HH:mm ')}"/>
+                    <input id="al-hri" name="inicio" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'HH:mm')}"/>
                 </div>
                 <label class="label" th:text="#{agendamento.horafinal}" />
                 <div class="control">
-                    <input id="al-hrf" name="final" class="input" type="text" th:value="${#dates.format(agendamento.dataFinal, 'HH:mm ')}"/>
+                    <input id="al-hrf" name="final" class="input" type="text" th:value="${#dates.format(agendamento.dataFinal, 'HH:mm')}"/>
                 </div>     
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">

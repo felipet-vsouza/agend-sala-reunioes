@@ -97,13 +97,13 @@ class AlteracaoSalas {
                 minuto = self.horaFim.val().substring(3, 5);
                 finalDate.setHours(parseInt(hora));
                 finalDate.setMinutes(parseInt(minuto));
-                var idSala = parseInt($( '#al-sl option:selected').val());
+                var idSala = $( '#al-sl option:selected').val();
                 var usuarios = [];
                 $('#al-nm :checked').each(function () {
                     usuarios.push(parseInt($(this).val()));
                 });
                 
-                $.post(`/agendamento/alterar/${self.id}`, {
+                $.post(`/agendamento/alterar/${idSala}`, {
                     
                     idSala: idSala,
                     descricao: descricao,
