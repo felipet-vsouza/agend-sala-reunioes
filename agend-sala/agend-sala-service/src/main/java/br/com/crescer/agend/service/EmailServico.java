@@ -9,10 +9,12 @@ import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Email;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.repository.EmailRepositorio;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import java.util.Properties;
+import static javafx.scene.input.DataFormat.HTML;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,6 +24,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.thymeleaf.context.Context;
 
 /**
  *
@@ -29,10 +32,20 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Service
 public class EmailServico {
-
+    
     @Autowired
     EmailRepositorio emailRepositorio;
 
+    public String testeTemplate() {
+        final Context ctx = new Context();
+        String teste = "TESTE EMAIL";
+        ctx.setVariable("teste", teste);
+
+//        final String htmlContent = this.templateEngine.process("templateTeste", ctx);
+
+        return "";
+    }
+    
     public Email findByHash(String hash) {
         return emailRepositorio.findByhash(hash);
     }

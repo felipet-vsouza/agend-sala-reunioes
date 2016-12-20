@@ -10,10 +10,11 @@ import br.com.crescer.agend.entity.Email;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.codec.CharEncoding;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.context.IContext;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 /**
  *
@@ -21,34 +22,28 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
  */
 public class EmailUtils {
 
+    private SpringTemplateEngine templateEngine;
+    
     public EmailUtils() {
-        
-        Set<ITemplateResolver> templatesResolvers = new HashSet<>();
+        TemplateResolver resolver = new TemplateResolver();
+        resolver.setResourceResolver(new EmailResourceResolver());
+        resolver.setPrefix("templates/");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        resolver.setCharacterEncoding(CharEncoding.UTF_8);
+        resolver.setOrder(1);
 
-        ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
-        emailTemplateResolver.setTemplateMode("HTML5");
-        emailTemplateResolver.setPrefix("/templates/");
-        emailTemplateResolver.setCharacterEncoding("UTF-8");
-        emailTemplateResolver.setSuffix(".html");
-        emailTemplateResolver.setOrder(1);
-        templatesResolvers.add(emailTemplateResolver);
-
-        templateEngine.setTemplateResolvers(templatesResolvers);
-
+        templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(resolver);
     }
-
-    private final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 
     final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
 
     public String testeTemplate() {
-        final Context ctx = new Context();
-        String teste = "TESTE EMAIL";
-        ctx.setVariable("teste", teste);
-
-        final String htmlContent = this.templateEngine.process("login", ctx);
-
-        return htmlContent;
+        Context context = new Context();
+        context.setVariable("teste", "teste");
+        String actual = templateEngine.process("templateTeste", context);
+        return actual;
     }
 
     public static String emailCancelamento(Agendamento agendamento) {
