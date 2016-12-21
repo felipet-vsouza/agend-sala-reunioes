@@ -273,15 +273,15 @@
                     </ul>
                 </div>
                 <hr />
-                <div>
-                    <strong th:text="#{agenddetalhes.pendentes}" />
+                <div  th:if="${pendentes.size()} != 0">
+                    <strong th:text="#{agenddetalhes.pendentes}"/>
                     <ul>
                         <li th:each="pendente : ${pendentes}" th:text="${pendente.usuario.nome}" />
                     </ul>
                 </div>
-                <hr />
+                <hr th:if="${pendentes.size()} != 0"/>
                 <div>
-                    <strong th:text="#{agenddetalhes.recusados}" />
+                    <strong th:text="#{agenddetalhes.recusados}" th:if="${recusados.size()} != 0" />
                     <ul>
                         <li th:each="recusado : ${recusados}" th:text="${recusado.usuario.nome}" />
                     </ul>
