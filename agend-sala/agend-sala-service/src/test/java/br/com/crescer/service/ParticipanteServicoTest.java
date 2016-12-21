@@ -7,6 +7,7 @@ package br.com.crescer.service;
 
 import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
+import br.com.crescer.agend.entity.Status;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import br.com.crescer.agend.service.ParticipanteServico;
@@ -34,36 +35,35 @@ public class ParticipanteServicoTest {
     
     @Mock
     private ParticipanteRepositorio participanteRepositorio;
-
+    
     @InjectMocks
     private ParticipanteServico participanteServico;
-
+    
     @Mock
     private Iterable<Participante> participantes;
-
+    
     @Mock
     private Participante participante;
     
     @Mock
     private Usuario usuario;
-
+    
+    @Mock
+    private Agendamento agendamento;
+    
+    List<Participante> listaDeParticipantes;
+    
     List<Participante> participantesNotMocked;
-
+    
     @Before
     public void setUp() {
         when(participanteRepositorio.findAll()).thenReturn(participantes);
         when(participanteRepositorio.save(participante)).thenReturn(participante);
         when(participanteRepositorio.findOne(1l)).thenReturn(participante);
         participantesNotMocked = new ArrayList<>();
+        when(participanteRepositorio.findByAgendamento(agendamento)).thenReturn(listaDeParticipantes);
+        when(participanteRepositorio.findByUsuario(usuario)).thenReturn(listaDeParticipantes);
     }
-
-    /**
-     * Test of list method, of class PessoaService.
-     */
-//    @Test
-//    public void testList() {
-//        assertNotNull(salaServico.list());
-//    }
 
     /**
      * Test of findAll method, of class PessoaService.
@@ -81,6 +81,18 @@ public class ParticipanteServicoTest {
     public void testSave() {
         assertEquals(participante, participanteServico.save(participante));
         verify(participanteRepositorio).save(participante);
+    }
+    
+    @Test
+    public void testFindByAgendamento(){
+        assertEquals(listaDeParticipantes, participanteServico.findByAgendamento(agendamento));
+        verify(participanteRepositorio).findByAgendamento(agendamento);
+    }
+    
+    @Test
+    public void testFindByUsuario(){
+        assertEquals(listaDeParticipantes, participanteServico.findByUsuario(usuario));
+        verify(participanteRepositorio).findByUsuario(usuario);
     }
 
     /**
@@ -100,7 +112,7 @@ public class ParticipanteServicoTest {
         assertEquals(participante, participanteServico.findOne(1l));
         verify(participanteRepositorio).findOne(1l);
     }
-
+    
     @Test
     public void testObterAgendamentosParaDataAnterior() throws ParseException {
         Calendar cal = obterDataAtual();
@@ -117,7 +129,7 @@ public class ParticipanteServicoTest {
         when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantesNotMocked);
         assertEquals(0, participanteServico.obterParticipantesDeAgendamentos(usuario).size());
     }
-
+    
     @Test
     public void testObterAgendamentosParaDataAtual() throws ParseException {
         Date data = obterDataAtual().getTime();
@@ -132,7 +144,7 @@ public class ParticipanteServicoTest {
         when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantesNotMocked);
         assertEquals(1, participanteServico.obterParticipantesDeAgendamentos(usuario).size());
     }
-
+    
     @Test
     public void testObterAgendamentosParaDataPosterior() throws ParseException {
         Calendar cal = obterDataAtual();
@@ -149,7 +161,34 @@ public class ParticipanteServicoTest {
         when(participanteRepositorio.findByUsuario(usuario)).thenReturn(participantesNotMocked);
         assertEquals(1, participanteServico.obterParticipantesDeAgendamentos(usuario).size());
     }
-
+    
+    @Test
+    public void testObterParticipantesRecusados() {
+        List<Participante> participantes = participantes();
+        
+        participantes = participanteServico.obterParticipantesPorStatus(Status.RECUSADO, participantes);
+        
+        assertEquals(2, participantes.size());
+    }
+    
+     @Test
+    public void testObterParticipantesPendentes() {
+        List<Participante> participantes = participantes();
+        
+        participantes = participanteServico.obterParticipantesPorStatus(Status.PENDENTE, participantes);
+        
+        assertEquals(1, participantes.size());
+    }
+    
+     @Test
+    public void testObterParticipantesConfirmados() {
+        List<Participante> participantes = participantes();
+        
+        participantes = participanteServico.obterParticipantesPorStatus(Status.CONFIRMADO, participantes);
+        
+        assertEquals(1, participantes.size());
+    }
+    
     private Calendar obterDataAtual() {
         Calendar dataAtual = Calendar.getInstance();
         dataAtual.clear(Calendar.HOUR_OF_DAY);
@@ -157,5 +196,32 @@ public class ParticipanteServicoTest {
         dataAtual.clear(Calendar.SECOND);
         dataAtual.clear(Calendar.MILLISECOND);
         return dataAtual;
+    }
+    
+    private List<Participante> participantes() {
+        
+        Participante participanteRecusado1 = new Participante();
+        participanteRecusado1.setStatus(Status.RECUSADO);
+        participanteRecusado1.setId(1l);
+        
+        Participante participanteRecusado2 = new Participante();
+        participanteRecusado2.setStatus(Status.RECUSADO);
+        participanteRecusado2.setId(2l);
+        
+        Participante participanteConfirmado = new Participante();
+        participanteConfirmado.setStatus(Status.CONFIRMADO);
+        participanteConfirmado.setId(3l);
+        
+        Participante participantePendente = new Participante();
+        participantePendente.setStatus(Status.PENDENTE);
+        participantePendente.setId(4l);
+        
+        List<Participante> participantes = new ArrayList<>();
+        participantes.add(participanteRecusado1);
+        participantes.add(participanteRecusado2);
+        participantes.add(participantePendente);
+        participantes.add(participanteConfirmado);
+        
+        return participantes;
     }
 }
