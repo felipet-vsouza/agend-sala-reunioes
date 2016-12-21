@@ -129,7 +129,7 @@ public class ParticipanteServico {
                 enviarEmailParticipante(participante, conteudo, "Reunião alterada.");
             }
             
-            if (agendamentosConflitantes.size() > 0 && !usuarios.get(i).equals(usarioCriadorAgendamento)) {
+            if (agendamentosConflitantes.size() > 0) {
                 String conteudo = EmailUtils.emailConflito(agendamento);
                 enviarEmailParticipante(participante, conteudo, "Reunião - Conflito de horarios.");
             }
