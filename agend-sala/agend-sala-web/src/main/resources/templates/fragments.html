@@ -7,7 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" th:href="@{/css/style.css}" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-        <!--<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />-->
         <title th:text="${title}"></title>
     </head>
 
@@ -345,14 +344,14 @@
                     <strong th:text="#{home.status}"></strong>
                     <span>
                         <p class="is-inline" th:text="' ' + ${participacao.status}" />
-                        <span class="icon" th:if="${participacao.status} eq ${confirmado}">
-                            <i class="fa fa-circle fa-1 is-success" aria-hidden="true"></i>
+                        <span th:if="${participacao.status} eq ${confirmado}">
+                            <i class="fa fa-circle is-success" aria-hidden="true"></i>
                         </span>
-                        <span class="icon" th:if="${participacao.status} eq ${pendente}">
-                            <i class="fa fa-circle fa-1 is-pendente" aria-hidden="true"></i>
+                        <span th:if="${participacao.status} eq ${pendente}">
+                            <i class="fa fa-circle is-pendente" aria-hidden="true"></i>
                         </span>
-                        <span class="icon" th:if="${participacao.status} eq ${recusado}">
-                            <i class="fa fa-circle fa-1 is-recusado" aria-hidden="true"></i>
+                        <span th:if="${participacao.status} eq ${recusado}">
+                            <i class="fa fa-circle is-recusado" aria-hidden="true"></i>
                         </span>
                     </span>
                 </div>
