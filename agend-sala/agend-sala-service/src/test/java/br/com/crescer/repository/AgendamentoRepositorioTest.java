@@ -55,6 +55,9 @@ public class AgendamentoRepositorioTest {
         ArrayList<Participante> participantes = new ArrayList<>();
         Participante p = new Participante();
         usuario = new Usuario();
+        usuario.setEmail("");
+        usuario.setNome("");
+        usuario.setSenha("");
         entityManager.persist(usuario);
         p.setUsuario(usuario);
         entityManager.persist(p);
