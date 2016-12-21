@@ -125,7 +125,7 @@ class Home {
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);
-                    new FiltroSalas();
+                    new FiltroSalas(self);
                 })
                 .fail(err => {
                     console.error(err);
@@ -182,7 +182,7 @@ class Home {
         let self = this;
         this.filtroButton = $('#but-agendamento');
         this.filtroButton.click(function () {
-            $.post('/home/agendamento')
+            $.get('/home/agendamento')
                 .then(res => {
                     self.modal.css("display", "flex");
                     self.modalContent.html(res);
@@ -242,7 +242,8 @@ class PopupConfirmation {
 }
 
 class FiltroSalas {
-    constructor() {
+    constructor(container) {
+        this.container = container;
         this.form = $('#frm-filtro');
         this.capacity = $('#in-pps');
         this.date = $('#in-dat');
@@ -328,6 +329,17 @@ class FiltroSalas {
                 })
                     .then(res => {
                         self.modalContent.html(res);
+                        $('#but-agendar').click(function () {
+                            let idSala = $(this)
+                                .parent()
+                                .siblings()
+                                .first()
+                                .children()
+                                .filter('#salaid')
+                                .first()
+                                .val();
+                            self.getNovoAgendamentoAPartirDeIdSala(idSala);
+                        });
                     })
                     .fail(err => {
                         console.log(err);
@@ -335,6 +347,19 @@ class FiltroSalas {
                     });
             }
         });
+    }
+
+    getNovoAgendamentoAPartirDeIdSala(idSala) {
+        let self = this;
+        $.get(`home/agendamento/sala/${idSala}`)
+            .then(res => {
+                self.container.defineModalContent(res);
+                new AgendamentoSalas(self.container);
+            })
+            .fail(err => {
+                console.error('Erro na requisição: ', err);
+                self.modalContent.toggle();
+            });
     }
 }
 
@@ -524,12 +549,12 @@ class AlteracaoSalas {
                 minuto = self.horaFim.val().substring(3, 5);
                 finalDate.setHours(parseInt(hora));
                 finalDate.setMinutes(parseInt(minuto));
-                var idSala = $( '#al-sl option:selected').val();
+                var idSala = $('#al-sl option:selected').val();
                 var usuarios = [];
                 $('#al-nm :checked').each(function () {
                     usuarios.push(parseInt($(this).val()));
                 });
-                
+
                 $.post(`/agendamento/alterar/${self.id}`, {
                     idSala: idSala,
                     descricao: descricao,

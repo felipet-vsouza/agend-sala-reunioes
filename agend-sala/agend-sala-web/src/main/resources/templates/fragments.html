@@ -38,8 +38,11 @@
                         <label class="label" th:text="#{agendamento.sala}"/>
                         <div class="control" id="ag-sl">
                             <span class="select">
-                                <select  name="sala">
+                                <select th:unless="${saladefinida}" name="sala">
                                     <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
+                                </select>
+                                <select th:if="${saladefinida}" name="sala">
+                                    <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}" th:selected="${sala.id eq saladefinida.id}"></option>
                                 </select>
                             </span>
                         </div>
@@ -229,12 +232,20 @@
             <h2 th:text="#{salas.disponiveis}" />
             <article th:unless="${vazia}" th:each="sala : ${salas}">
                 <h2 class="is-medium" th:text="${sala.nome}" />
-                <strong class="is-inline" th:text="#{salas.capacidade}" />
-                <p class="is-inline" th:text="${sala.capacidade}" />
-                <strong class="is-block" th:text="#{salas.possuiequipamentos}" />
-                <ul>
-                    <li th:each="equipamento : ${sala.equipamento}" th:text="${equipamento.nome}" /> 
-                </ul>
+                <section class="columns">
+                    <div class="column">
+                        <input id="salaid" type="hidden" th:value="${sala.id}" />
+                        <strong class="is-inline" th:text="#{salas.capacidade}" />
+                        <p class="is-inline" th:text="${sala.capacidade}" />
+                        <strong class="is-block" th:text="#{salas.possuiequipamentos}" />
+                        <ul>
+                            <li th:each="equipamento : ${sala.equipamento}" th:text="${equipamento.nome}" /> 
+                        </ul>
+                    </div>
+                    <div class="column is-right-aligned">
+                        <a id="but-agendar" class="button is-success" th:text="#{salas.agendar}"/>
+                    </div>
+                </section>
                 <hr />
             </article>
             <article th:if="${vazia}">
