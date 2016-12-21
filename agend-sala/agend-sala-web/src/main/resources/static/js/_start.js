@@ -329,7 +329,7 @@ class FiltroSalas {
                 })
                     .then(res => {
                         self.modalContent.html(res);
-                        $('#but-agendar').click(function () {
+                        $('.but-agendar').click(function () {
                             let idSala = $(this)
                                 .parent()
                                 .siblings()
