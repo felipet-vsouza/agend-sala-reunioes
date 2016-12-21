@@ -113,6 +113,9 @@ public class HomeController {
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
         List<Participante> participacoes = participanteServico.obterParticipantesDeAgendamentos(atual);
         model.addAttribute("participacoes", participacoes);
+        model.addAttribute("confirmado", Status.CONFIRMADO);
+        model.addAttribute("pendente", Status.PENDENTE);
+        model.addAttribute("recusado", Status.RECUSADO);
         return "fragments :: reunioes";
     }
 }
