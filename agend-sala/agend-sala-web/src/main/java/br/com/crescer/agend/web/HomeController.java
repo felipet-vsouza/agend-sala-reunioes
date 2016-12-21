@@ -47,35 +47,12 @@ public class HomeController {
 
     @Autowired
     EquipamentoServico equipamentoServico;
-
-    @RequestMapping(value = {"/home/alteracao/{id}"})
-    public String alteracaoAgendamentoSala(Model model, @PathVariable(value = "id") Long idAgendamento){
-        Iterable<Usuario> usuarios = usuarioServico.findAll();
-        Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
-        List<Long> participantes = agendamento.getParticipantes()
-                .stream()
-                .map(p -> p.getUsuario().getId())
-                .collect(Collectors.toList());
-        Iterable<Sala> salas = salaServico.findAll();
-        
-        model.addAttribute("salas", salas);
-        
-        
-        model.addAttribute("agendamento", agendamento);
-        model.addAttribute("usuarios", usuarios);
-        model.addAttribute("participantes", participantes);
-        return "fragments :: form-alterar";
-    }
     
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
-        
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
-
         Iterable<Sala> salas = salaServico.findAll();
-
         List<Participante> participacoes = participanteServico.obterParticipantesDeAgendamentos(atual);
-
         model.addAttribute("confirmado", Status.CONFIRMADO);
         model.addAttribute("pendente", Status.PENDENTE);
         model.addAttribute("recusado", Status.RECUSADO);
@@ -117,5 +94,24 @@ public class HomeController {
         model.addAttribute("pendente", Status.PENDENTE);
         model.addAttribute("recusado", Status.RECUSADO);
         return "fragments :: reunioes";
+    }
+
+    @RequestMapping(value = {"/home/alteracao/{id}"})
+    public String alteracaoAgendamentoSala(Model model, @PathVariable(value = "id") Long idAgendamento){
+        Iterable<Usuario> usuarios = usuarioServico.findAll();
+        Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
+        List<Long> participantes = agendamento.getParticipantes()
+                .stream()
+                .map(p -> p.getUsuario().getId())
+                .collect(Collectors.toList());
+        Iterable<Sala> salas = salaServico.findAll();
+        
+        model.addAttribute("salas", salas);
+        
+        
+        model.addAttribute("agendamento", agendamento);
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("participantes", participantes);
+        return "fragments :: form-alterar";
     }
 }

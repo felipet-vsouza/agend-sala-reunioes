@@ -134,6 +134,8 @@ public class ParticipanteServico {
     public List<Participante> obterParticipantesDeAgendamentos(Usuario atual) {
         Calendar dataAtual = Calendar.getInstance();
         dataAtual.clear(Calendar.HOUR_OF_DAY);
+        dataAtual.clear(Calendar.HOUR);
+        dataAtual.clear(Calendar.AM_PM);
         dataAtual.clear(Calendar.MINUTE);
         dataAtual.clear(Calendar.SECOND);
         dataAtual.clear(Calendar.MILLISECOND);
