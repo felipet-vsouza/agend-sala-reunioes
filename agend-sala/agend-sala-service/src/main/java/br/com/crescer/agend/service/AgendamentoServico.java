@@ -92,6 +92,12 @@ public class AgendamentoServico {
         return usuarioSessao.equals(agendamento.getCriador());
     }
 
+    public void verificarPermissao(Agendamento agendamento, Usuario usuario) throws RegraNegocioException {
+        if (!usuario.equals(agendamento.getCriador())) {
+            throw new RegraNegocioException("O usuario da sessão não possui permissão para efetuar essa ação.");
+        }
+    }
+    
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
         List<Sala> conflituosasPorData = salaRepositorio.findByIntervalo(dataInicial, dataFinal, agendamento.getId());
         List<Sala> conflituosasPorCapacidade = IteratorUtils.toList(salaRepositorio.findAll().iterator())
@@ -99,11 +105,5 @@ public class AgendamentoServico {
                 .filter(s -> s.getCapacidade() < capacidade)
                 .collect(Collectors.toList());
         return !conflituosasPorData.contains(sala) && !conflituosasPorCapacidade.contains(sala);
-    }
-
-    public void verificarPermissao(Agendamento agendamento, Usuario usuario) throws RegraNegocioException {
-        if (!usuario.equals(agendamento.getCriador())) {
-            throw new RegraNegocioException("O usuario da sessão não possui permissão para efetuar essa ação.");
-        }
     }
 }
