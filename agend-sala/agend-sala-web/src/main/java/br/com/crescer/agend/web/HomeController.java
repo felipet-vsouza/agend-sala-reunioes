@@ -38,7 +38,7 @@ public class HomeController {
 
     @Autowired
     AgendamentoServico agendamentoServico;
-    
+
     @Autowired
     SalaServico salaServico;
 
@@ -47,7 +47,7 @@ public class HomeController {
 
     @Autowired
     EquipamentoServico equipamentoServico;
-    
+
     @RequestMapping(value = {"/home", "/"})
     public String home(Model model, @AuthenticationPrincipal User user) {
         Usuario atual = usuarioServico.findByEmail(user.getUsername());
@@ -97,7 +97,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/home/alteracao/{id}"})
-    public String alteracaoAgendamentoSala(Model model, @PathVariable(value = "id") Long idAgendamento){
+    public String alteracaoAgendamentoSala(Model model, @PathVariable(value = "id") Long idAgendamento) {
         Iterable<Usuario> usuarios = usuarioServico.findAll();
         Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
         List<Long> participantes = agendamento.getParticipantes()
@@ -105,13 +105,24 @@ public class HomeController {
                 .map(p -> p.getUsuario().getId())
                 .collect(Collectors.toList());
         Iterable<Sala> salas = salaServico.findAll();
-        
+
         model.addAttribute("salas", salas);
-        
-        
+
         model.addAttribute("agendamento", agendamento);
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("participantes", participantes);
         return "fragments :: form-alterar";
+    }
+
+    @RequestMapping(value = "home/agendamento/sala/{idSala}")
+    public String agendamentoDeSala(Model model, @PathVariable(value = "idSala") Long idSala) {
+        Iterable<Sala> salas = salaServico.findAll();
+        Iterable<Usuario> usuarios = usuarioServico.findAll();
+        Sala sala = salaServico.findOne(idSala);
+
+        model.addAttribute("salas", salas);
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("saladefinida", sala);
+        return "fragments :: form-agendamento";
     }
 }
