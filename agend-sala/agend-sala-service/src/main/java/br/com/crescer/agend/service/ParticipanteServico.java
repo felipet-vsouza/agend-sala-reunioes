@@ -12,10 +12,8 @@ import br.com.crescer.agend.entity.Status;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import br.com.crescer.agend.utils.EmailUtils;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,14 +33,25 @@ public class ParticipanteServico {
     @Autowired
     EmailServico emailServico;
 
+    @Autowired
+    AgendamentoServico agendamentoServico;
+
     public Iterable<Participante> findAll() {
         return participanteRepositorio.findAll();
+    }
+
+    private List<Agendamento> verificarAgendamentosConflitantes(long idUsuario, Date dataInicial, Date dataFinal) {
+        return agendamentoServico.findAgendamentoConflitantePorUsuario(idUsuario, dataInicial, dataFinal);
     }
 
     public void adicionarParticipacao(List<Usuario> usuarios, Agendamento agendamento) {
         Usuario usarioCriadorAgendamento = agendamento.getCriador();
 
         for (int i = 0; i < usuarios.size(); i++) {
+
+            List<Agendamento> agendamentosConflitantes
+                    = verificarAgendamentosConflitantes(usuarios.get(i).getId(),
+                            agendamento.getDataInicio(), agendamento.getDataFinal());
 
             Participante participante;
 
@@ -61,6 +70,12 @@ public class ParticipanteServico {
                 String conteudo = EmailUtils.emailConvite(agendamento, email);
 
                 enviarEmailParticipante(participante, conteudo, "Voce recebeu o convite de uma reunião.");
+            }
+
+            if (agendamentosConflitantes.size() > 0) {
+                String conteudo = EmailUtils.emailConflito(agendamento);
+                enviarEmailParticipante(participante, conteudo, "Reunião - Conflito de horarios.");
+
             }
         }
     }
@@ -81,10 +96,10 @@ public class ParticipanteServico {
 
             if (ehCriadorDoAgendamento(usuarios.get(i), usarioCriadorAgendamento)) {
                 participante = new Participante(usuarios.get(i), agendamento, Status.CONFIRMADO);
-            } else{
+            } else {
                 participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
             }
-            
+
             participanteRepositorio.save(participante);
 
             Email email = new Email(participante, new Date(), obterToken());
@@ -96,7 +111,7 @@ public class ParticipanteServico {
             }
         }
     }
-    
+
     public Participante save(Participante participante) {
         return participanteRepositorio.save(participante);
     }
@@ -138,7 +153,7 @@ public class ParticipanteServico {
                 .stream()
                 .sorted((e1, e2) -> e1.getAgendamento().getDataInicio().compareTo(e2.getAgendamento().getDataInicio()))
                 .filter(p -> p.getAgendamento().getDataInicio().after(dateInicial)
-                || p.getAgendamento().getDataInicio().equals(dateInicial))
+                        || p.getAgendamento().getDataInicio().equals(dateInicial))
                 .collect(Collectors.toList());
 
         return participantes;
@@ -151,8 +166,8 @@ public class ParticipanteServico {
     private void enviarEmailParticipante(Participante participante, String conteudo, String assunto) {
         emailServico.enviarEmail(participante, conteudo, assunto);
     }
-    
-    private boolean ehCriadorDoAgendamento(Usuario atual, Usuario criador){
+
+    private boolean ehCriadorDoAgendamento(Usuario atual, Usuario criador) {
         return atual.equals(criador);
     }
 }
