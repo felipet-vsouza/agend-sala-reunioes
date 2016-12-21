@@ -49,11 +49,23 @@
                 </div>     
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
-                    <table class="table">
+                    <table class="table table-section">
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th>
+                                    <p th:text="#{agendamento.headnome}" />
+                                </th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr id="ag-nm" th:each="usuario : ${usuarios}">
                                 <td>
-                                    <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" />
+                                    <input type="checkbox" class="checkbox is-block" th:value="${usuario.id}" />
+                                </td>
+                                <td>
+                                    <p th:text="${usuario.nome}" />
                                 </td>
                             </tr>
                         </tbody>
@@ -94,11 +106,23 @@
                 </div>     
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
-                    <table class="table">
+                    <table class="table table-section">
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th>
+                                    <p th:text="#{agendamento.headnome}" />
+                                </th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr id="al-nm" th:each="usuario : ${usuarios}">
                                 <td>
-                                    <input type="checkbox" class="checkbox is-block"  th:text="${usuario.nome}" th:value="${usuario.id}" th:checked="${#lists.contains(participantes, usuario.id)}" />
+                                    <input type="checkbox" class="checkbox is-block" th:value="${usuario.id}" th:checked="${#lists.contains(participantes, usuario.id)}" />
+                                </td>
+                                <td>
+                                    <p th:text="${usuario.nome}" />
                                 </td>
                             </tr>
                         </tbody>
@@ -130,8 +154,30 @@
                     <input id="in-hrf" name="final" class="input" type="text" />
                 </div>
                 <label class="label" th:text="#{salas.equipamentos}" />
-                <div class="control" id="in-eqp">
-                    <input class="checkbox is-block" type="checkbox" th:each="equipamento : ${equipamentos}" th:text="${equipamento.nome}" th:value="${equipamento.id}" />
+                <div class="control" >
+                    <div class="control">
+                        <table class="table table-section">
+                            <thead>
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        <p th:text="#{salas.headnome}" />
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="in-eqp">
+                                <tr th:each="equipamento : ${equipamentos}" >
+                                    <td>
+                                        <input class="checkbox is-block" type="checkbox" th:value="${equipamento.id}" />
+                                    </td>
+                                    <td>
+                                        <p th:text="${equipamento.nome}" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <a id="bt-get" class="button is-primary is-loader" th:text="#{salas.buscar}" />
             </form>

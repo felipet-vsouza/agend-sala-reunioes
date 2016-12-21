@@ -28,6 +28,33 @@ img.is-main-logo {
   color: #222222;
 }
 
+table.table-section {
+  display: table;
+  width: 100%;
+}
+
+table.table-section thead,
+table.table-section tbody {
+  float: left;
+  width: 100%;
+}
+
+table.table-section tbody {
+  overflow: auto;
+  height: 180px;
+}
+
+table.table-section tr {
+  width: 100%;
+  display: table;
+  text-align: left;
+}
+
+table.table-section th,
+table.table-section td {
+  width: 33%;
+}
+
 /*! bulma.io v0.2.3 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
