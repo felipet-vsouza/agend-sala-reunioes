@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Agendamento;
@@ -22,10 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author henrique.ostermann
- */
 @Service
 public class AgendamentoServico {
 
@@ -103,5 +94,11 @@ public class AgendamentoServico {
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
         List<Sala> salas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, capacidade, agendamento.getId());
         return !salas.contains(sala);
+    }
+
+    public void verificarPermissao(Agendamento agendamento, Usuario usuario) throws RegraNegocioException {
+        if (!usuario.equals(agendamento.getCriador())) {
+            throw new RegraNegocioException("O usuario da sessão não possui permissão para efetuar essa ação.");
+        }
     }
 }
