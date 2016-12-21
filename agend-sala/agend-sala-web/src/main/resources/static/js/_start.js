@@ -165,7 +165,7 @@ class Home {
                         $.get(`/home/alteracao/${id}`)
                             .then(res => {
                                 self.defineModalContent(res);
-                                new AlteracaoSalas(id);
+                                new AlteracaoSalas(id, self);
                             })
                             .fail(err => {
                                 console.error('Erro na requisição: ', err);
@@ -424,6 +424,113 @@ class AgendamentoSalas {
                     usuarios.push(parseInt($(this).val()));
                 });
                 $.post('/agendamento/adicionar', {
+                    idSala: idSala,
+                    descricao: descricao,
+                    dataInicial: initialDate,
+                    dataFinal: finalDate,
+                    usuarios: usuarios
+                })
+                    .then(res => {
+                        self.container.refreshPainelReunioes();
+                        self.modalContent.html(res);
+                    })
+                    .fail(err => {
+                        console.log(err);
+                        self.modalContent.toggle();
+                    });
+            }
+        });
+    }
+}
+
+class AlteracaoSalas {
+    constructor(id, container) {
+        this.id = id;
+        this.container = container;
+        this.form = $('#frm-alterar');
+        this.descricao = $('#al-des');
+        this.sala = $('#al-sl');
+        this.name = $('#al-nm');
+        this.date = $('#al-dat');
+        this.horaInicio = $('#al-hri');
+        this.horaFim = $('#al-hrf');
+        this.postButton = $('#bt-post');
+        this.modalContent = $('.modal-content');
+        this.defineFieldFormats();
+        this.defineFormValidation();
+        this.defineButtonBind();
+    }
+
+    defineFieldFormats() {
+        this.date.datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+        let timepickerConfig = {
+            timeFormat: 'HH:mm',
+            minTime: '08:00',
+            maxTime: '22:00',
+            dynamic: false,
+            dropdown: false,
+            scrollbar: false
+        };
+        this.horaInicio.timepicker(timepickerConfig);
+        this.horaFim.timepicker(timepickerConfig);
+    }
+
+    defineFormValidation() {
+        this.form.validate({
+            rules: {
+                sala: {
+                    required: true
+                },
+                descricao: {
+                    required: true
+                },
+
+                data: {
+                    required: true,
+                    anyDate: true,
+                    afterCurrentDay: true
+                },
+                inicio: {
+                    required: true,
+                    anyHour: true,
+                    validHour: true,
+                    competesWithOtherHour: ['inicio', 'final']
+                },
+                final: {
+                    required: true,
+                    anyHour: true,
+                    validHour: true,
+                    competesWithOtherHour: ['inicio', 'final']
+                }
+            }
+        });
+    }
+
+    defineButtonBind() {
+        let self = this;
+        this.postButton.click(function () {
+            if (self.form.valid()) {
+                let initialDate = self.date.datepicker("getDate");
+                let finalDate = self.date.datepicker("getDate");
+                let hora = self.horaInicio.val().substring(0, 2);
+                let minuto = self.horaInicio.val().substring(3, 5);
+                let descricao = self.descricao.val();
+
+                initialDate.setHours(parseInt(hora));
+                initialDate.setMinutes(parseInt(minuto));
+                hora = self.horaFim.val().substring(0, 2);
+                minuto = self.horaFim.val().substring(3, 5);
+                finalDate.setHours(parseInt(hora));
+                finalDate.setMinutes(parseInt(minuto));
+                var idSala = $( '#al-sl option:selected').val();
+                var usuarios = [];
+                $('#al-nm :checked').each(function () {
+                    usuarios.push(parseInt($(this).val()));
+                });
+                
+                $.post(`/agendamento/alterar/${self.id}`, {
                     idSala: idSala,
                     descricao: descricao,
                     dataInicial: initialDate,
