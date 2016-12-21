@@ -469,6 +469,9 @@ class AgendamentoSalas {
                         self.container.refreshPainelReunioes();
                         self.container.refreshPainelSalas();
                         self.modalContent.html(res);
+                        $('#tnt-nvt').click(function () {
+                            self.tentarNovamente();
+                        });
                     })
                     .fail(err => {
                         console.log(err);
@@ -476,6 +479,18 @@ class AgendamentoSalas {
                     });
             }
         });
+    }
+
+    tentarNovamente() {
+        let self = this;
+        $.get('/home/agendamento')
+            .then(res => {
+                self.modalContent.html(res);
+                new AgendamentoSalas(self.container);
+            })
+            .fail(err => {
+                console.error('A requisição falhou: ', err);
+            });
     }
 }
 
@@ -577,6 +592,9 @@ class AlteracaoSalas {
                         self.container.refreshPainelReunioes();
                         self.container.refreshPainelSalas();
                         self.modalContent.html(res);
+                        $('#tnt-nvt').click(function () {
+                            self.tentarNovamente();
+                        });
                     })
                     .fail(err => {
                         console.log(err);
@@ -584,5 +602,17 @@ class AlteracaoSalas {
                     });
             }
         });
+    }
+
+    tentarNovamente() {
+        let self = this;
+        $.get(`/home/alteracao/${self.id}`)
+            .then(res => {
+                self.container.defineModalContent(res);
+                new AlteracaoSalas(self.id, self.container);
+            })
+            .fail(err => {
+                console.error('Erro na requisição: ', err);
+            });
     }
 }

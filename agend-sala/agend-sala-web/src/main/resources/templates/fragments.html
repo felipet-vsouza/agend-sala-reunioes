@@ -308,18 +308,24 @@
         </section>
 
         <section th:fragment="cancelamentomensagem">
-            <p th:if="${sucesso}" class="notification is-success" th:text="#{cancelamentomensagem.sucesso}" />
-            <p th:unless="${sucesso}" class="notification is-danger" th:text="#{cancelamentomensagem.erro}" />
+            <p th:if="${sucesso}" class="notification is-success has-text-centered" th:text="#{cancelamentomensagem.sucesso}" />
+            <p th:unless="${sucesso}" class="notification is-danger has-text-centered"  />
         </section>
 
         <section th:fragment="agendamentomensagem">
-            <p th:if="${sucesso}" class="notification is-success" th:text="#{agendamentomensagem.sucesso}" />
-            <p th:unless="${sucesso}" class="notification is-danger" th:text="#{agendamentomensagem.erro}" />
+            <p th:if="${sucesso}" class="notification is-success has-text-centered" th:text="#{agendamentomensagem.sucesso}" />
+            <div th:unless="${sucesso}" class="notification is-danger has-text-centered">
+                <p th:text="#{agendamentomensagem.erro}" />
+                <a id="tnt-nvt" class="button is-warning" th:text="#{agendamentomensagem.tentar}" />
+            </div>
         </section>
 
         <section th:fragment="alteracaomensagem">
             <p th:if="${sucesso}" class="notification is-success" th:text="#{alteracaomensagem.sucesso}" />
-            <p th:unless="${sucesso}" class="notification is-danger" th:text="#{alteracaomensagem.erro}" />
+            <div th:unless="${sucesso}" class="notification is-danger has-text-centered">
+                <p th:text="#{alteracaomensagem.erro}"  />
+                <a id="tnt-nvt" class="button is-warning" th:text="#{alteracaomensagem.tentar}" />
+            </div>
         </section>
 
         <nav class="panel has-clear-background" th:fragment="reunioes">
