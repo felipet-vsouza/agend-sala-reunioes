@@ -30,8 +30,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "AGENDAMENTO",
-        indexes = {@Index(name = "index_por_data_inicial",  columnList="dataInicial", unique = true),
-                   @Index(name = "index_por_data_final", columnList="dataFinal", unique = true)})
+        indexes = {@Index(name = "index_por_data_inicial",  columnList="DT_INICIO_AGENDAMENTO", unique = true),
+                   @Index(name = "index_por_data_final", columnList="DT_FINAL_AGENDAMENTO", unique = true)})
 public class Agendamento implements Serializable {
 
     public Agendamento() {
