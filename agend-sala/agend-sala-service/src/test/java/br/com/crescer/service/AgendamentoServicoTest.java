@@ -3,6 +3,7 @@ package br.com.crescer.service;
 import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Usuario;
+import br.com.crescer.agend.exception.RegraNegocioException;
 import br.com.crescer.agend.service.AgendamentoServico;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -113,5 +114,31 @@ public class AgendamentoServicoTest {
     public void testFindOne() {
         assertEquals(agendamento, agendamentoServico.findOne(1l));
         verify(agendamentoRepositorio).findOne(1l);
+    }
+    
+    @Test
+    public void testEhCriadorDoAgendamento(){
+        Agendamento agendamento = new Agendamento();
+        Usuario usuario = new Usuario();
+        
+        agendamento.setCriador(usuario);
+        
+        assertEquals(true, agendamentoServico.ehCriadorDoAgendamento(usuario, agendamento));
+    }
+    
+    @Test
+    public void testVerificarPermissao() throws RegraNegocioException{
+        Agendamento agendamento = new Agendamento();
+        Usuario usuario = new Usuario();
+        
+        agendamento.setCriador(usuario);
+        
+        Usuario usuarioSemPermissao = new Usuario();
+
+        agendamentoServico.verificarPermissao(agendamento, usuarioSemPermissao);
+    }
+    
+    private static Date getDateByString(final String date) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
     }
 }
