@@ -139,7 +139,7 @@
 
         <section class="box content" th:fragment="lista-salas">
             <h2 th:text="#{salas.disponiveis}" />
-            <article th:each="sala : ${salas}">
+            <article th:unless="${vazia}" th:each="sala : ${salas}">
                 <h2 class="is-medium" th:text="${sala.nome}" />
                 <strong class="is-inline" th:text="#{salas.capacidade}" />
                 <p class="is-inline" th:text="${sala.capacidade}" />
@@ -148,6 +148,9 @@
                     <li th:each="equipamento : ${sala.equipamento}" th:text="${equipamento.nome}" /> 
                 </ul>
                 <hr />
+            </article>
+            <article th:if="${vazia}">
+                <h2 class="is-medium" th:text="#{salas.vazia}" />
             </article>
         </section>
 

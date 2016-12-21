@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.crescer.agend.web;
 
 import br.com.crescer.agend.entity.Sala;
@@ -16,10 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- *
- * @author Henrique
- */
 @Controller
 public class SalasController {
     
@@ -33,6 +24,7 @@ public class SalasController {
     public String salas(Model model, Date dataInicio, Date dataFim, int capacidade, @RequestParam(value="equipamentos[]", required = false) List<Long> equipamentos) {
         List<Sala> salas = salaServico.FiltroSalas(dataInicio, dataFim, capacidade, equipamentos);
         model.addAttribute("salas", salas);
+        model.addAttribute("vazia", salas.isEmpty());
         return "fragments :: lista-salas";
     }
 }
