@@ -9,7 +9,6 @@
             <div class="content">
                 <h2 class="is-large" th:text="#{login.formLogin}" />
                 <article th:if="${param.error}" class="notification content is-danger">
-                    <strong class="subtitle" th:text="#{login.erro} + ': '"></strong>
                     <p class="subtitle" th:text="#{login.msgerro}"></p>
                 </article>
                 <article th:if="${param.logout}" class="notification content is-warning">
