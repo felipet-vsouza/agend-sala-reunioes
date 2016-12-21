@@ -23,30 +23,42 @@
                 <h1 th:text="#{agendamento.titulo}" />
             </header>
             <form id="frm-agendamento">
-                <label class="label" th:text="#{agendamento.sala}"/>
-                <div class="control" id="ag-sl">
-                    <span class="select">
-                        <select  name="sala">
-                            <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
-                        </select>
-                    </span>
-                </div>
                 <label class="label" th:text="#{agendamento.descricao}" />
                 <div class="control">
                     <input id="ag-des" name="descricao" class="input" type="text" />
                 </div>
-                <label class="label" th:text="#{agendamento.data}" />
-                <div class="control">
-                    <input id="ag-dat" name="data" class="input" type="text" />
-                </div>
-                <label class="label" th:text="#{agendamento.horainicio}" />
-                <div class="control">
-                    <input id="ag-hri" name="inicio" class="input" type="text" />
-                </div>
-                <label class="label" th:text="#{agendamento.horafinal}" />
-                <div class="control">
-                    <input id="ag-hrf" name="final" class="input" type="text" />
-                </div>     
+                <section class="columns">
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.data}" />
+                        <div class="control">
+                            <input id="ag-dat" name="data" class="input" type="text" />
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.sala}"/>
+                        <div class="control" id="ag-sl">
+                            <span class="select">
+                                <select  name="sala">
+                                    <option th:each="sala : ${salas}" th:text="${sala.nome}" th:value="${sala.id}"></option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+                <section class="columns">
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.horainicio}" />
+                        <div class="control">
+                            <input id="ag-hri" name="inicio" class="input" type="text" />
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.horafinal}" />
+                        <div class="control">
+                            <input id="ag-hrf" name="final" class="input" type="text" />
+                        </div>     
+                    </div>
+                </section>
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
                     <table class="table table-section">
@@ -71,7 +83,9 @@
                         </tbody>
                     </table>
                 </div>
-                <a id="bt-post" class="button is-primary is-loader" th:text="#{agendamento.salvar}" />
+                <div class="control is-right-aligned">
+                    <a id="bt-post" class="button is-primary is-loader is-right" th:text="#{agendamento.salvar}" />
+                </div>
             </form>
         </section>
 
@@ -80,30 +94,42 @@
                 <h1 th:text="#{agendamento.titulo}" />
             </header>
             <form id="frm-alterar">
-                <label class="label" th:text="#{agendamento.sala}"/>
-                <div class="control" id="al-sl">
-                    <span class="select" >
-                        <select name="sala">
-                            <option th:each="sala : ${salas}" th:text="${sala.nome}" th:selected="${agendamento.sala.id eq sala.id}" th:value="${sala.id}"></option>
-                        </select>                    
-                    </span>
-                </div>
                 <label class="label" th:text="#{agendamento.descricao}" />
                 <div class="control">
                     <input id="al-des" name="descricao" class="input" type="text" th:value="${agendamento.descricao}" />
                 </div>
-                <label class="label" th:text="#{agendamento.data}" />
-                <div class="control">
-                    <input id="al-dat" name="data" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'dd/MM/yyyy')}"/>
-                </div>
-                <label class="label" th:text="#{agendamento.horainicio}" />
-                <div class="control">
-                    <input id="al-hri" name="inicio" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'HH:mm')}"/>
-                </div>
-                <label class="label" th:text="#{agendamento.horafinal}" />
-                <div class="control">
-                    <input id="al-hrf" name="final" class="input" type="text" th:value="${#dates.format(agendamento.dataFinal, 'HH:mm')}"/>
-                </div>     
+                <section class="columns">
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.data}" />
+                        <div class="control">
+                            <input id="al-dat" name="data" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'dd/MM/yyyy')}"/>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.sala}"/>
+                        <div class="control" id="al-sl">
+                            <span class="select" >
+                                <select name="sala">
+                                    <option th:each="sala : ${salas}" th:text="${sala.nome}" th:selected="${agendamento.sala.id eq sala.id}" th:value="${sala.id}"></option>
+                                </select>                    
+                            </span>
+                        </div>
+                    </div>
+                </section>
+                <section class="columns">
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.horainicio}" />
+                        <div class="control">
+                            <input id="al-hri" name="inicio" class="input" type="text" th:value="${#dates.format(agendamento.dataInicio, 'HH:mm')}"/>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" th:text="#{agendamento.horafinal}" />
+                        <div class="control">
+                            <input id="al-hrf" name="final" class="input" type="text" th:value="${#dates.format(agendamento.dataFinal, 'HH:mm')}"/>
+                        </div>     
+                    </div>
+                </section>
                 <label class="label" th:text="#{agendamento.participante}" />
                 <div class="control">
                     <table class="table table-section">
@@ -128,7 +154,9 @@
                         </tbody>
                     </table>
                 </div>
-                <a id="bt-post" class="button is-primary is-loader" th:text="#{agendamento.alterar}" />
+                <div class="control is-right-aligned">
+                    <a id="bt-post" class="button is-primary is-loader" th:text="#{agendamento.alterar}" />
+                </div>
             </form>
         </section>
 
@@ -137,22 +165,34 @@
                 <h1 th:text="#{salas.titulo}" />
             </header>
             <form id="frm-filtro">
-                <label class="label" th:text="#{salas.pessoasporsala}" />
-                <div class="control">
-                    <input id="in-pps" name="quantidade" class="input" type="number" />
-                </div>
-                <label class="label" th:text="#{salas.data}" />
-                <div class="control">
-                    <input id="in-dat" name="data" class="input" type="text" />
-                </div>
-                <label class="label" th:text="#{salas.horainicio}" />
-                <div class="control">
-                    <input id="in-hri" name="inicio" class="input" type="text" />
-                </div>
-                <label class="label" th:text="#{salas.horafinal}" />
-                <div class="control">
-                    <input id="in-hrf" name="final" class="input" type="text" />
-                </div>
+                <section class="columns">
+                    <div class="column">
+                        <label class="label" th:text="#{salas.pessoasporsala}" />
+                        <div class="control">
+                            <input id="in-pps" name="quantidade" class="input" type="number" />
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" th:text="#{salas.data}" />
+                        <div class="control">
+                            <input id="in-dat" name="data" class="input" type="text" />
+                        </div>
+                    </div>
+                </section>
+                <section class="columns">
+                    <div class="column">
+                        <label class="label" th:text="#{salas.horainicio}" />
+                        <div class="control">
+                            <input id="in-hri" name="inicio" class="input" type="text" />
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label" th:text="#{salas.horafinal}" />
+                        <div class="control">
+                            <input id="in-hrf" name="final" class="input" type="text" />
+                        </div>
+                    </div>
+                </section>
                 <label class="label" th:text="#{salas.equipamentos}" />
                 <div class="control" >
                     <div class="control">
@@ -179,7 +219,9 @@
                         </table>
                     </div>
                 </div>
-                <a id="bt-get" class="button is-primary is-loader" th:text="#{salas.buscar}" />
+                <div class="control is-right-aligned">
+                    <a id="bt-get" class="button is-primary is-loader" th:text="#{salas.buscar}" />
+                </div>
             </form>
         </section>
 
@@ -247,14 +289,12 @@
 
         <section class="box content has-text-centered" th:fragment="confirmacao">
             <h1 th:text="#{confirmacao.titulo}"></h1>
-            <div class="columns">
-                <a id="conf-nao" class="column is-half is-loader button is-medium is-danger">
-                    <span th:text="#{confirmacao.nao}"></span>
-                </a>
-                <a id="conf-sim" class="column is-half is-loader button is-medium is-success">
-                    <span th:text="#{confirmacao.sim}"></span>
-                </a>
-            </div>
+            <a id="conf-nao" class="is-block is-half is-loader button is-large is-danger">
+                <span th:text="#{confirmacao.nao}"></span>
+            </a>
+            <a id="conf-sim" class="is-block is-half is-loader button is-large is-success">
+                <span th:text="#{confirmacao.sim}"></span>
+            </a>
         </section>
 
         <section th:fragment="cancelamentomensagem">
