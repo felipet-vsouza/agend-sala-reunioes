@@ -52,7 +52,7 @@ public class AgendamentoController {
             agendamento.setDescricao(descricao);
             agendamento.setSala(sala);
             agendamentoServico.verificarPermissao(agendamento, usuario);
-            agendamentoServico.save(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
+            agendamentoServico.manterAgendamento(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
             model.addAttribute("sucesso", true);
         } catch (RegraNegocioException e) {
             model.addAttribute("sucesso", false);
@@ -70,7 +70,7 @@ public class AgendamentoController {
             agendamento.setCriador(usuario);
             agendamento.setDescricao(descricao);
             agendamento.setSala(sala);
-            agendamentoServico.save(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
+            agendamentoServico.manterAgendamento(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
             model.addAttribute("sucesso", true);
         } catch (RegraNegocioException e) {
             model.addAttribute("sucesso", false);

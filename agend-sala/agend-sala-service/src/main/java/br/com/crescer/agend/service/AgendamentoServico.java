@@ -64,7 +64,7 @@ public class AgendamentoServico {
         return agendamentoRepositorio.findOne(id);
     }
 
-    public List<Participante> save(List<Long> idsUsuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
+    public void manterAgendamento(List<Long> idsUsuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
         List<Usuario> usuarios;
         if (idsUsuarios != null) {
             usuarios = idsUsuarios.stream()
@@ -78,10 +78,10 @@ public class AgendamentoServico {
             agendamento.setDataInicio(dataInicial);
 
             if (agendamento.getId() != null) {
-                return participanteServico.update(agendamento.getParticipantes(), usuarios, agendamento);
+                participanteServico.atualizarParticipacao(agendamento.getParticipantes(), usuarios, agendamento);
             } else {
                 agendamentoRepositorio.save(agendamento);
-                return participanteServico.save(usuarios, agendamento);
+                participanteServico.adicionarParticipacao(usuarios, agendamento);
             }
         } else {
             throw new RegraNegocioException("A sala está indisponível.");

@@ -75,7 +75,7 @@ public class ParticipanteServicoTest {
     }
 
     /**
-     * Test of save method, of class PessoaService.
+     * Test of adicionarParticipacao method, of class PessoaService.
      */
     @Test
     public void testSave() {

@@ -39,10 +39,7 @@ public class ParticipanteServico {
         return participanteRepositorio.findAll();
     }
 
-    public List<Participante> save(List<Usuario> usuarios, Agendamento agendamento) {
-
-        List<Participante> participantes = new ArrayList<>();
-
+    public void adicionarParticipacao(List<Usuario> usuarios, Agendamento agendamento) {
         Usuario usarioCriadorAgendamento = agendamento.getCriador();
 
         for (int i = 0; i < usuarios.size(); i++) {
@@ -55,7 +52,6 @@ public class ParticipanteServico {
                 participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
             }
 
-            participantes.add(participante);
             participanteRepositorio.save(participante);
 
             Email email = new Email(participante, new Date(), obterToken());
@@ -64,14 +60,12 @@ public class ParticipanteServico {
             if (!usuarios.get(i).equals(usarioCriadorAgendamento)) {
                 String conteudo = EmailUtils.emailConvite(agendamento, email);
 
-                detalhamentoDoEmail(participante, conteudo, "Voce recebeu o convite de uma reunião.");
+                enviarEmailParticipante(participante, conteudo, "Voce recebeu o convite de uma reunião.");
             }
         }
-
-        return participantes;
     }
 
-    public List<Participante> update(List<Participante> participantes, List<Usuario> usuarios, Agendamento agendamento) {
+    public void atualizarParticipacao(List<Participante> participantes, List<Usuario> usuarios, Agendamento agendamento) {
 
         Usuario usarioCriadorAgendamento = agendamento.getCriador();
 
@@ -85,27 +79,24 @@ public class ParticipanteServico {
 
             Participante participante;
 
-            if (usuarios.get(i).equals(usarioCriadorAgendamento)) {
+            if (ehCriadorDoAgendamento(usuarios.get(i), usarioCriadorAgendamento)) {
                 participante = new Participante(usuarios.get(i), agendamento, Status.CONFIRMADO);
             } else{
                 participante = new Participante(usuarios.get(i), agendamento, Status.PENDENTE);
             }
-
-            participantes.add(participante);
+            
             participanteRepositorio.save(participante);
 
             Email email = new Email(participante, new Date(), obterToken());
             emailServico.salvar(email);
 
-            if (!usuarios.get(i).equals(usarioCriadorAgendamento)) {
+            if (!ehCriadorDoAgendamento(usuarios.get(i), usarioCriadorAgendamento)) {
                 String conteudo = EmailUtils.emailAlteracao(agendamento, email);
-                detalhamentoDoEmail(participante, conteudo, "Reunião alterada.");
+                enviarEmailParticipante(participante, conteudo, "Reunião alterada.");
             }
         }
-
-        return participantes;
     }
-
+    
     public Participante save(Participante participante) {
         return participanteRepositorio.save(participante);
     }
@@ -157,7 +148,11 @@ public class ParticipanteServico {
         return UUID.randomUUID().toString();
     }
 
-    private void detalhamentoDoEmail(Participante participante, String conteudo, String assunto) {
+    private void enviarEmailParticipante(Participante participante, String conteudo, String assunto) {
         emailServico.enviarEmail(participante, conteudo, assunto);
+    }
+    
+    private boolean ehCriadorDoAgendamento(Usuario atual, Usuario criador){
+        return atual.equals(criador);
     }
 }

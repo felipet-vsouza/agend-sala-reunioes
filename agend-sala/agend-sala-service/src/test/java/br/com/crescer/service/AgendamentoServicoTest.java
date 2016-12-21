@@ -87,7 +87,7 @@ public class AgendamentoServicoTest {
     }
 
     /**
-     * Test of save method, of class PessoaService.
+     * Test of manterAgendamento method, of class PessoaService.
      */
     @Test
     public void testSave() {
