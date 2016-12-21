@@ -21,3 +21,21 @@ public interface AgendamentoRepositorio extends CrudRepository<Agendamento, Long
             + "  AND A.sala.id = :sala ")
     public List<Agendamento> findAgendamentosByDatasAndBySala(@Param("inicio") Date inicio, @Param("fim") Date fim, @Param("sala") Long id);
 }
+
+    @Query(value = "SELECT a" +
+"                FROM Participante p" +
+"                JOIN p.usuario u" +
+"                JOIN p.agendamento a" +
+"                JOIN a.sala sa" +
+"                WHERE" +
+"                  u.id = :usuario" +
+"                  AND (" +
+"                  :inicio BETWEEN a.dataInicio AND a.dataFinal" +
+"                  OR" +
+"                  :fim BETWEEN a.dataInicio AND a.dataFinal" +
+"                  OR" +
+"                  a.dataInicio BETWEEN :inicio AND :fim" +
+"                  OR " +
+"                  a.dataFinal BETWEEN :inicio AND :fim)")
+    public List<Agendamento> findAgendamentoConflitantePorUsuario(@Param("usuario") Long id, @Param("inicio") Date inicio, @Param("fim") Date fim);
+} 

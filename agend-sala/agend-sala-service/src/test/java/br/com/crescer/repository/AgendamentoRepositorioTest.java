@@ -2,11 +2,16 @@ package br.com.crescer.repository;
 
 import br.com.crescer.TestRun;
 import br.com.crescer.agend.entity.Agendamento;
+import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Sala;
+import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
+import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,9 +33,14 @@ public class AgendamentoRepositorioTest {
 
     @Autowired
     private AgendamentoRepositorio agendamentoRepositorio;
-
+    
+    
+    Usuario usuario;
+    
+    
     Agendamento agendamento;
 
+    
     Date dataInicio;
 
     Date dataFinal;
@@ -42,6 +52,14 @@ public class AgendamentoRepositorioTest {
         agendamento.setDataInicio(getDateByString("25/12/2016 08:00"));
         agendamento.setDataFinal(getDateByString("25/12/2016 15:00"));
         agendamento.setSala(criarSala());
+        ArrayList<Participante> participantes = new ArrayList<>();
+        Participante p = new Participante();
+        usuario = new Usuario();
+        entityManager.persist(usuario);
+        p.setUsuario(usuario);
+        entityManager.persist(p);
+        participantes.add(p);
+        agendamento.setParticipantes(participantes);
         entityManager.persist(agendamento);
         dataInicio = getDateByString("25/12/2016 08:00");
         dataFinal = getDateByString("25/12/2016 22:00");
