@@ -52,11 +52,12 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> FiltroSalas(Date dataInicial, Date dataFinal, int quantidadeSelecionado, List<Long> ids) {
-        List<Sala> conflituosas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, quantidadeSelecionado, null);
+    public List<Sala> FiltroSalas(Date dataInicial, Date dataFinal, int capacidadeMinima, List<Long> ids) {
+        List<Sala> conflituosas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, null);
         List<Sala> validas = IteratorUtils.toList(findAll().iterator())
                 .stream()
                 .filter(s -> !conflituosas.contains(s))
+                .filter(s -> s.getCapacidade() >= capacidadeMinima)
                 .collect(Collectors.toList());
         if (ids != null) {
             List<Equipamento> equipamentos = ids.stream()

@@ -15,6 +15,7 @@ import br.com.crescer.agend.utils.EmailUtils;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -92,8 +93,12 @@ public class AgendamentoServico {
     }
 
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
-        List<Sala> salas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, capacidade, agendamento.getId());
-        return !salas.contains(sala);
+        List<Sala> conflituosasPorData = salaRepositorio.findByIntervalo(dataInicial, dataFinal, agendamento.getId());
+        List<Sala> conflituosasPorCapacidade = IteratorUtils.toList(salaRepositorio.findAll().iterator())
+                .stream()
+                .filter(s -> s.getCapacidade() < capacidade)
+                .collect(Collectors.toList());
+        return !conflituosasPorData.contains(sala) && !conflituosasPorCapacidade.contains(sala);
     }
 
     public void verificarPermissao(Agendamento agendamento, Usuario usuario) throws RegraNegocioException {
