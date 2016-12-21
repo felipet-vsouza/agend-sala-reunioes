@@ -39,9 +39,25 @@ public class ParticipanteServico {
     public Iterable<Participante> findAll() {
         return participanteRepositorio.findAll();
     }
+    
+    public Participante save(Participante participante) {
+        return participanteRepositorio.save(participante);
+    }
 
-    private List<Agendamento> verificarAgendamentosConflitantes(long idUsuario, Date dataInicial, Date dataFinal) {
-        return agendamentoServico.findAgendamentoConflitantePorUsuario(idUsuario, dataInicial, dataFinal);
+    public void delete(Long id) {
+        participanteRepositorio.delete(id);
+    }
+
+    public Participante findOne(Long id) {
+        return participanteRepositorio.findOne(id);
+    }
+
+    public List<Participante> findByUsuario(Usuario usuario) {
+        return participanteRepositorio.findByUsuario(usuario);
+    }
+
+    public List<Participante> findByAgendamento(Agendamento agendamento) {
+        return participanteRepositorio.findByAgendamento(agendamento);
     }
 
     public void adicionarParticipacao(List<Usuario> usuarios, Agendamento agendamento) {
@@ -75,7 +91,6 @@ public class ParticipanteServico {
             if (agendamentosConflitantes.size() > 0) {
                 String conteudo = EmailUtils.emailConflito(agendamento);
                 enviarEmailParticipante(participante, conteudo, "Reunião - Conflito de horarios.");
-
             }
         }
     }
@@ -91,6 +106,10 @@ public class ParticipanteServico {
         }
 
         for (int i = 0; i < usuarios.size(); i++) {
+            
+            List<Agendamento> agendamentosConflitantes
+                    = verificarAgendamentosConflitantes(usuarios.get(i).getId(),
+                            agendamento.getDataInicio(), agendamento.getDataFinal());
 
             Participante participante;
 
@@ -109,27 +128,12 @@ public class ParticipanteServico {
                 String conteudo = EmailUtils.emailAlteracao(agendamento, email);
                 enviarEmailParticipante(participante, conteudo, "Reunião alterada.");
             }
+            
+            if (agendamentosConflitantes.size() > 0 && !usuarios.get(i).equals(usarioCriadorAgendamento)) {
+                String conteudo = EmailUtils.emailConflito(agendamento);
+                enviarEmailParticipante(participante, conteudo, "Reunião - Conflito de horarios.");
+            }
         }
-    }
-
-    public Participante save(Participante participante) {
-        return participanteRepositorio.save(participante);
-    }
-
-    public void delete(Long id) {
-        participanteRepositorio.delete(id);
-    }
-
-    public Participante findOne(Long id) {
-        return participanteRepositorio.findOne(id);
-    }
-
-    public List<Participante> findByUsuario(Usuario usuario) {
-        return participanteRepositorio.findByUsuario(usuario);
-    }
-
-    public List<Participante> findByAgendamento(Agendamento agendamento) {
-        return participanteRepositorio.findByAgendamento(agendamento);
     }
 
     public List<Participante> obterParticipantesPorStatus(Status status, List<Participante> participantes) {
@@ -169,5 +173,9 @@ public class ParticipanteServico {
 
     private boolean ehCriadorDoAgendamento(Usuario atual, Usuario criador) {
         return atual.equals(criador);
+    }
+    
+    private List<Agendamento> verificarAgendamentosConflitantes(long idUsuario, Date dataInicial, Date dataFinal) {
+        return agendamentoServico.findAgendamentoConflitantePorUsuario(idUsuario, dataInicial, dataFinal);
     }
 }
