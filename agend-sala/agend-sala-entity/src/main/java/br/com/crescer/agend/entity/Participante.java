@@ -49,14 +49,6 @@ public class Participante implements Serializable{
     @Column(name = "ID_PARTICIPANTE")
     private Long id;
 
-    public Agendamento getAgendamento() {
-        return agendamento;
-    }
-
-    public void setAgendamento(Agendamento agendamento) {
-        this.agendamento = agendamento;
-    }
-    
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
@@ -71,6 +63,14 @@ public class Participante implements Serializable{
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "participante", cascade = CascadeType.ALL)
     private Email email;
 
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
+    }
+    
     public Email getEmail() {
         return email;
     }

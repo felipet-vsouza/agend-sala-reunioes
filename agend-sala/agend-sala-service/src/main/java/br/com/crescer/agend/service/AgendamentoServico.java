@@ -106,4 +106,7 @@ public class AgendamentoServico {
                 .collect(Collectors.toList());
         return !conflituosasPorData.contains(sala) && !conflituosasPorCapacidade.contains(sala);
     }
+    public List<Agendamento> findAgendamentoConflitantePorUsuario(Long id, Date inicio, Date fim){
+        return agendamentoRepositorio.findAgendamentoConflitantePorUsuario(id, inicio, fim);
+    }
 }
