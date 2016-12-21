@@ -12,6 +12,7 @@ import br.com.crescer.agend.repository.AgendamentoRepositorio;
 import br.com.crescer.agend.repository.SalaRepositorio;
 import br.com.crescer.agend.repository.UsuarioRepositorio;
 import br.com.crescer.agend.utils.EmailUtils;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,7 +98,29 @@ public class AgendamentoServico {
             throw new RegraNegocioException("O usuario da sessão não possui permissão para efetuar essa ação.");
         }
     }
-    
+
+    public int findTempoOcupadoByAgendamentos(Sala sala) {
+        Calendar dataAtual = Calendar.getInstance();
+        dataAtual.clear(Calendar.HOUR_OF_DAY);
+        dataAtual.clear(Calendar.HOUR);
+        dataAtual.clear(Calendar.AM_PM);
+        dataAtual.clear(Calendar.MINUTE);
+        dataAtual.clear(Calendar.SECOND);
+        dataAtual.clear(Calendar.MILLISECOND);
+        dataAtual.set(Calendar.HOUR_OF_DAY, 8);
+        Date dateInicial = dataAtual.getTime();
+        dataAtual.set(Calendar.HOUR_OF_DAY, 22);
+        Date dateFinal = dataAtual.getTime();
+
+        List<Agendamento> agendamentosDoDia = agendamentoRepositorio.findAgendamentosByDatasAndBySala(dateInicial, dateFinal, sala.getId());
+        long tempoOcupado = agendamentosDoDia.stream()
+                .map(a -> (a.getDataFinal().getTime() - a.getDataInicio().getTime()) / 1000)
+                .mapToInt(i -> i.intValue())
+                .sum();
+        long tempoDisponivelPorDia = (dateFinal.getTime() - dateInicial.getTime()) / 1000;
+        return (int)((((double) tempoOcupado) / tempoDisponivelPorDia) * 100);
+    }
+
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
         List<Sala> conflituosasPorData = salaRepositorio.findByIntervalo(dataInicial, dataFinal, agendamento.getId());
         List<Sala> conflituosasPorCapacidade = IteratorUtils.toList(salaRepositorio.findAll().iterator())

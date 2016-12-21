@@ -18,6 +18,7 @@ import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -95,6 +96,17 @@ public class HomeController {
         model.addAttribute("recusado", Status.RECUSADO);
         return "fragments :: reunioes";
     }
+    
+    @RequestMapping(value = "/home/salas/list")
+    public String salas(Model model) {
+        List<Sala> salas = IteratorUtils.toList(salaServico.findAll().iterator());
+        List<Integer> preenchimentoSalas = salas.stream()
+                .map(s -> agendamentoServico.findTempoOcupadoByAgendamentos(s))
+                .collect(Collectors.toList());
+        model.addAttribute("salas", salas);
+        model.addAttribute("preenchimentoSalas", preenchimentoSalas);
+        return "fragments :: salas";
+    }
 
     @RequestMapping(value = {"/home/alteracao/{id}"})
     public String alteracaoAgendamentoSala(Model model, @PathVariable(value = "id") Long idAgendamento) {
@@ -113,6 +125,7 @@ public class HomeController {
         model.addAttribute("participantes", participantes);
         return "fragments :: form-alterar";
     }
+        
 
     @RequestMapping(value = "home/agendamento/sala/{idSala}")
     public String agendamentoDeSala(Model model, @PathVariable(value = "idSala") Long idSala) {

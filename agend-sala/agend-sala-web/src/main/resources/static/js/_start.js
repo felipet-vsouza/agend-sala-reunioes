@@ -111,10 +111,12 @@ class Home {
         this.modalContent = $('.modal-content');
         this.modalClose = $('.modal-close');
         this.reunioes = $('#pn-reunioes');
+        this.listaSalas = $('#lista-salas');
         this.defineFiltroSalasBind();
         this.defineAgendamentoSalasBind();
         this.defineDetalheAgendamentosBind();
         this.defineModalBinds();
+        this.refreshPainelSalas();
     }
 
     defineFiltroSalasBind() {
@@ -148,7 +150,8 @@ class Home {
                                 $.post(`/agendamento/cancelar/${id}`)
                                     .then(res => {
                                         self.defineModalContent(res);
-                                        self.refreshPainelReunioes()
+                                        self.refreshPainelReunioes();
+                                        self.refreshPainelSalas();
                                     })
                                     .fail(err => {
                                         console.error('Erro na requisição: ', err);
@@ -216,6 +219,13 @@ class Home {
             .fail(err => {
                 console.error('Erro na requisição: ', err);
             });
+    }
+
+    refreshPainelSalas() {
+        let self = this;
+        $.get('/home/salas/list').then(res => {
+            self.listaSalas.html(res);
+        });
     }
 }
 
@@ -457,6 +467,7 @@ class AgendamentoSalas {
                 })
                     .then(res => {
                         self.container.refreshPainelReunioes();
+                        self.container.refreshPainelSalas();
                         self.modalContent.html(res);
                     })
                     .fail(err => {
@@ -564,6 +575,7 @@ class AlteracaoSalas {
                 })
                     .then(res => {
                         self.container.refreshPainelReunioes();
+                        self.container.refreshPainelSalas();
                         self.modalContent.html(res);
                     })
                     .fail(err => {

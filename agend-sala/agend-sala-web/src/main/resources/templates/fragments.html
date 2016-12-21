@@ -358,5 +358,25 @@
                 </div>
             </a>
         </nav>
+
+        <section th:fragment="salas" class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala,iter : ${salas}">
+            <header class="card-header hero is-primary">
+                <strong class="card-header-title" th:text="${sala.nome}">
+                </strong>
+            </header>
+            <article class="card-content">
+                <div class="">
+                    <progress class="progress is-info" th:value="${preenchimentoSalas[iter.index]}" max="100" />
+                    <strong th:text="#{home.capacidade}"></strong>
+                    <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
+                </div>
+                <div class="content">
+                    <strong th:text="#{home.equipamentos}"></strong>
+                    <ul>
+                        <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
+                    </ul>
+                </div>
+            </article>
+        </section>
     </body>
 </html>

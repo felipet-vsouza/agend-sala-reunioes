@@ -54,12 +54,11 @@ public class AgendamentoRepositorioTest {
         entityManager.persist(sala);
         return sala;
     }
-
+    
     @Test
-    public void testaPorAgendamentoComSalaIdIgualDeDuracao420Minutos() throws ParseException {
-        Long total = agendamentoRepositorio.findTempoOcupadoByAgendamentos(dataInicio, dataFinal, agendamento.getSala().getId());
-        assertTrue(new Long(420l).equals(total));
-    }
+    public void testaRetornoDeAgendamentoDoDia() {
+        assertEquals(1, agendamentoRepositorio.findAgendamentosByDatasAndBySala(dataInicio, dataFinal, agendamento.getSala().getId()).size());
+    } 
 
     private static Date getDateByString(final String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);

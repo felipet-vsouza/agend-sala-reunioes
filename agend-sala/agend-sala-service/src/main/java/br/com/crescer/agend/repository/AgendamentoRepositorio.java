@@ -2,6 +2,7 @@ package br.com.crescer.agend.repository;
 
 import br.com.crescer.agend.entity.Agendamento;
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -12,15 +13,11 @@ public interface AgendamentoRepositorio extends CrudRepository<Agendamento, Long
 
     public Page<Agendamento> findAll(Pageable pgbl);
 
-    @Query(value = "   SELECT sum( "
-            + "            DAY(a.dataFinal - a.dataInicio )*86400 + "
-            + "            HOUR(a.dataFinal - a.dataInicio )*3600 + "
-            + "            MINUTE(a.dataFinal - a.dataInicio )*60 + "
-            + "            SECOND(a.dataFinal - a.dataInicio ))"
-            + "        FROM Agendamento a "
-            + "        JOIN a.sala s"
-            + "        WHERE a.dataInicio >= :inicio "
-            + "          AND a.dataFinal <= :fim"
-            + "          AND s.id = :sala ")
-    public Long findTempoOcupadoByAgendamentos(@Param("inicio") Date inicio, @Param("fim") Date fim, @Param("sala") Long id);
+    @Query(value = "SELECT A "
+            + "  FROM Agendamento A "
+            + "  WHERE "
+            + "      A.dataInicio >= :inicio "
+            + "  AND A.dataFinal  <= :fim "
+            + "  AND A.sala.id = :sala ")
+    public List<Agendamento> findAgendamentosByDatasAndBySala(@Param("inicio") Date inicio, @Param("fim") Date fim, @Param("sala") Long id);
 }

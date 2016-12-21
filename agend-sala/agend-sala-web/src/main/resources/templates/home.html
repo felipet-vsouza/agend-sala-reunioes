@@ -60,25 +60,7 @@
                 </section>
             </aside>
             <article class="column is-two-thirds has-upper-margin">
-                <div class="columns is-multiline is-mobile">
-                    <section class="card column is-half-desktop is-half-tablet is-full-mobile" th:each="sala : ${salas}">
-                        <header class="card-header hero is-primary">
-                            <strong class="card-header-title" th:text="${sala.nome}">
-                            </strong>
-                        </header>
-                        <article class="card-content">
-                            <div class="">
-                                <strong th:text="#{home.capacidade}"></strong>
-                                <span th:text="${sala.capacidade} + ' ' + #{home.unicapacidade}"></span>
-                            </div>
-                            <div class="content">
-                                <strong th:text="#{home.equipamentos}"></strong>
-                                <ul>
-                                    <li th:each="equip : ${sala.equipamento}" th:text="${equip.nome}" />
-                                </ul>
-                            </div>
-                        </article>
-                    </section>
+                <div id="lista-salas" class="columns is-multiline is-mobile">
                 </div>
             </article>
         </section>
