@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.crescer.agend.web;
 
 import br.com.crescer.agend.entity.Agendamento;
@@ -19,7 +14,6 @@ import br.com.crescer.agend.service.UsuarioServico;
 import br.com.crescer.agend.exception.RegraNegocioException;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -30,10 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- *
- * @author Henrique
- */
 @Controller
 public class AgendamentoController {
 
@@ -56,16 +46,18 @@ public class AgendamentoController {
     public String alterarAgendamento(@PathVariable(value = "id_agendamento") long idAgendamento, Model model, long idSala, String descricao,
             Date dataInicial, Date dataFinal, @RequestParam(value = "usuarios[]", required = false) List<Long> idsUsuarios) {
         try {
+            Usuario usuario = usuarioServico.obterUsuarioDaSessao();
             Sala sala = salaServico.findOne(idSala);
             Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
             agendamento.setDescricao(descricao);
             agendamento.setSala(sala);
+            agendamentoServico.verificarPermissao(agendamento, usuario);
             agendamentoServico.save(idsUsuarios, agendamento, dataInicial, dataFinal, sala);
             model.addAttribute("sucesso", true);
         } catch (RegraNegocioException e) {
             model.addAttribute("sucesso", false);
         }
-        return "fragments :: agendamentomensagem";
+        return "fragments :: alteracaomensagem";
     }
 
     @RequestMapping(value = {"/agendamento/adicionar"}, method = RequestMethod.POST)
@@ -110,17 +102,13 @@ public class AgendamentoController {
 
     @RequestMapping(value = {"/agendamento/cancelar/{id_agendamento}"}, method = RequestMethod.POST)
     public String cancelarAgendamento(@PathVariable(value = "id_agendamento") long idAgendamento, Model model) {
-
         Agendamento agendamento = agendamentoServico.findOne(idAgendamento);
-
-        boolean ehCriadorDoAgendamento = agendamentoServico.
-                ehCriadorDoAgendamento(usuarioServico.obterUsuarioDaSessao(), agendamento);
-
-        if (ehCriadorDoAgendamento) {
+        try {
+            Usuario usuario = usuarioServico.obterUsuarioDaSessao();
+            agendamentoServico.verificarPermissao(agendamento, usuario);
             agendamentoServico.cancelarAgendamento(agendamento.getParticipantes(), agendamento);
-            agendamentoServico.delete(idAgendamento);
             model.addAttribute("sucesso", true);
-        } else {
+        } catch(RegraNegocioException e) {
             model.addAttribute("sucesso", false);
         }
         return "fragments :: cancelamentomensagem";

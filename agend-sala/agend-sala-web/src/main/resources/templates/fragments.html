@@ -74,7 +74,6 @@
                         <select name="sala">
                             <option th:each="sala : ${salas}" th:text="${sala.nome}" th:selected="${agendamento.sala.id eq sala.id}" th:value="${sala.id}"></option>
                         </select>                    
-                        <!-- th:selected="${agendamento.idSala}""-->
                     </span>
                 </div>
                 <label class="label" th:text="#{agendamento.descricao}" />
@@ -217,6 +216,11 @@
         <section th:fragment="agendamentomensagem">
             <p th:if="${sucesso}" class="notification is-success" th:text="#{agendamentomensagem.sucesso}" />
             <p th:unless="${sucesso}" class="notification is-danger" th:text="#{agendamentomensagem.erro}" />
+        </section>
+
+        <section th:fragment="alteracaomensagem">
+            <p th:if="${sucesso}" class="notification is-success" th:text="#{alteracaomensagem.sucesso}" />
+            <p th:unless="${sucesso}" class="notification is-danger" th:text="#{alteracaomensagem.erro}" />
         </section>
 
         <nav class="panel has-clear-background" th:fragment="reunioes">
