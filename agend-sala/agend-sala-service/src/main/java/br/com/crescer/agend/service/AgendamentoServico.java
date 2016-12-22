@@ -6,8 +6,6 @@ import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.exception.RegraNegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import br.com.crescer.agend.repository.AgendamentoRepositorio;
 import br.com.crescer.agend.repository.SalaRepositorio;
 import br.com.crescer.agend.repository.UsuarioRepositorio;
@@ -37,18 +35,6 @@ public class AgendamentoServico {
     @Autowired
     EmailServico emailServico;
 
-    public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento) {
-        emailServico.enviarEmail(participantes, EmailUtils.emailCancelamento(agendamento), "Reunião cancelada.");
-        for (int i = 0; i < participantes.size(); i++) {
-            participanteServico.delete(participantes.get(i).getId());
-        }
-        this.delete(agendamento.getId());
-    }
-
-    public Page<Agendamento> findAll(Pageable pgbl) {
-        return agendamentoRepositorio.findAll(pgbl);
-    }
-
     public Iterable<Agendamento> findAll() {
         return agendamentoRepositorio.findAll();
     }
@@ -66,14 +52,8 @@ public class AgendamentoServico {
     }
 
     public void manterAgendamento(List<Long> idsUsuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
-        List<Usuario> usuarios;
-        if (idsUsuarios != null) {
-            usuarios = idsUsuarios.stream()
-                    .map(id -> usuarioRepositorio.findOne(id))
-                    .collect(Collectors.toList());
-        } else {
-            throw new RegraNegocioException("Ao menos um participante deve ser selecionado.");
-        }
+        List<Usuario> usuarios = obterListaDeUsuarios(idsUsuarios);
+        
         if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size(), agendamento)) {
             agendamento.setDataFinal(dataFinal);
             agendamento.setDataInicio(dataInicial);
@@ -121,6 +101,32 @@ public class AgendamentoServico {
         return (int)((((double) tempoOcupado) / tempoDisponivelPorDia) * 100);
     }
 
+    
+    public List<Agendamento> findAgendamentoConflitantePorUsuario(Long id, Date inicio, Date fim){
+        return agendamentoRepositorio.findAgendamentoConflitantePorUsuario(id, inicio, fim);
+    }
+    
+    public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento) {
+        emailServico.enviarEmail(participantes, EmailUtils.emailCancelamento(agendamento), "Reunião cancelada.");
+        for (int i = 0; i < participantes.size(); i++) {
+            participanteServico.delete(participantes.get(i).getId());
+        }
+        this.delete(agendamento.getId());
+    }
+    
+    private List<Usuario> obterListaDeUsuarios(List<Long> idsUsuarios) throws RegraNegocioException {
+        List<Usuario> usuarios;
+        
+        if (idsUsuarios != null) {
+            usuarios = idsUsuarios.stream()
+                    .map(id -> usuarioRepositorio.findOne(id))
+                    .collect(Collectors.toList());
+        } else {
+            throw new RegraNegocioException("Ao menos um participante deve ser selecionado.");
+        }
+        return usuarios;
+    }
+    
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
         List<Sala> conflituosasPorData = salaRepositorio.findByIntervalo(dataInicial, dataFinal, agendamento.getId());
         List<Sala> conflituosasPorCapacidade = IteratorUtils.toList(salaRepositorio.findAll().iterator())
@@ -128,8 +134,5 @@ public class AgendamentoServico {
                 .filter(s -> s.getCapacidade() < capacidade)
                 .collect(Collectors.toList());
         return !conflituosasPorData.contains(sala) && !conflituosasPorCapacidade.contains(sala);
-    }
-    public List<Agendamento> findAgendamentoConflitantePorUsuario(Long id, Date inicio, Date fim){
-        return agendamentoRepositorio.findAgendamentoConflitantePorUsuario(id, inicio, fim);
     }
 }

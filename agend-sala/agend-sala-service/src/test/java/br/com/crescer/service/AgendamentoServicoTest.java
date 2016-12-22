@@ -62,22 +62,6 @@ public class AgendamentoServicoTest {
     }
 
     /**
-     * Test of list method, of class PessoaService.
-     */
-//    @Test
-//    public void testList() {
-//        assertNotNull(salaServico.list());
-//    }
-    /**
-     * Test of findAll method, of class PessoaService.
-     */
-    @Test
-    public void testFindAll_Pageable() {
-        assertEquals(page, agendamentoServico.findAll(pageable));
-        verify(agendamentoRepositorio).findAll(pageable);
-    }
-
-    /**
      * Test of findAll method, of class PessoaService.
      */
     @Test

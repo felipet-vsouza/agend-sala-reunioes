@@ -22,7 +22,7 @@ public class SalasController {
     
     @RequestMapping(value = {"/salas/find"})
     public String salas(Model model, Date dataInicio, Date dataFim, int capacidade, @RequestParam(value="equipamentos[]", required = false) List<Long> equipamentos) {
-        List<Sala> salas = salaServico.FiltroSalas(dataInicio, dataFim, capacidade, equipamentos);
+        List<Sala> salas = salaServico.filtroSalas(dataInicio, dataFim, capacidade, equipamentos);
         model.addAttribute("salas", salas);
         model.addAttribute("vazia", salas.isEmpty());
         return "fragments :: lista-salas";

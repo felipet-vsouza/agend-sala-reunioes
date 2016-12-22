@@ -52,7 +52,7 @@ public class SalaServico {
         return salaRepositorio.findOne(id);
     }
 
-    public List<Sala> FiltroSalas(Date dataInicial, Date dataFinal, int capacidadeMinima, List<Long> ids) {
+    public List<Sala> filtroSalas(Date dataInicial, Date dataFinal, int capacidadeMinima, List<Long> ids) {
         List<Sala> conflituosas = salaRepositorio.findByIntervalo(dataInicial, dataFinal, null);
         List<Sala> validas = IteratorUtils.toList(findAll().iterator())
                 .stream()

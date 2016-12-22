@@ -56,14 +56,6 @@ public class EquipamentoServicoTest {
     }
 
     /**
-     * Test of list method, of class PessoaService.
-     */
-//    @Test
-//    public void testList() {
-//        assertNotNull(salaServico.list());
-//    }
-
-    /**
      * Test of findAll method, of class PessoaService.
      */
     @Test
