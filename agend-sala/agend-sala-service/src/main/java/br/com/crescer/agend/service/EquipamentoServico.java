@@ -13,10 +13,6 @@ public class EquipamentoServico {
     @Autowired
     EquipamentoRepositorio equipamentoRepositorio;
 
-    public Page<Equipamento> findAll(Pageable pgbl) {
-        return equipamentoRepositorio.findAll(pgbl);
-    }
-
     public Iterable<Equipamento> findAll() {
         return equipamentoRepositorio.findAll();
     }

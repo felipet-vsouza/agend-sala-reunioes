@@ -55,14 +55,6 @@ public class EquipamentoServicoTest {
         when(equipamentoRepositorio.findOne(1l)).thenReturn(equipamento);
     }
 
-    /**
-     * Test of findAll method, of class PessoaService.
-     */
-    @Test
-    public void testFindAll_Pageable() {
-        assertEquals(page, equipamentoServico.findAll(pageable));
-        verify(equipamentoRepositorio).findAll(pageable);
-    }
 
     /**
      * Test of findAll method, of class PessoaService.

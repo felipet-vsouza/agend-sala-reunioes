@@ -42,7 +42,6 @@ public class UsuarioServicoTest {
     @Before
     public void setUp() {
         when(usuarioRepositorio.findAll()).thenReturn(usuarios);
-        when(usuarioRepositorio.findAll(pageable)).thenReturn(page);
         when(usuarioRepositorio.save(usuario)).thenReturn(usuario);
         when(usuarioRepositorio.findOne(1l)).thenReturn(usuario);
     }

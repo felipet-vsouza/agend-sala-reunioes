@@ -23,10 +23,6 @@ public class SalaServico {
     @Autowired
     EquipamentoRepositorio equipamentoRepositorio;
 
-    public Page<Sala> findAll(Pageable pgbl) {
-        return salaRepositorio.findAll(pgbl);
-    }
-
     public Iterable<Sala> findAll() {
         return salaRepositorio.findAll();
     }
