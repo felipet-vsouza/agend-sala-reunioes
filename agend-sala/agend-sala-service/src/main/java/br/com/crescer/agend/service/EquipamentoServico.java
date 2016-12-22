@@ -22,10 +22,6 @@ public class EquipamentoServico {
     @Autowired
     EquipamentoRepositorio equipamentoRepositorio;
 
-//     public List<Equipamento> list() {
-//        Equipamento equipamento = new Equipamento();
-//        return Stream.of(equipamento).collect(Collectors.toList());
-//    }
     public Page<Equipamento> findAll(Pageable pgbl) {
         return equipamentoRepositorio.findAll(pgbl);
     }
