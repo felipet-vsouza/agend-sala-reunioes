@@ -1,11 +1,15 @@
 package br.com.crescer.service;
 
-import br.com.crescer.agend.entity.Sala;
+import br.com.crescer.agend.entity.Agendamento;
 import br.com.crescer.agend.entity.Usuario;
-import br.com.crescer.agend.repository.SalaRepositorio;
 import br.com.crescer.agend.repository.UsuarioRepositorio;
-import br.com.crescer.agend.service.SalaServico;
 import br.com.crescer.agend.service.UsuarioServico;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +48,7 @@ public class UsuarioServicoTest {
         when(usuarioRepositorio.findAll()).thenReturn(usuarios);
         when(usuarioRepositorio.save(usuario)).thenReturn(usuario);
         when(usuarioRepositorio.findOne(1l)).thenReturn(usuario);
+        when(usuarioRepositorio.findByEmail("")).thenReturn(usuario);
     }
 
     /**
@@ -71,5 +76,11 @@ public class UsuarioServicoTest {
     public void testFindOne() {
         assertEquals(usuario, usuarioServico.findOne(1l));
         verify(usuarioRepositorio).findOne(1l);
+    }
+    
+    @Test
+    public void testFindByEmail() {
+        assertEquals(usuario, usuarioServico.findByEmail(""));
+        verify(usuarioRepositorio).findByEmail("");
     }
 }

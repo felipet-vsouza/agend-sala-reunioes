@@ -1,6 +1,7 @@
 package br.com.crescer.service;
 
 import br.com.crescer.agend.entity.Agendamento;
+import br.com.crescer.agend.entity.Sala;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.exception.RegraNegocioException;
 import br.com.crescer.agend.service.AgendamentoServico;
@@ -14,7 +15,10 @@ import br.com.crescer.agend.repository.AgendamentoRepositorio;
 import br.com.crescer.agend.repository.ParticipanteRepositorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,7 +118,44 @@ public class AgendamentoServicoTest {
         agendamentoServico.verificarPermissao(agendamento, usuarioSemPermissao);
     }
     
+    @Test(expected = RegraNegocioException.class)
+    public void testVerificarRegraNegocioExceptionParaListaNula() throws RegraNegocioException {
+        agendamentoServico.manterAgendamento(null, agendamento, null, null, null);
+    }
+    
     private static Date getDateByString(final String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
+    }
+    
+    @Test
+    public void testfindTempoOcupadoByAgendamentos() throws ParseException {
+        Sala sala = new Sala();
+        sala.setId(1l);
+        findTempoOcupadoByAgendamentosSetup(sala);
+        assertEquals(50, agendamentoServico.findTempoOcupadoByAgendamentos(sala));
+    }
+    
+    private void findTempoOcupadoByAgendamentosSetup(Sala sala) throws ParseException {
+        Agendamento a = new Agendamento();
+        Agendamento b = new Agendamento();
+        a.setDataInicio(getDateByString("25/06/2016 08:00"));
+        a.setDataFinal(getDateByString("25/06/2016 12:00"));
+        b.setDataInicio(getDateByString("25/06/2016 12:00"));
+        b.setDataFinal(getDateByString("25/06/2016 15:00"));
+        ArrayList<Agendamento> lista = new ArrayList<>();
+        lista.add(a);
+        lista.add(b);
+        Calendar dataAtual = Calendar.getInstance();
+        dataAtual.clear(Calendar.HOUR_OF_DAY);
+        dataAtual.clear(Calendar.HOUR);
+        dataAtual.clear(Calendar.AM_PM);
+        dataAtual.clear(Calendar.MINUTE);
+        dataAtual.clear(Calendar.SECOND);
+        dataAtual.clear(Calendar.MILLISECOND);
+        dataAtual.set(Calendar.HOUR_OF_DAY, 8);
+        Date dateInicial = dataAtual.getTime();
+        dataAtual.set(Calendar.HOUR_OF_DAY, 22);
+        Date dateFinal = dataAtual.getTime();
+        when(agendamentoRepositorio.findAgendamentosByDatasAndBySala(dateInicial, dateFinal, sala.getId())).thenReturn(lista);
     }
 }
