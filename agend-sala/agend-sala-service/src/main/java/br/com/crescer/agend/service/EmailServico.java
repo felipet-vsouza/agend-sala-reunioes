@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Email;
@@ -22,16 +17,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author Henrique
- */
 @Service
 public class EmailServico {
-    
+
     @Autowired
     EmailRepositorio emailRepositorio;
-    
+
     public Email findByHash(String hash) {
         return emailRepositorio.findByhash(hash);
     }
@@ -39,9 +30,9 @@ public class EmailServico {
     public Email salvar(Email email) {
         return emailRepositorio.save(email);
     }
-    
-    public void delete(Email email){
-       emailRepositorio.delete(email);
+
+    public void delete(Email email) {
+        emailRepositorio.delete(email);
     }
 
     public boolean hashEhValido(Email email) {

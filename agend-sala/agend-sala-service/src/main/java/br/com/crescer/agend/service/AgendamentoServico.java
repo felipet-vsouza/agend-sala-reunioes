@@ -53,7 +53,7 @@ public class AgendamentoServico {
 
     public void manterAgendamento(List<Long> idsUsuarios, Agendamento agendamento, Date dataInicial, Date dataFinal, Sala sala) throws RegraNegocioException {
         List<Usuario> usuarios = obterListaDeUsuarios(idsUsuarios);
-        
+
         if (salaEstaDisponivel(sala, dataInicial, dataFinal, usuarios.size(), agendamento)) {
             agendamento.setDataFinal(dataFinal);
             agendamento.setDataInicio(dataInicial);
@@ -98,14 +98,13 @@ public class AgendamentoServico {
                 .mapToInt(i -> i.intValue())
                 .sum();
         long tempoDisponivelPorDia = (dateFinal.getTime() - dateInicial.getTime()) / 1000;
-        return (int)((((double) tempoOcupado) / tempoDisponivelPorDia) * 100);
+        return (int) ((((double) tempoOcupado) / tempoDisponivelPorDia) * 100);
     }
 
-    
-    public List<Agendamento> findAgendamentoConflitantePorUsuario(Long id, Date inicio, Date fim){
+    public List<Agendamento> findAgendamentoConflitantePorUsuario(Long id, Date inicio, Date fim) {
         return agendamentoRepositorio.findAgendamentoConflitantePorUsuario(id, inicio, fim);
     }
-    
+
     public void cancelarAgendamento(List<Participante> participantes, Agendamento agendamento) {
         emailServico.enviarEmail(participantes, EmailUtils.emailCancelamento(agendamento), "Reunião cancelada.");
         for (int i = 0; i < participantes.size(); i++) {
@@ -113,10 +112,10 @@ public class AgendamentoServico {
         }
         this.delete(agendamento.getId());
     }
-    
+
     private List<Usuario> obterListaDeUsuarios(List<Long> idsUsuarios) throws RegraNegocioException {
         List<Usuario> usuarios;
-        
+
         if (idsUsuarios != null) {
             usuarios = idsUsuarios.stream()
                     .map(id -> usuarioRepositorio.findOne(id))
@@ -126,7 +125,7 @@ public class AgendamentoServico {
         }
         return usuarios;
     }
-    
+
     private boolean salaEstaDisponivel(Sala sala, Date dataInicial, Date dataFinal, int capacidade, Agendamento agendamento) {
         List<Sala> conflituosasPorData = salaRepositorio.findByIntervalo(dataInicial, dataFinal, agendamento.getId());
         List<Sala> conflituosasPorCapacidade = IteratorUtils.toList(salaRepositorio.findAll().iterator())

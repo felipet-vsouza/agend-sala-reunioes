@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.crescer.agend.service;
 
 import br.com.crescer.agend.entity.Agendamento;
@@ -20,10 +15,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author henrique.ostermann
- */
 @Service
 public class ParticipanteServico {
 
@@ -39,7 +30,7 @@ public class ParticipanteServico {
     public Iterable<Participante> findAll() {
         return participanteRepositorio.findAll();
     }
-    
+
     public Participante save(Participante participante) {
         return participanteRepositorio.save(participante);
     }
@@ -106,7 +97,7 @@ public class ParticipanteServico {
         }
 
         for (int i = 0; i < usuarios.size(); i++) {
-            
+
             List<Agendamento> agendamentosConflitantes
                     = verificarAgendamentosConflitantes(usuarios.get(i).getId(),
                             agendamento.getDataInicio(), agendamento.getDataFinal());
@@ -128,7 +119,7 @@ public class ParticipanteServico {
                 String conteudo = EmailUtils.emailAlteracao(agendamento, email);
                 enviarEmailParticipante(participante, conteudo, "Reunião alterada.");
             }
-            
+
             if (agendamentosConflitantes.size() > 0) {
                 String conteudo = EmailUtils.emailConflito(agendamento);
                 enviarEmailParticipante(participante, conteudo, "Reunião - Conflito de horarios.");
@@ -174,7 +165,7 @@ public class ParticipanteServico {
     private boolean ehCriadorDoAgendamento(Usuario atual, Usuario criador) {
         return atual.equals(criador);
     }
-    
+
     private List<Agendamento> verificarAgendamentosConflitantes(long idUsuario, Date dataInicial, Date dataFinal) {
         return agendamentoServico.findAgendamentoConflitantePorUsuario(idUsuario, dataInicial, dataFinal);
     }

@@ -1,7 +1,6 @@
 package br.com.crescer.service;
 
 import br.com.crescer.agend.entity.Agendamento;
-import br.com.crescer.agend.entity.Participante;
 import br.com.crescer.agend.entity.Usuario;
 import br.com.crescer.agend.exception.RegraNegocioException;
 import br.com.crescer.agend.service.AgendamentoServico;
@@ -22,10 +21,6 @@ import org.junit.Test;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- *
- * @author henrique.ostermann
- */
 @RunWith(MockitoJUnitRunner.class)
 public class AgendamentoServicoTest {
 
