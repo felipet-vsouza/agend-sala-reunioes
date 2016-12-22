@@ -5,13 +5,10 @@
  */
 package br.com.crescer.agend.repository;
 
-import br.com.crescer.agend.entity.Equipamento;
 import br.com.crescer.agend.entity.Sala;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -20,8 +17,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author henrique.ostermann
  */
 public interface SalaRepositorio extends CrudRepository<Sala, Long> {
-
-    public Page<Sala> findAll(Pageable pgbl);
 
     @Query("   SELECT S "
             + "FROM Agendamento A "

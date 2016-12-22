@@ -46,26 +46,8 @@ public class SalaServicoTest {
     @Before
     public void setUp() {
         when(salaRepositorio.findAll()).thenReturn(salas);
-        when(salaRepositorio.findAll(pageable)).thenReturn(page);
         when(salaRepositorio.save(sala)).thenReturn(sala);
         when(salaRepositorio.findOne(1l)).thenReturn(sala);
-    }
-
-    /**
-     * Test of list method, of class PessoaService.
-     */
-//    @Test
-//    public void testList() {
-//        assertNotNull(salaServico.list());
-//    }
-
-    /**
-     * Test of findAll method, of class PessoaService.
-     */
-    @Test
-    public void testFindAll_Pageable() {
-        assertEquals(page, salaServico.findAll(pageable));
-        verify(salaRepositorio).findAll(pageable);
     }
 
     /**
