@@ -48,23 +48,6 @@ public class UsuarioServicoTest {
     }
 
     /**
-     * Test of list method, of class PessoaService.
-     */
-//    @Test
-//    public void testList() {
-//        assertNotNull(usuarioServico.list());
-//    }
-
-    /**
-     * Test of findAll method, of class PessoaService.
-     */
-    @Test
-    public void testFindAll_Pageable() {
-        assertEquals(page, usuarioServico.findAll(pageable));
-        verify(usuarioRepositorio).findAll(pageable);
-    }
-
-    /**
      * Test of findAll method, of class PessoaService.
      */
     @Test
@@ -81,15 +64,6 @@ public class UsuarioServicoTest {
         assertEquals(usuario, usuarioServico.update(usuario));
         verify(usuarioRepositorio).save(usuario);
     }
-
-    /**
-     * Test of delete method, of class PessoaService.
-     */
-//    @Test
-//    public void testDelete() {
-//        usuarioServico.delete(1l);
-//        verify(usuarioRepositorio).delete(1l);
-//    }
 
     /**
      * Test of findOne method, of class PessoaService.

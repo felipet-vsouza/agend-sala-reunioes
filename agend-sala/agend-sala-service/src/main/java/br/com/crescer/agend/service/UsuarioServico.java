@@ -38,10 +38,6 @@ public class UsuarioServico {
         return usuarioRepositorio.findAll();
     }
 
-    public Page<Usuario> findAll(Pageable pageable) {
-        return usuarioRepositorio.findAll(pageable);
-    }
-
     public Usuario findOne(Long id) {
         return usuarioRepositorio.findOne(id);
     }
