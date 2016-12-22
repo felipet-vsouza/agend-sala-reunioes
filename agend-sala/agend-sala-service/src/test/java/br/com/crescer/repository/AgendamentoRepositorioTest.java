@@ -34,16 +34,15 @@ public class AgendamentoRepositorioTest {
     @Autowired
     private AgendamentoRepositorio agendamentoRepositorio;
     
-    
     Usuario usuario;
-    
     
     Agendamento agendamento;
 
-    
     Date dataInicio;
 
     Date dataFinal;
+    
+    Sala sala;
 
     @Before
     public void criarAgendamento() throws ParseException {
@@ -51,7 +50,8 @@ public class AgendamentoRepositorioTest {
         agendamento = new Agendamento();
         agendamento.setDataInicio(getDateByString("25/12/2016 08:00"));
         agendamento.setDataFinal(getDateByString("25/12/2016 15:00"));
-        agendamento.setSala(criarSala());
+        sala = criarSala();
+        agendamento.setSala(sala);
         ArrayList<Participante> participantes = new ArrayList<>();
         Participante p = new Participante();
         usuario = new Usuario();
@@ -77,9 +77,23 @@ public class AgendamentoRepositorioTest {
     }
     
     @Test
-    public void testaRetornoDeAgendamentoDoDia() {
-//        assertEquals(1, agendamentoRepositorio.findAgendamentosByDatasAndBySala(dataInicio, dataFinal, agendamento.getSala().getId()).size());
+    public void retornaRegistroParaBuscaNoDia25() {
+        assertEquals(1, agendamentoRepositorio.findAgendamentosByDatasAndBySala(dataInicio, dataFinal, sala.getId()).size());
     } 
+    
+    @Test
+    public void naoRetornaRegistroParaBuscaNoDia26() throws ParseException {
+        Date dInicio = getDateByString("26/12/2016 08:00");
+        Date dFinal = getDateByString("26/12/2016 22:00");
+        assertEquals(0, agendamentoRepositorio.findAgendamentosByDatasAndBySala(dInicio, dFinal, sala.getId()).size());
+    }
+    
+    @Test
+    public void naoRetornaRegistroParaBuscaNoDia26EUsuarioAtual() throws ParseException {
+        Date dInicio = getDateByString("26/12/2016 08:00");
+        Date dFinal = getDateByString("26/12/2016 22:00");
+        assertEquals(0, agendamentoRepositorio.findAgendamentoConflitantePorUsuario(usuario.getId(), dInicio, dFinal).size());
+    }
 
     private static Date getDateByString(final String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
