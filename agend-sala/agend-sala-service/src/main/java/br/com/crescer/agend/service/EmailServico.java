@@ -54,7 +54,7 @@ public class EmailServico {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("agendamentosalascwi@gmail.com", "cwisalas9876");
+                return new PasswordAuthentication("agendamentosalascwi@gmail.com", "********");
             }
         });
 
